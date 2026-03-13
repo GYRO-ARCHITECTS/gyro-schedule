@@ -954,27 +954,30 @@ function createEventRow(ev, cat, idx, totalInCat, totalCols, year, holidaySet, t
             td.classList.add("gs-bar-cell");
             td.dataset.bar = "true";
             td.dataset.eventId = ev.id;
-            td.style.backgroundColor = cat.bg;
-            td.style.borderTop = `1px solid ${cat.border}`;
-            td.style.borderBottom = `1px solid ${cat.border}`;
+            td.style.setProperty("--bar-bg", cat.bg);
+            td.style.setProperty("--bar-border", cat.border);
+            td.style.setProperty("--bar-color", cat.color);
             if (c === startCol) {
                 td.dataset.barEdge = "start";
-                td.style.borderLeft = `var(--bar-accent-width) solid ${cat.color}`;
-                td.style.borderTopLeftRadius = "var(--bar-radius)";
-                td.style.borderBottomLeftRadius = "var(--bar-radius)";
-                const handle = document.createElement("div");
-                handle.className = "gs-resize-handle gs-resize-handle-left";
-                td.appendChild(handle);
             }
             if (c === endCol) {
                 td.dataset.barEdge = (c === startCol) ? "both" : "end";
-                td.style.borderRight = `2px solid ${cat.border}`;
-                td.style.borderTopRightRadius = "var(--bar-radius)";
-                td.style.borderBottomRightRadius = "var(--bar-radius)";
+            }
+            // バー内部要素
+            const barInner = document.createElement("div");
+            barInner.className = "gs-bar-inner";
+            // リサイズハンドル
+            if (c === startCol) {
+                const handle = document.createElement("div");
+                handle.className = "gs-resize-handle gs-resize-handle-left";
+                barInner.appendChild(handle);
+            }
+            if (c === endCol) {
                 const handle = document.createElement("div");
                 handle.className = "gs-resize-handle gs-resize-handle-right";
-                td.appendChild(handle);
+                barInner.appendChild(handle);
             }
+            td.appendChild(barInner);
 
             // ポップオーバー: hover リスナー
             td.addEventListener("mouseenter", () => { PopoverManager.scheduleShow(ev.id, td); });
