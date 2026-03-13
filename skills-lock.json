@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "skills": {
+    "accessibility-tester": {
+      "source": "404kidwiz/claude-supercode-skills",
+      "sourceType": "github",
+      "computedHash": "276571d2373f9ff7ebf717d641157d126045b4c093674e5199dadcfe81833f43"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
+    },
+    "frontend-design": {
+      "source": "mrgoonie/claudekit-skills",
+      "sourceType": "github",
+      "computedHash": "8a5bbb9447436ed8110edc54d8543e6e44e3ccf45fcca037b063d5001b145b42"
+    },
+    "web-performance-optimization": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "computedHash": "8cfc6abf5a7ee700208117ad52b659cf8388a60e84fce18f87de82b39216bf99"
+    }
+  }
+}

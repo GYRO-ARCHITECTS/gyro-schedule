@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="GYRO年間スケジュール管理 - Microsoft Outlookカレンダー連携">
+    <meta name="theme-color" content="#0f1629">
+    <title>GYRO 年間スケジュール</title>
+    <!-- Preconnect to Google Fonts for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="css/style.css?v=20260309i">
+</head>
+<body>
+    <!-- Skip Link for keyboard users -->
+    <a href="#main-content" class="skip-link">メインコンテンツへ</a>
+
+    <header id="app-header" role="banner">
+        <div class="header-left">
+            <h1>GYRO年間スケジュール</h1>
+            <nav id="year-nav" aria-label="年ナビゲーション">
+                <button id="prev-year-btn" class="year-btn" title="前年" aria-label="前年へ移動">&lsaquo;</button>
+                <button id="today-btn" class="today-btn" title="今年へ移動" aria-label="今年へ移動">2026年</button>
+                <button id="next-year-btn" class="year-btn" title="翌年" aria-label="翌年へ移動">&rsaquo;</button>
+            </nav>
+            <div id="view-switcher" class="view-switcher" role="tablist" aria-label="表示切替" style="display:none;">
+                <button class="view-btn active" data-view="timeline" role="tab" aria-selected="true" aria-controls="timeline-wrapper" title="タイムライン">&#9866; タイムライン</button>
+                <!-- カレンダー・リストは現在非表示 -->
+                <!--
+                <button class="view-btn" data-view="calendar" role="tab" aria-selected="false" aria-controls="timeline-wrapper" title="月カレンダー">&#9638; カレンダー</button>
+                <button class="view-btn" data-view="list" role="tab" aria-selected="false" aria-controls="timeline-wrapper" title="リスト">&#9776; リスト</button>
+                -->
+            </div>
+            <div id="timeline-mode-bar" class="timeline-mode-bar" style="display:none;" role="radiogroup" aria-label="タイムライン表示間隔">
+                <button class="tl-mode-btn active" data-mode="day" role="radio" aria-checked="true">1日</button>
+                <button class="tl-mode-btn" data-mode="fiveday" role="radio" aria-checked="false">5日</button>
+                <button class="tl-mode-btn" data-mode="week" role="radio" aria-checked="false">週</button>
+                <button class="tl-mode-btn" data-mode="fit" role="radio" aria-checked="false">全体</button>
+            </div>
+            <button id="add-event-btn" class="btn-add" style="display:none;" title="イベント追加" aria-label="新しいイベントを追加">＋ 追加</button>
+        </div>
+        <div class="header-right">
+            <button id="settings-btn" class="btn-icon" style="display:none;" title="カテゴリ設定" aria-label="カテゴリを管理">⚙</button>
+            <span id="user-name" aria-live="polite"></span>
+            <button id="sign-out-btn" class="btn-secondary" style="display:none;">サインアウト</button>
+        </div>
+    </header>
+
+    <div id="legend" role="complementary" aria-label="カテゴリ凡例" style="display:none;"></div>
+
+    <nav id="month-nav" class="month-nav" style="display:none;" aria-label="月ナビゲーション">
+        <button id="prev-month-btn" class="month-nav-btn" title="前月" aria-label="前月へ移動">&lsaquo;</button>
+        <span id="month-label" class="month-label" aria-live="polite" aria-atomic="true"></span>
+        <button id="next-month-btn" class="month-nav-btn" title="翌月" aria-label="翌月へ移動">&rsaquo;</button>
+    </nav>
+
+    <div id="status-area" role="status" aria-live="polite">
+        <div id="loading-spinner" style="display:none;" role="alert" aria-busy="true">
+            <div class="spinner" aria-hidden="true"></div>
+            <span>読み込み中...</span>
+        </div>
+        <div id="error-message" style="display:none;" role="alert"></div>
+        <button id="sign-in-btn" class="btn-primary" style="display:none;">
+            Microsoft アカウントでサインイン
+        </button>
+    </div>
+
+    <main id="main-content">
+        <div id="timeline-wrapper" role="tabpanel" aria-label="スケジュール表示">
+            <div id="timeline-container"></div>
+        </div>
+    </main>
+
+    <!-- Live region for status announcements -->
+    <div id="a11y-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- イベント編集モーダル -->
+    <div id="event-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="modal-content">
+            <div class="modal-accent" id="modal-accent-bar"></div>
+            <div class="modal-header">
+                <h2 id="modal-title">イベント追加</h2>
+                <button class="modal-close" id="modal-close-btn" aria-label="モーダルを閉じる">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" data-field="title">
+                    <label for="evt-title">イベント名 <span aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+                    <input type="text" id="evt-title" placeholder="例: 社内勉強会" required aria-required="true" autocomplete="off">
+                    <span class="form-error" role="alert" aria-live="polite"></span>
+                </div>
+                <div class="form-group" data-field="category">
+                    <label for="evt-category">カテゴリ <span aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+                    <div class="cat-preview-row">
+                        <select id="evt-category" aria-required="true">
+                            <!-- JSで動的生成 -->
+                        </select>
+                        <span class="cat-preview-dot" id="cat-preview-dot" aria-hidden="true"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" data-field="start">
+                        <label for="evt-start">開始日 <span aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+                        <input type="date" id="evt-start" required aria-required="true">
+                        <span class="form-error" role="alert" aria-live="polite"></span>
+                    </div>
+                    <div class="form-group" data-field="end">
+                        <label for="evt-end">終了日 <span aria-hidden="true">*</span><span class="sr-only">（必須）</span></label>
+                        <input type="date" id="evt-end" required aria-required="true">
+                        <span class="form-error" role="alert" aria-live="polite"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="evt-notes">メモ</label>
+                    <textarea id="evt-notes" rows="3" placeholder="補足情報"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-left">
+                    <button id="modal-delete-btn" class="btn-danger" style="display:none;">削除</button>
+                </div>
+                <div class="modal-footer-right" id="modal-footer-actions">
+                    <button id="modal-cancel-btn" class="btn-cancel">キャンセル</button>
+                    <button id="modal-save-next-btn" class="btn-save-next" style="display:none;">保存して続けて追加</button>
+                    <button id="modal-save-btn" class="btn-save">保存</button>
+                </div>
+                <div id="modal-delete-confirm" class="delete-confirm" style="display:none;">
+                    <span class="delete-confirm-text">このイベントを削除しますか？</span>
+                    <div class="delete-confirm-actions">
+                        <button id="modal-delete-no" class="btn-cancel btn-cancel-sm">やめる</button>
+                        <button id="modal-delete-yes" class="btn-danger btn-danger-solid">削除する</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- カテゴリ管理モーダル -->
+    <div id="cat-manager-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cat-manager-title" aria-hidden="true">
+        <div class="modal-content cat-manager-content">
+            <div class="modal-header">
+                <h2 id="cat-manager-title">カテゴリ管理</h2>
+                <button class="modal-close" id="cat-manager-close" aria-label="モーダルを閉じる">&times;</button>
+            </div>
+            <div class="modal-body cat-manager-body">
+                <p class="cat-manager-desc">年度ごとにカテゴリを管理できます。変更は全ユーザーに反映されます。</p>
+
+                <!-- 年度ナビ + 複製 -->
+                <div class="cat-year-nav">
+                    <button id="cat-prev-year" class="cat-year-nav-btn" type="button" aria-label="前の年">
+                        <span class="cat-nav-icon cat-nav-prev"></span>
+                    </button>
+                    <span id="cat-year-label" class="cat-year-nav-label">2026年</span>
+                    <button id="cat-next-year" class="cat-year-nav-btn" type="button" aria-label="次の年">
+                        <span class="cat-nav-icon cat-nav-next"></span>
+                    </button>
+                    <button id="cat-duplicate-btn" class="cat-duplicate-btn" type="button">
+                        <span class="cat-dup-icon"></span>他の年から複製
+                    </button>
+                </div>
+
+                <!-- 複製パネル（通常は非表示） -->
+                <div id="cat-duplicate-panel" class="cat-duplicate-panel" style="display:none;">
+                    <div class="cat-duplicate-inner">
+                        <span class="cat-duplicate-label">複製元の年度</span>
+                        <select id="cat-duplicate-source" class="cat-duplicate-select"></select>
+                    </div>
+                    <div class="cat-duplicate-actions">
+                        <button id="cat-duplicate-cancel" class="cat-duplicate-close" type="button">キャンセル</button>
+                        <button id="cat-duplicate-exec" class="cat-duplicate-exec" type="button">複製する</button>
+                    </div>
+                </div>
+
+                <!-- カテゴリリスト（年度ごと1つ） -->
+                <div id="cat-list" class="cat-manager-list"></div>
+                <button id="cat-add-btn" class="btn-add-category" type="button">＋ カテゴリを追加</button>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-right">
+                    <button id="cat-manager-cancel" class="btn-cancel" type="button">キャンセル</button>
+                    <button id="cat-manager-save" class="btn-save" type="button">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- カラーピッカーポップオーバー -->
+    <div id="color-picker-popover" class="color-picker-popover" aria-hidden="true">
+        <!-- JSで動的生成 -->
+    </div>
+
+    <!-- イベントプレビューポップオーバー -->
+    <div id="event-popover" class="gs-popover" role="tooltip" aria-hidden="true">
+        <div class="gs-popover-accent"></div>
+        <div class="gs-popover-body">
+            <div class="gs-popover-title"></div>
+            <div class="gs-popover-meta">
+                <span class="gs-popover-badge"></span>
+                <span class="gs-popover-dates"></span>
+            </div>
+            <div class="gs-popover-notes"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript"
+        src="https://alcdn.msauth.net/browser/2.35.0/js/msal-browser.min.js"
+        integrity="sha384-PARf28kmic36Ve+O3DnUerRXFtOQ7ZDqRDGpLcbljly5/N39T2OV3kt3QsWOKeAX"
+        crossorigin="anonymous"></script>
+    <script src="js/utils.js?v=20260309b" defer></script>
+    <script src="js/config.js?v=20260309b" defer></script>
+    <script src="js/holidays.js?v=20260309b" defer></script>
+    <script src="js/auth.js?v=20260309b" defer></script>
+    <script src="js/graph.js?v=20260309b" defer></script>
+    <script src="js/timeline.js?v=20260309e" defer></script>
+    <script src="js/calendar.js?v=20260309d" defer></script>
+    <script src="js/listview.js?v=20260309b" defer></script>
+    <script src="js/category-manager.js?v=20260309b" defer></script>
+    <script src="js/app.js?v=20260309c" defer></script>
+</body>
+</html>
