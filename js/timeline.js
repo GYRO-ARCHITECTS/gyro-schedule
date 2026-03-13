@@ -646,7 +646,16 @@ function renderTimeline(events, year, holidaySet, options) {
     // ===== tbody =====
     const tbody = document.createElement("tbody");
 
+    // マーカー表示対象のカテゴリID
+    const MARKER_CATEGORIES = new Set(["holiday", "morning_meeting"]);
+
     CATEGORIES.forEach(cat => {
+        // マーカー型カテゴリ（休日・朝会）は専用行で描画
+        if (MARKER_CATEGORIES.has(cat.id)) {
+            const tr = createMarkerRow(cat, totalCols, year, holidaySet, todayCol);
+            tbody.appendChild(tr);
+            return;
+        }
         const catEvents = grouped[cat.name] || [];
         if (catEvents.length === 0) {
             const tr = createEmptyRow(cat, totalCols, year, holidaySet, todayCol);
@@ -790,6 +799,97 @@ function createEmptyRow(cat, totalCols, year, holidaySet, todayCol) {
     return tr;
 }
 
+// ---- マーカー行（休日・朝会など、日ごとにマーカーを表示する行） ----
+function createMarkerRow(cat, totalCols, year, holidaySet, todayCol) {
+    const tr = document.createElement("tr");
+    tr.className = "gs-event-row gs-cat-first-row gs-cat-last-row gs-marker-row";
+    tr.dataset.category = cat.id;
+    tr.dataset.categoryName = cat.name;
+
+    // カテゴリセル
+    const tdCat = document.createElement("td");
+    tdCat.className = "gs-fixed-col gs-col-cat";
+    tdCat.innerHTML = `<span class="gs-cat-badge" style="background:${cat.color};color:#fff">${cat.name}</span>`;
+    tr.appendChild(tdCat);
+
+    // イベント名セル（マーカー行は固定ラベル）
+    const tdEvt = document.createElement("td");
+    tdEvt.className = "gs-fixed-col gs-col-evt";
+    const evtInner = document.createElement("div");
+    evtInner.className = "gs-evt-inner";
+    const evtLabel = document.createElement("span");
+    evtLabel.className = "gs-evt-label gs-marker-label";
+    evtLabel.textContent = cat.name;
+    evtInner.appendChild(evtLabel);
+    tdEvt.appendChild(evtInner);
+    tr.appendChild(tdEvt);
+
+    // マーカー判定関数を取得
+    const shouldMark = _getMarkerPredicate(cat, year, holidaySet);
+
+    for (let c = 0; c < totalCols; c++) {
+        const td = createTimelineCell(c, year, holidaySet, todayCol);
+        if (shouldMark(c)) {
+            td.classList.add("gs-marker-cell");
+            const marker = document.createElement("span");
+            marker.className = "gs-marker";
+            marker.style.color = cat.color;
+            marker.textContent = "●";
+            td.appendChild(marker);
+        }
+        tr.appendChild(td);
+    }
+    return tr;
+}
+
+// マーカー判定関数を返す
+function _getMarkerPredicate(cat, year, holidaySet) {
+    if (cat.id === "holiday") {
+        // 休日: holidaySetに含まれる日にマーカー
+        return (colIdx) => {
+            if (_tlMode === "day") {
+                const month = _colToMonth(colIdx);
+                const localIdx = colIdx - _tlColOffsets[month];
+                const dayNum = localIdx + 1;
+                const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayNum).padStart(2, "0")}`;
+                return holidaySet && holidaySet.has(dateStr);
+            }
+            // 週・5日モード: 範囲内に祝日があればマーク
+            const start = colToStartDate(colIdx, year);
+            const end = colToEndDate(colIdx, year);
+            if (!holidaySet) return false;
+            const s = parseDateStr(start);
+            const e = parseDateStr(end);
+            for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+                if (holidaySet.has(formatDateYMD(d))) return true;
+            }
+            return false;
+        };
+    }
+    if (cat.id === "morning_meeting") {
+        // 朝会: 毎週月曜日にマーカー
+        return (colIdx) => {
+            if (_tlMode === "day") {
+                const month = _colToMonth(colIdx);
+                const localIdx = colIdx - _tlColOffsets[month];
+                const dayNum = localIdx + 1;
+                const d = new Date(year, month, dayNum);
+                return d.getDay() === 1; // 月曜
+            }
+            // 週・5日モード: 範囲内に月曜があればマーク
+            const start = colToStartDate(colIdx, year);
+            const end = colToEndDate(colIdx, year);
+            const s = parseDateStr(start);
+            const e = parseDateStr(end);
+            for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+                if (d.getDay() === 1) return true;
+            }
+            return false;
+        };
+    }
+    // デフォルト: マーカーなし
+    return () => false;
+}
 
 // ---- イベント行 ----
 // NOTE: カテゴリセルはrowSpanを使わず全行に個別配置。

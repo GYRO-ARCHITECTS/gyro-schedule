@@ -437,6 +437,22 @@ td.gs-month-end:not(.gs-bar-cell) { border-right:1px solid var(--color-navy-200)
 }
 .gs-table[data-mode="day"] { --bar-radius:3px; }
 
+/* ---- マーカーセル（休日・朝会） ---- */
+.gs-marker-cell {
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+}
+.gs-marker {
+    display: inline-block;
+    font-size: 10px;
+    line-height: 1;
+    pointer-events: none;
+}
+.gs-fit-mode .gs-marker { font-size: 8px; }
+.gs-table[data-mode="day"] .gs-marker { font-size: 9px; }
+.gs-marker-label { font-size: 11px; color: var(--color-navy-400); }
+
 .gs-today-col:not(.gs-bar-cell) {
     background:rgba(251,191,36,0.06)!important;
     box-shadow:inset 1px 0 0 rgba(251,191,36,0.12), inset -1px 0 0 rgba(251,191,36,0.12);

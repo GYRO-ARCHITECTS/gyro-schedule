@@ -55,15 +55,8 @@ const COLOR_PRESETS = [
 // ========================================
 // ハードコードされたデフォルト（初回用・フォールバック用）
 const DEFAULT_CATEGORIES = [
-    { id: "gyro_holiday",    name: "GYRO休み",     color: "#ef4444" },
-    { id: "partner_holiday", name: "パートナー休み", color: "#f97316" },
-    { id: "company_event",   name: "社内イベント",   color: "#3b82f6" },
-    { id: "award",           name: "アワード",       color: "#eab308" },
-    { id: "co_creation",     name: "共創取り組み",   color: "#22c55e" },
-    { id: "qualification",   name: "資格",          color: "#a855f7" },
-    { id: "newsletter",      name: "社内報",        color: "#14b8a6" },
-    { id: "study",           name: "社内勉強会",    color: "#ec4899" },
-    { id: "external",        name: "対外発信",      color: "#64748b" },
+    { id: "holiday",         name: "休日",          color: "#ef4444" },
+    { id: "morning_meeting", name: "朝会",          color: "#3b82f6" },
 ];
 
 // 動的カテゴリ（loadCalendar時にOutlookから読み込まれて差し替わる）
