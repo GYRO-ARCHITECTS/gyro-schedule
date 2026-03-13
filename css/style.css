@@ -268,6 +268,10 @@ body { display:flex; flex-direction:column; }
 }
 .btn-secondary:hover { background:rgba(255,255,255,0.1); color:var(--color-text-inverse); }
 .btn-secondary:focus-visible { outline:2px solid var(--color-amber-400); outline-offset:1px; }
+.btn-sign-in-sm {
+    border-color:var(--color-amber-500); color:var(--color-amber-400); font-size:11px; padding:4px 10px;
+}
+.btn-sign-in-sm:hover { background:var(--color-amber-500); color:var(--color-navy-950); }
 
 /* ====== Timeline Wrapper ====== */
 #timeline-wrapper { flex:1; overflow:auto; position:relative; background:var(--color-surface); touch-action:pan-x pan-y; scroll-behavior:smooth; }

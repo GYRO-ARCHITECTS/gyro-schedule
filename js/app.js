@@ -73,7 +73,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         await initAuth();
     } catch (error) {
         console.error("Auth init error:", error);
-        showStatus("error", "認証の初期化に失敗しました。設定を確認してください。");
+        // 認証初期化に失敗しても公開ビューは表示
+        loadPublicCalendar();
         return;
     }
 
@@ -81,7 +82,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (account) {
         await loadCalendar();
     } else {
-        showStatus("auth");
+        // 未サインインでも公開ビュー（祝日+デフォルトカテゴリ）を表示
+        loadPublicCalendar();
     }
 });
 
@@ -91,6 +93,7 @@ function setupUI() {
     updateMonthLabel();
 
     document.getElementById("sign-in-btn").addEventListener("click", handleSignIn);
+    document.getElementById("header-sign-in-btn").addEventListener("click", handleSignIn);
     document.getElementById("sign-out-btn").addEventListener("click", handleSignOut);
     document.getElementById("prev-year-btn").addEventListener("click", () => changeYear(-1));
     document.getElementById("next-year-btn").addEventListener("click", () => changeYear(1));
@@ -106,7 +109,7 @@ function setupUI() {
             _currentMonth = thisMonth;
             updateYearLabel();
             updateMonthLabel();
-            loadCalendar();
+            if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
         } else if (_currentView === "calendar") {
             _currentMonth = thisMonth;
             updateMonthLabel();
@@ -292,7 +295,7 @@ function setupMonthNav() {
             graphConfig.year = currentYear;
             updateYearLabel();
             updateMonthLabel();
-            loadCalendar();
+            if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
             return;
         }
         updateMonthLabel();
@@ -307,7 +310,7 @@ function setupMonthNav() {
             graphConfig.year = currentYear;
             updateYearLabel();
             updateMonthLabel();
-            loadCalendar();
+            if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
             return;
         }
         updateMonthLabel();
@@ -759,6 +762,8 @@ async function onDragMoveOrResize(eventId, eventObj, newStartDate, newEndDate) {
 async function handleSignIn() {
     try {
         await signIn();
+        document.getElementById("header-sign-in-btn").style.display = "none";
+        _rawConfig = null; // サインイン後にOutlookから再取得
         await loadCalendar();
     } catch (error) {
         if (error.message === "popup_blocked") {
@@ -786,8 +791,52 @@ async function handleSignOut() {
     document.getElementById("legend").innerHTML = "";
     document.getElementById("month-nav").style.display = "none";
     document.getElementById("timeline-mode-bar").style.display = "none";
-    showStatus("auth");
+    // サインアウト後は公開ビューに戻る
+    loadPublicCalendar();
     announceStatus("サインアウトしました");
+}
+
+// ========================================
+// 公開ビュー（未サインイン時）
+// ========================================
+function loadPublicCalendar() {
+    const year = currentYear;
+
+    // デフォルトカテゴリを使用
+    if (!_rawConfig) {
+        _rawConfig = {
+            version: 3,
+            yearCategories: {},
+        };
+    }
+    if (!_rawConfig.yearCategories[String(year)]) {
+        _rawConfig.yearCategories[String(year)] = DEFAULT_CATEGORIES.map(c => ({ id: c.id, name: c.name, color: c.color }));
+    }
+    CATEGORIES = _buildCategoriesForYear(_rawConfig, year);
+    populateCategorySelect();
+
+    // 祝日（ローカルデータ）
+    const holidays = getJapaneseHolidays(year);
+    const holidaySet = buildHolidaySet(holidays);
+
+    // キャッシュ（イベントは空）
+    _cachedGraphEvents = [];
+    _cachedHolidays = holidays;
+    _cachedHolidaySet = holidaySet;
+
+    hideStatus();
+    renderLegend();
+
+    // タイムラインモードバー表示
+    document.getElementById("timeline-mode-bar").style.display =
+        (_currentView === "timeline") ? "flex" : "none";
+
+    rerenderFromCache(true);
+
+    // ヘッダーにサインインボタンを表示
+    document.getElementById("header-sign-in-btn").style.display = "inline-block";
+
+    announceStatus(`${year}年のスケジュールを表示しています（閲覧モード）`);
 }
 
 // ========================================
@@ -916,7 +965,7 @@ function changeYear(delta) {
     graphConfig.year = currentYear;
     updateYearLabel();
     updateMonthLabel();
-    if (getActiveAccount()) loadCalendar();
+    if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
 }
 
 function updateYearLabel() {
