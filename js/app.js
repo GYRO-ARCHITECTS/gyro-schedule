@@ -862,6 +862,9 @@ async function loadPublicCalendar() {
         }
     }
 
+    // イベントからカテゴリを自動検出してマージ
+    _mergeEventCategories(publicEvents);
+
     // キャッシュ
     _cachedGraphEvents = publicEvents;
     _cachedHolidays = holidays;
@@ -939,6 +942,10 @@ async function loadCalendar() {
         const holidays = getJapaneseHolidays(year);
         const holidaySet = buildHolidaySet(holidays);
         const graphEvents = await fetchCalendarEvents(token, year);
+
+        // イベントからカテゴリを自動検出してマージ
+        _mergeEventCategories(graphEvents);
+        populateCategorySelect();
 
         // キャッシュを更新
         _cachedGraphEvents = graphEvents;

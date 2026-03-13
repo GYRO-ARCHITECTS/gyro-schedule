@@ -66,3 +66,27 @@ let CATEGORIES = DEFAULT_CATEGORIES.map(c => ({ ...c, ...deriveColors(c.color) }
 function getCategoryDef(name) {
     return CATEGORIES.find(c => c.name === name) || CATEGORIES[CATEGORIES.length - 1];
 }
+
+// イベントからカテゴリを自動検出し、既存CATEGORIESにマージ
+// 固定カテゴリ（休日・朝会）は常に先頭に残し、イベントに含まれる
+// 未知のカテゴリを動的に追加する
+function _mergeEventCategories(events) {
+    const existingNames = new Set(CATEGORIES.map(c => c.name));
+    const autoColors = [
+        "#22c55e", "#f97316", "#a855f7", "#14b8a6", "#ec4899",
+        "#6366f1", "#eab308", "#64748b", "#dc2626", "#0d9488",
+    ];
+    let colorIdx = 0;
+
+    events.forEach(ev => {
+        const catNames = ev.categories || [];
+        catNames.forEach(cn => {
+            if (!existingNames.has(cn)) {
+                existingNames.add(cn);
+                const color = autoColors[colorIdx % autoColors.length];
+                colorIdx++;
+                CATEGORIES.push({ id: "auto_" + cn, name: cn, color, ...deriveColors(color) });
+            }
+        });
+    });
+}
