@@ -484,9 +484,9 @@ th.gs-today-col {
     color:var(--color-amber-600)!important; font-weight:700!important;
     box-shadow:inset 0 -2px 0 var(--color-amber-400);
 }
-.gs-saturday-col:not(.gs-bar-cell) { background:rgba(15,22,41,0.025); }
-.gs-sunday-col:not(.gs-bar-cell) { background:rgba(220,38,38,0.02); }
-.gs-holiday-col:not(.gs-bar-cell) { background:rgba(220,38,38,0.02); }
+.gs-saturday-col:not(.gs-bar-cell) { background:rgba(59,130,246,0.08); }
+.gs-sunday-col:not(.gs-bar-cell) { background:rgba(220,38,38,0.08); }
+.gs-holiday-col:not(.gs-bar-cell) { background:rgba(220,38,38,0.08); }
 th.gs-saturday-col { color:var(--color-navy-400); font-weight:600; }
 th.gs-sunday-col { color:#dc6c6c; font-weight:600; }
 th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
