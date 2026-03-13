@@ -420,16 +420,17 @@ td.gs-month-end:not(.gs-bar-cell) { border-right:1px solid var(--color-navy-200)
 
 .gs-bar-cell {
     cursor:grab; position:relative; isolation:isolate;
-    border-right-color:transparent;
+    border-right:none!important;
+    border-bottom-color:transparent;
     border-radius:0;
-    padding:3px 0;
+    padding:0;
     transition: filter var(--duration-fast),
                 transform var(--duration-fast) var(--ease-out),
                 box-shadow var(--duration-fast) var(--ease-out);
 }
 .gs-bar-inner {
-    display:block; width:100%; height:100%;
-    position:relative;
+    position:absolute;
+    left:0; right:0; top:3px; bottom:3px;
     border-top:1px solid var(--bar-border);
     border-bottom:1px solid var(--bar-border);
     background:var(--bar-bg);
