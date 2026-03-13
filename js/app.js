@@ -823,25 +823,43 @@ async function loadPublicCalendar() {
     const holidays = getJapaneseHolidays(year);
     const holidaySet = buildHolidaySet(holidays);
 
-    // 公開イベントデータを読み込み
+    // 公開イベントデータを読み込み（localStorage → data/events.json の優先順）
     let publicEvents = [];
     try {
-        const res = await fetch("data/events.json");
-        if (res.ok) {
-            const data = await res.json();
-            const yearData = data.years?.[String(year)];
-            if (yearData) {
-                publicEvents = yearData.events || [];
-                // カテゴリ設定があればそちらを使用
-                if (yearData.categories && yearData.categories.length > 0) {
-                    _rawConfig.yearCategories[String(year)] = yearData.categories;
-                    CATEGORIES = _buildCategoriesForYear(_rawConfig, year);
-                    populateCategorySelect();
-                }
+        // まずlocalStorageからキャッシュを試行
+        const cached = localStorage.getItem(`gyro_events_${year}`);
+        if (cached) {
+            const parsed = JSON.parse(cached);
+            publicEvents = parsed.events || [];
+            if (parsed.categories && parsed.categories.length > 0) {
+                _rawConfig.yearCategories[String(year)] = parsed.categories;
+                CATEGORIES = _buildCategoriesForYear(_rawConfig, year);
+                populateCategorySelect();
             }
         }
     } catch (e) {
-        console.warn("公開イベントデータの読み込みに失敗:", e);
+        console.warn("localStorageキャッシュ読み込み失敗:", e);
+    }
+
+    // localStorageに無ければ data/events.json を試行
+    if (publicEvents.length === 0) {
+        try {
+            const res = await fetch("data/events.json");
+            if (res.ok) {
+                const data = await res.json();
+                const yearData = data.years?.[String(year)];
+                if (yearData) {
+                    publicEvents = yearData.events || [];
+                    if (yearData.categories && yearData.categories.length > 0) {
+                        _rawConfig.yearCategories[String(year)] = yearData.categories;
+                        CATEGORIES = _buildCategoriesForYear(_rawConfig, year);
+                        populateCategorySelect();
+                    }
+                }
+            }
+        } catch (e) {
+            console.warn("公開イベントデータの読み込みに失敗:", e);
+        }
     }
 
     // キャッシュ
@@ -926,6 +944,9 @@ async function loadCalendar() {
         _cachedGraphEvents = graphEvents;
         _cachedHolidays = holidays;
         _cachedHolidaySet = holidaySet;
+
+        // localStorageに公開用キャッシュを保存（未サインイン時に使用）
+        _saveEventsToLocalStorage(year, graphEvents, CATEGORIES);
 
         hideStatus();
         renderLegend();
@@ -1031,6 +1052,33 @@ function showStatus(type, message) {
 
 function hideStatus() {
     document.getElementById("status-area").style.display = "none";
+}
+
+// ========================================
+// localStorageキャッシュ（サインイン時に自動保存）
+// ========================================
+function _saveEventsToLocalStorage(year, events, categories) {
+    try {
+        const data = {
+            events: events.map(e => ({
+                id: e.id,
+                title: e.title,
+                startDate: e.startDate,
+                endDate: e.endDate,
+                categories: e.categories || [],
+                bodyPreview: e.bodyPreview || "",
+            })),
+            categories: categories.map(c => ({
+                id: c.id,
+                name: c.name,
+                color: c.color,
+            })),
+            savedAt: new Date().toISOString(),
+        };
+        localStorage.setItem(`gyro_events_${year}`, JSON.stringify(data));
+    } catch (e) {
+        console.warn("localStorageへの保存失敗:", e);
+    }
 }
 
 // ========================================
