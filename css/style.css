@@ -356,6 +356,8 @@ body { display:flex; flex-direction:column; }
     color:#ffffff; text-align:center; letter-spacing:0.06em;
 }
 .gs-month-cell { border-right:2px solid var(--color-navy-500)!important; }
+.gs-month-cell.gs-month-even { background:var(--color-navy-700); }
+.gs-week-cell.gs-month-even { background:var(--color-navy-50); }
 .gs-current-month {
     background:var(--color-navy-500)!important;
     color:#ffffff!important;

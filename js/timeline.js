@@ -595,6 +595,7 @@ function renderTimeline(events, year, holidaySet, options) {
         const colsInMonth = _tlColOffsets[m + 1] - _tlColOffsets[m];
         const th = document.createElement("th");
         th.className = "gs-month-cell";
+        if (m % 2 === 1) th.classList.add("gs-month-even");
         th.colSpan = colsInMonth;
         // fitモードでは min-width を設定しない（table-layout:fixed; width:100% に任せる）
         if (_tlMode !== "fit") th.style.minWidth = (colWidth * colsInMonth) + "px";
@@ -614,6 +615,7 @@ function renderTimeline(events, year, holidaySet, options) {
             const globalCol = _tlColOffsets[m] + li;
             const th = document.createElement("th");
             th.className = "gs-week-cell";
+            if (m % 2 === 1) th.classList.add("gs-month-even");
             th.textContent = _subHeaderLabel(m, li);
 
             if (todayCol === globalCol) th.classList.add("gs-current-week");
