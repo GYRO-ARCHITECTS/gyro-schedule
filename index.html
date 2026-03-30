@@ -9,7 +9,7 @@
     <!-- Preconnect to Google Fonts for faster font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=20260313a">
+    <link rel="stylesheet" href="css/style.css?v=20260314b">
 </head>
 <body>
     <!-- Skip Link for keyboard users -->
@@ -135,6 +135,41 @@
         </div>
     </div>
 
+    <!-- 簡易イベントモーダル（朝会など） -->
+    <div id="simple-event-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="modal-content simple-modal-content">
+            <div class="modal-accent" id="simple-modal-accent"></div>
+            <div class="modal-header">
+                <h2 id="simple-modal-title">朝会</h2>
+                <button class="modal-close" id="simple-modal-close" aria-label="閉じる">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="simple-evt-date">日付</label>
+                    <input type="date" id="simple-evt-date" readonly>
+                </div>
+                <div class="form-group" data-field="simple-title">
+                    <label for="simple-evt-title">タイトル</label>
+                    <input type="text" id="simple-evt-title" placeholder="朝会" autocomplete="off">
+                    <span class="form-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                    <label for="simple-evt-notes">内容</label>
+                    <textarea id="simple-evt-notes" rows="5" placeholder="議題・メモなど"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-footer-left">
+                    <button id="simple-modal-delete" class="btn-danger" style="display:none;">削除</button>
+                </div>
+                <div class="modal-footer-right">
+                    <button id="simple-modal-cancel" class="btn-cancel">キャンセル</button>
+                    <button id="simple-modal-save" class="btn-save">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- カテゴリ管理モーダル -->
     <div id="cat-manager-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="cat-manager-title" aria-hidden="true">
         <div class="modal-content cat-manager-content">
@@ -211,10 +246,10 @@
     <script src="js/holidays.js?v=20260309b" defer></script>
     <script src="js/auth.js?v=20260309b" defer></script>
     <script src="js/graph.js?v=20260309b" defer></script>
-    <script src="js/timeline.js?v=20260313b" defer></script>
+    <script src="js/timeline.js?v=20260314c" defer></script>
     <script src="js/calendar.js?v=20260309d" defer></script>
     <script src="js/listview.js?v=20260309b" defer></script>
     <script src="js/category-manager.js?v=20260309b" defer></script>
-    <script src="js/app.js?v=20260313b" defer></script>
+    <script src="js/app.js?v=20260313c" defer></script>
 </body>
 </html>

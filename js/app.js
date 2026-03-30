@@ -3,6 +3,11 @@ let currentYear = graphConfig.year;
 let _editingEvent = null;
 let _lastFocusBeforeModal = null; // モーダル前のフォーカス保持
 
+// 簡易モーダル用
+let _simpleEditingEvent = null;
+let _simpleEventCategory = null;
+let _simpleMarkerActive = false;
+
 // カテゴリ設定（Config Event）
 let _configEventId = null; // Outlook上のConfig EventのID
 let _rawConfig = null;     // Config Event の生データ（v2形式）
@@ -127,6 +132,7 @@ function setupUI() {
 
     // 設定ボタン
     document.getElementById("settings-btn").addEventListener("click", () => {
+        if (!getActiveAccount()) { _showSignInPrompt(); return; }
         openCategoryManager();
     });
 
@@ -340,7 +346,16 @@ function populateCategorySelect() {
 
 // ---- 年度ごとの有効カテゴリ算出（v3形式） ----
 function _buildCategoriesForYear(rawConfig, year) {
-    const cats = rawConfig.yearCategories?.[String(year)] || [];
+    // holiday は背景色で表現するためカテゴリ行から除外
+    const cats = (rawConfig.yearCategories?.[String(year)] || []).filter(c => c.id !== "holiday");
+    rawConfig.yearCategories[String(year)] = cats;
+    // 固定カテゴリが欠落していれば自動挿入
+    const existingIds = new Set(cats.map(c => c.id));
+    DEFAULT_CATEGORIES.forEach(dc => {
+        if (FIXED_CATEGORY_IDS.has(dc.id) && !existingIds.has(dc.id)) {
+            cats.unshift({ id: dc.id, name: dc.name, color: dc.color });
+        }
+    });
     return cats.map(c => ({ ...c, ...deriveColors(c.color) }));
 }
 
@@ -409,6 +424,19 @@ function setupModal() {
     // インライン削除確認ボタン
     document.getElementById("modal-delete-yes").addEventListener("click", handleDeleteEvent);
     document.getElementById("modal-delete-no").addEventListener("click", _hideDeleteConfirm);
+
+    // ---- 簡易モーダルのリスナー ----
+    document.getElementById("simple-modal-save").addEventListener("click", handleSimpleSave);
+    document.getElementById("simple-modal-cancel").addEventListener("click", closeSimpleModal);
+    document.getElementById("simple-modal-close").addEventListener("click", closeSimpleModal);
+    document.getElementById("simple-modal-delete").addEventListener("click", handleSimpleDelete);
+
+    document.getElementById("simple-event-modal").addEventListener("click", (e) => {
+        if (e.target.id === "simple-event-modal") closeSimpleModal();
+    });
+    document.getElementById("simple-event-modal").addEventListener("keydown", (e) => {
+        if (e.key === "Escape") { e.preventDefault(); closeSimpleModal(); }
+    });
 }
 
 // ---- カテゴリプレビュー更新 ----
@@ -465,8 +493,50 @@ function trapFocusInModal(e) {
     }
 }
 
+// ---- サインイン促進トースト ----
+function _showSignInPrompt() {
+    // 既存のトーストがあれば除去
+    const old = document.getElementById("sign-in-toast");
+    if (old) old.remove();
+
+    const toast = document.createElement("div");
+    toast.id = "sign-in-toast";
+    toast.className = "gs-toast";
+    toast.setAttribute("role", "alert");
+
+    const msg = document.createElement("span");
+    msg.textContent = "編集するにはサインインしてください";
+
+    const btn = document.createElement("button");
+    btn.className = "gs-toast-btn";
+    btn.textContent = "サインイン";
+    btn.addEventListener("click", () => {
+        toast.remove();
+        handleSignIn();
+    });
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "gs-toast-close";
+    closeBtn.textContent = "✕";
+    closeBtn.setAttribute("aria-label", "閉じる");
+    closeBtn.addEventListener("click", () => toast.remove());
+
+    toast.appendChild(msg);
+    toast.appendChild(btn);
+    toast.appendChild(closeBtn);
+    document.body.appendChild(toast);
+
+    // 4秒後に自動で消える
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 4000);
+}
+
 // ---- モーダル操作 ----
-function openEventModal(event, categoryName, startDate, endDate) {
+function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
+    // 未サインイン時は編集不可
+    if (!getActiveAccount()) {
+        _showSignInPrompt();
+        return;
+    }
     _editingEvent = event;
     _lastFocusBeforeModal = document.activeElement;
 
@@ -482,6 +552,10 @@ function openEventModal(event, categoryName, startDate, endDate) {
 
     const saveNextBtn = document.getElementById("modal-save-next-btn");
 
+    // タイトル・カテゴリの表示/非表示制御
+    const titleFormGroup = document.querySelector('.form-group[data-field="title"]');
+    const catFormGroup = document.querySelector('.form-group[data-field="category"]');
+
     if (event) {
         titleEl.textContent = "イベント編集";
         document.getElementById("evt-title").value = event.title || "";
@@ -492,8 +566,25 @@ function openEventModal(event, categoryName, startDate, endDate) {
         document.getElementById("evt-notes").value = event.bodyPreview || "";
         deleteBtn.style.display = "inline-block";
         saveNextBtn.style.display = "none";
+        titleFormGroup.style.display = "none";
+        catFormGroup.style.display = "none";
+        _updateCategoryPreview(catVal);
+    } else if (presetTitle) {
+        // セルクリック/ドラッグ: タイトルとカテゴリが確定済み
+        titleEl.textContent = "イベント追加";
+        document.getElementById("evt-title").value = presetTitle;
+        const catVal = categoryName || CATEGORIES[0].name;
+        document.getElementById("evt-category").value = catVal;
+        document.getElementById("evt-start").value = startDate || "";
+        document.getElementById("evt-end").value = endDate || "";
+        document.getElementById("evt-notes").value = "";
+        deleteBtn.style.display = "none";
+        saveNextBtn.style.display = "none";
+        titleFormGroup.style.display = "none";
+        catFormGroup.style.display = "none";
         _updateCategoryPreview(catVal);
     } else {
+        // 「＋」ボタン: フルモーダル
         titleEl.textContent = "イベント追加";
         document.getElementById("evt-title").value = "";
         const catVal = categoryName || CATEGORIES[0].name;
@@ -503,6 +594,8 @@ function openEventModal(event, categoryName, startDate, endDate) {
         document.getElementById("evt-notes").value = "";
         deleteBtn.style.display = "none";
         saveNextBtn.style.display = "inline-block";
+        titleFormGroup.style.display = "";
+        catFormGroup.style.display = "";
         _updateCategoryPreview(catVal);
     }
 
@@ -552,6 +645,303 @@ function closeModal() {
         setTimeout(() => {
             if (modal.classList.contains("closing")) onEnd();
         }, 500);
+    }
+}
+
+// ========================================
+// 朝会イベント自動同期（Outlook連動）
+// ========================================
+async function _syncMorningMeetingEvents(token, year, graphEvents, holidaySet) {
+    const catName = "朝会";
+
+    // 1. 年間の全月曜日を列挙（祝日除く）
+    const targetDates = [];
+    for (let m = 0; m < 12; m++) {
+        const days = daysInMonth(year, m);
+        for (let d = 1; d <= days; d++) {
+            const date = new Date(year, m, d);
+            if (date.getDay() !== 1) continue;
+            const dateStr = formatDateYMD(date);
+            if (holidaySet && holidaySet.has(dateStr)) continue;
+            targetDates.push(dateStr);
+        }
+    }
+
+    // 2. 既存の朝会イベントがある日をSetで取得
+    const existingDates = new Set();
+    graphEvents.forEach(e => {
+        if (!e.categories || !e.categories.some(c => c === catName)) return;
+        let d = new Date(e.startDate + "T00:00:00");
+        const end = new Date(e.endDate + "T00:00:00");
+        while (d <= end) {
+            existingDates.add(formatDateYMD(d));
+            d.setDate(d.getDate() + 1);
+        }
+    });
+
+    // 3. 不足分を特定
+    const missing = targetDates.filter(d => !existingDates.has(d));
+    if (missing.length === 0) {
+        console.log("[朝会同期] 全月曜日にイベントあり。同期不要。");
+        return;
+    }
+
+    console.log(`[朝会同期] ${missing.length}件の朝会イベントを作成します`);
+
+    // 4. 逐次作成
+    let created = 0;
+    for (const dateStr of missing) {
+        try {
+            const result = await createCalendarEvent(token, {
+                title: catName,
+                category: catName,
+                startDate: dateStr,
+                endDate: dateStr,
+                notes: "",
+            });
+            graphEvents.push({
+                id: result?.id || "temp-" + Date.now(),
+                title: catName,
+                categories: [catName],
+                startDate: dateStr,
+                endDate: dateStr,
+                bodyPreview: "",
+            });
+            created++;
+        } catch (err) {
+            console.warn(`[朝会同期] ${dateStr} の作成に失敗:`, err.message);
+        }
+    }
+
+    console.log(`[朝会同期] ${created}/${missing.length}件 作成完了`);
+}
+
+// ========================================
+// 既存イベントのカテゴリ名を予定表カテゴリに一括移行
+// ========================================
+async function _migrateEventCategories(token, events) {
+    // デュアルカテゴリ方式への移行
+    // [Outlook色カテゴリ, アプリカテゴリ名] の形式に変換
+    const colorMap = {
+        "朝会": "Blue category",
+        "GYRO休み": "Purple category",
+    };
+    const defaultColor = "Red category";
+
+    let migrated = 0;
+    for (const ev of events) {
+        if (!ev.categories || ev.categories.length === 0 || !ev.id) continue;
+
+        const rawCats = ev.categories;
+
+        // 既にデュアル形式（先頭がOutlook色カテゴリ + 2つ以上）ならスキップ
+        if (rawCats.length >= 2 && OUTLOOK_COLOR_CATS.has(rawCats[0])) continue;
+
+        // Outlook色カテゴリのみ（旧移行で壊れたデータ）→ フォールバック逆変換
+        if (rawCats.length === 1 && OUTLOOK_COLOR_CATS.has(rawCats[0])) {
+            const colorCat = rawCats[0];
+            let appCat = null;
+            if (colorCat === "Blue category") appCat = "朝会";
+            else if (colorCat === "Purple category") appCat = "GYRO休み";
+
+            if (appCat) {
+                const newCats = [colorCat, appCat];
+                try {
+                    const calEventsUrl = await getCalendarBaseUrl(token, "calendar/events");
+                    const res = await fetch(`${calEventsUrl}/${ev.id}`, {
+                        method: "PATCH",
+                        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                        body: JSON.stringify({ categories: newCats }),
+                    });
+                    if (res.ok) migrated++;
+                } catch (e) { console.warn(`[カテゴリ移行] "${ev.title}" 失敗:`, e.message); }
+            }
+            // Red categoryのみ → 元カテゴリ不明、放置
+            continue;
+        }
+
+        // アプリカテゴリ名のみ（古い形式）→ デュアルカテゴリに変換
+        const appCat = rawCats[0];
+        if (OUTLOOK_COLOR_CATS.has(appCat)) continue; // 既にOutlook色カテゴリなら何もしない
+
+        const colorCat = colorMap[appCat] || defaultColor;
+        const newCats = [colorCat, appCat];
+
+        try {
+            const calEventsUrl = await getCalendarBaseUrl(token, "calendar/events");
+            const res = await fetch(`${calEventsUrl}/${ev.id}`, {
+                method: "PATCH",
+                headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify({ categories: newCats }),
+            });
+            if (res.ok) migrated++;
+            else console.warn(`[カテゴリ移行] "${ev.title}" 更新失敗 (${res.status})`);
+        } catch (e) {
+            console.warn(`[カテゴリ移行] "${ev.title}" 更新失敗:`, e.message);
+        }
+    }
+
+    if (migrated > 0) {
+        console.log(`[カテゴリ移行] ${migrated}件 デュアルカテゴリに移行完了`);
+    } else {
+        console.log("[カテゴリ移行] 移行不要");
+    }
+}
+
+// ========================================
+// 簡易モーダル（朝会など）
+// ========================================
+function openSimpleEventModal(dateStr, categoryName, isActive) {
+    if (!getActiveAccount()) { _showSignInPrompt(); return; }
+
+    _simpleEventCategory = categoryName;
+    _lastFocusBeforeModal = document.activeElement;
+    const modal = document.getElementById("simple-event-modal");
+
+    // 既存Outlookイベントを検索（マーカー状態に関係なく常に検索）
+    const existing = (_cachedGraphEvents || []).find(e =>
+        e.startDate <= dateStr && e.endDate >= dateStr &&
+        e.categories && e.categories.some(c => c === categoryName));
+
+    _simpleEditingEvent = existing || null;
+    _simpleMarkerActive = !!isActive; // マーカー状態を保持
+    document.getElementById("simple-evt-date").value = dateStr;
+    document.getElementById("simple-evt-title").value = existing ? existing.title : categoryName;
+    document.getElementById("simple-evt-notes").value = existing ? (existing.bodyPreview || "") : "";
+    // 削除ボタン: ●（active）のときに表示、✕のときに非表示
+    document.getElementById("simple-modal-delete").style.display = isActive ? "inline-block" : "none";
+    // 保存ボタン: ✕のとき「追加」、●のとき「保存」
+    document.getElementById("simple-modal-save").textContent = isActive ? "保存" : "追加";
+
+    // アクセントバー色
+    const catDef = getCategoryDef(categoryName);
+    document.getElementById("simple-modal-accent").style.background = catDef?.color || "#3b82f6";
+    document.getElementById("simple-modal-title").textContent = categoryName + " — " + dateStr;
+
+    modal.classList.remove("closing");
+    modal.classList.add("active");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    document.getElementById("simple-evt-notes").focus();
+}
+
+function closeSimpleModal() {
+    const modal = document.getElementById("simple-event-modal");
+    if (!modal.classList.contains("active")) return;
+
+    modal.classList.add("closing");
+    const onEnd = () => {
+        modal.classList.remove("active", "closing");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        _simpleEditingEvent = null;
+        _simpleEventCategory = null;
+        if (_lastFocusBeforeModal && _lastFocusBeforeModal.focus) {
+            _lastFocusBeforeModal.focus();
+            _lastFocusBeforeModal = null;
+        }
+        modal.removeEventListener("animationend", onEnd);
+    };
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) {
+        onEnd();
+    } else {
+        modal.addEventListener("animationend", onEnd, { once: true });
+        setTimeout(() => { if (modal.classList.contains("closing")) onEnd(); }, 500);
+    }
+}
+
+async function handleSimpleSave() {
+    console.log("[handleSimpleSave] 呼び出し開始");
+    const dateStr = document.getElementById("simple-evt-date").value;
+    const title = document.getElementById("simple-evt-title").value.trim() || _simpleEventCategory;
+    const notes = document.getElementById("simple-evt-notes").value.trim();
+    console.log("[handleSimpleSave] dateStr:", dateStr, "title:", title, "editing:", !!_simpleEditingEvent);
+
+    const saveBtn = document.getElementById("simple-modal-save");
+    saveBtn.disabled = true;
+    saveBtn.textContent = "保存中...";
+
+    try {
+        const token = await getAccessToken();
+        const eventData = {
+            title,
+            category: _simpleEventCategory,
+            startDate: dateStr,
+            endDate: dateStr,
+            notes,
+        };
+
+        if (_simpleEditingEvent && _simpleEditingEvent.id) {
+            await updateCalendarEvent(token, _simpleEditingEvent.id, eventData);
+            const cached = _cachedGraphEvents.find(e => e.id === _simpleEditingEvent.id);
+            if (cached) {
+                cached.title = title;
+                cached.categories = [_simpleEventCategory];
+                cached.startDate = dateStr;
+                cached.endDate = dateStr;
+                cached.bodyPreview = notes;
+            }
+            closeSimpleModal();
+            rerenderFromCache();
+            announceStatus(`「${title}」を更新しました`);
+        } else {
+            // Outlookにイベントを新規作成 → キャッシュ追加 → rerender で自動的に●になる
+            const created = await createCalendarEvent(token, eventData);
+            _cachedGraphEvents.push({
+                id: created?.id || "temp-" + Date.now(),
+                title,
+                categories: [_simpleEventCategory],
+                startDate: dateStr,
+                endDate: dateStr,
+                bodyPreview: notes,
+            });
+            console.log("[追加完了] 新規イベント作成:", dateStr);
+
+            rerenderFromCache();
+            closeSimpleModal();
+            announceStatus(`「${title}」を追加しました`);
+        }
+    } catch (error) {
+        console.error("Simple save failed:", error);
+        const errSpan = document.querySelector('[data-field="simple-title"] .form-error');
+        if (errSpan) errSpan.textContent = "保存に失敗しました: " + error.message;
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "保存";
+    }
+}
+
+async function handleSimpleDelete() {
+    if (!_simpleEditingEvent || !_simpleEditingEvent.id) {
+        closeSimpleModal();
+        return;
+    }
+
+    const deleteBtn = document.getElementById("simple-modal-delete");
+    deleteBtn.disabled = true;
+    deleteBtn.textContent = "削除中...";
+
+    try {
+        const token = await getAccessToken();
+        const deletedTitle = _simpleEditingEvent.title;
+        await deleteCalendarEvent(token, _simpleEditingEvent.id);
+        _cachedGraphEvents = _cachedGraphEvents.filter(e => e.id !== _simpleEditingEvent.id);
+        console.log("[削除完了] Outlookイベント削除 + キャッシュ除去:", deletedTitle);
+
+        // キャッシュからイベント削除 → rerender で自動的に✕になる
+        rerenderFromCache();
+        document.getElementById("simple-modal-save")?.focus();
+        closeSimpleModal();
+        announceStatus(`「${deletedTitle}」を削除しました`);
+    } catch (error) {
+        console.error("Simple delete failed:", error);
+        const errSpan = document.querySelector('[data-field="simple-title"] .form-error');
+        if (errSpan) errSpan.textContent = "削除に失敗しました: " + error.message;
+    } finally {
+        deleteBtn.disabled = false;
+        deleteBtn.textContent = "削除";
     }
 }
 
@@ -710,12 +1100,13 @@ async function handleDeleteEvent() {
 // ========================================
 
 // 範囲選択で新規作成 → モーダルを開く（まだAPIは叩かない）
-function onDragCreate(categoryName, startDate, endDate) {
-    openEventModal(null, categoryName, startDate, endDate);
+function onDragCreate(categoryName, startDate, endDate, eventTitle) {
+    openEventModal(null, categoryName, startDate, endDate, eventTitle);
 }
 
 // バー移動 or リサイズ → 即座にローカル反映、API はバックグラウンド
 async function onDragMoveOrResize(eventId, eventObj, newStartDate, newEndDate) {
+    if (!getActiveAccount()) { _showSignInPrompt(); return; }
     if (!eventId || !eventObj) return;
     if (eventObj.startDate === newStartDate && eventObj.endDate === newEndDate) return;
 
@@ -862,8 +1253,9 @@ async function loadPublicCalendar() {
         }
     }
 
-    // イベントからカテゴリを自動検出してマージ
-    _mergeEventCategories(publicEvents);
+    // イベントからカテゴリを自動検出して _rawConfig に書き込み
+    _mergeEventCategories(publicEvents, _rawConfig, year);
+    populateCategorySelect();
 
     // キャッシュ
     _cachedGraphEvents = publicEvents;
@@ -942,10 +1334,28 @@ async function loadCalendar() {
         const holidays = getJapaneseHolidays(year);
         const holidaySet = buildHolidaySet(holidays);
         const graphEvents = await fetchCalendarEvents(token, year);
+        const rawGraphEvents = graphEvents._rawGraphEvents || [];
+        delete graphEvents._rawGraphEvents;
 
-        // イベントからカテゴリを自動検出してマージ
-        _mergeEventCategories(graphEvents);
+        // 既存イベントのOutlookカテゴリ名をデュアルカテゴリに一括移行（生データ使用）
+        await _migrateEventCategories(token, rawGraphEvents);
+
+        // イベントからカテゴリを自動検出して _rawConfig に書き込み
+        _mergeEventCategories(graphEvents, _rawConfig, year);
         populateCategorySelect();
+
+        // 朝会イベントの自動同期は行わない（マーカーはOutlookデータから直接表示）
+        // ユーザーが簡易モーダルで個別に追加/削除する
+
+        // Outlookカテゴリの色をブラウザ設定と同期（権限があるときのみ）
+        const mbToken = await getAccessTokenSilentOnly(["MailboxSettings.ReadWrite"]);
+        if (mbToken) {
+            syncOutlookCategoryColors(mbToken, CATEGORIES).catch(e =>
+                console.warn("[カテゴリ色同期] 同期失敗:", e.message)
+            );
+        } else {
+            console.log("[カテゴリ色同期] MailboxSettings権限なし。サインアウト→再サインインで有効になります。");
+        }
 
         // キャッシュを更新
         _cachedGraphEvents = graphEvents;

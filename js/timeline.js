@@ -30,11 +30,34 @@ let _tlColOffsets = [0]; // 初期化時に再構築
 let _tlTotalCols = 365;
 let _tlColWidth = 24;
 let _tlYear = null; // 初回描画でsetTimelineModeを確実に呼ぶ
+// 週モード用: 各月の月曜日開始日リスト（setTimelineModeで構築）
+let _weekMondayStarts = null; // [month] => [day1, day2, ...]
+
+// 月内の月曜日の日付リストを返す
+function _getMondaysInMonth(year, month) {
+    const days = daysInMonth(year, month);
+    const mondays = [];
+    for (let d = 1; d <= days; d++) {
+        if (new Date(year, month, d).getDay() === 1) mondays.push(d);
+    }
+    return mondays;
+}
 
 // モードを設定し、列オフセットテーブルを再構築
 function setTimelineMode(modeId, year) {
     _tlMode = modeId;
     _tlYear = year;
+
+    // 週/全体モード: 各月の実際の月曜日を計算
+    if (modeId === "week" || modeId === "fit") {
+        _weekMondayStarts = [];
+        for (let m = 0; m < 12; m++) {
+            _weekMondayStarts.push(_getMondaysInMonth(year, m));
+        }
+    } else {
+        _weekMondayStarts = null;
+    }
+
     _tlColOffsets = [0];
     for (let m = 0; m < 12; m++) {
         _tlColOffsets.push(_tlColOffsets[m] + _colsPerMonth(year, m));
@@ -46,6 +69,7 @@ function setTimelineMode(modeId, year) {
 // 月あたりの列数
 function _colsPerMonth(year, month) {
     if (_tlMode === "day") return daysInMonth(year, month);
+    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) return _weekMondayStarts[month].length;
     const starts = MODE_STARTS[_tlMode];
     return starts ? starts.length : 4;
 }
@@ -66,6 +90,16 @@ function absCol(dateStr) {
 
     if (_tlMode === "day") {
         return _tlColOffsets[month] + day - 1;
+    }
+
+    // 週モード: 実際の月曜日リストから該当週を特定
+    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
+        const mondays = _weekMondayStarts[month];
+        let wi = 0;
+        for (let i = mondays.length - 1; i >= 0; i--) {
+            if (day >= mondays[i]) { wi = i; break; }
+        }
+        return _tlColOffsets[month] + wi;
     }
 
     const starts = MODE_STARTS[_tlMode];
@@ -100,6 +134,11 @@ function colToStartDate(colIdx, year) {
         return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
     }
 
+    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
+        const day = _weekMondayStarts[month][localIdx];
+        return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    }
+
     const starts = MODE_STARTS[_tlMode];
     const day = starts[localIdx];
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
@@ -111,8 +150,18 @@ function colToEndDate(colIdx, year) {
     const localIdx = colIdx - _tlColOffsets[month];
 
     if (_tlMode === "day") {
-        // 1日モード: 開始日 = 終了日
         return colToStartDate(colIdx, year);
+    }
+
+    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
+        const mondays = _weekMondayStarts[month];
+        let lastDay;
+        if (localIdx < mondays.length - 1) {
+            lastDay = mondays[localIdx + 1] - 1;
+        } else {
+            lastDay = daysInMonth(year, month);
+        }
+        return `${year}-${String(month + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
     }
 
     const starts = MODE_STARTS[_tlMode];
@@ -124,6 +173,20 @@ function colToEndDate(colIdx, year) {
         lastDay = daysInMonth(year, month);
     }
     return `${year}-${String(month + 1).padStart(2, "0")}-${String(lastDay).padStart(2, "0")}`;
+}
+
+// ========================================
+// タイトルグループ化（同タイトルのイベントを1行にまとめる）
+// ========================================
+function _groupByTitle(events) {
+    const groups = {};
+    const order = [];
+    events.forEach(ev => {
+        const key = ev.title || "(無題)";
+        if (!groups[key]) { groups[key] = []; order.push(key); }
+        groups[key].push(ev);
+    });
+    return { groups, order };
 }
 
 // ========================================
@@ -165,6 +228,7 @@ const DragManager = {
     eventId: null,
     eventObj: null,
     categoryName: null,
+    eventTitle: null,
     originalStartCol: -1,
     originalEndCol: -1,
     year: null,
@@ -174,8 +238,9 @@ const DragManager = {
     _rafId: 0,
     _colGeometry: null,
 
-    begin(mode, row, col, mouseX, mouseY, eventId, eventObj, catName, startCol, endCol, year) {
+    begin(mode, row, col, mouseX, mouseY, eventId, eventObj, catName, startCol, endCol, year, eventTitle) {
         PopoverManager.hide();
+        document.querySelectorAll(".gs-bar-hover").forEach(c => c.classList.remove("gs-bar-hover"));
         this.active = true;
         this.started = false;
         this.mode = mode;
@@ -188,6 +253,7 @@ const DragManager = {
         this.eventId = eventId;
         this.eventObj = eventObj;
         this.categoryName = catName;
+        this.eventTitle = eventTitle || null;
         this.originalStartCol = startCol;
         this.originalEndCol = endCol;
         this.year = year;
@@ -285,6 +351,7 @@ const DragManager = {
             return {
                 action: "create",
                 categoryName: this.categoryName,
+                eventTitle: this.eventTitle,
                 startDate: colToStartDate(s, year),
                 endDate: colToEndDate(e, year),
             };
@@ -649,12 +716,16 @@ function renderTimeline(events, year, holidaySet, options) {
     const tbody = document.createElement("tbody");
 
     // マーカー表示対象のカテゴリID
-    const MARKER_CATEGORIES = new Set(["holiday", "morning_meeting"]);
+    const MARKER_CATEGORIES = new Set(["morning_meeting"]);
+    const PINNED_ORDER = ["morning_meeting", "gyro_holiday"];
+    const pinnedSet = new Set(PINNED_ORDER);
+    const _markerExceptions = _loadMarkerExceptions(year);
 
-    CATEGORIES.forEach(cat => {
-        // マーカー型カテゴリ（休日・朝会）は専用行で描画
+    // ---- カテゴリ行を描画するヘルパー ----
+    const _renderCatRows = (cat) => {
         if (MARKER_CATEGORIES.has(cat.id)) {
-            const tr = createMarkerRow(cat, totalCols, year, holidaySet, todayCol);
+            const markerEvents = grouped[cat.name] || [];
+            const tr = createMarkerRow(cat, totalCols, year, holidaySet, todayCol, _markerExceptions, markerEvents);
             tbody.appendChild(tr);
             return;
         }
@@ -664,17 +735,33 @@ function renderTimeline(events, year, holidaySet, options) {
             tbody.appendChild(tr);
             return;
         }
-        catEvents.forEach((ev, idx) => {
-            const tr = createEventRow(ev, cat, idx, catEvents.length, totalCols, year, holidaySet, todayCol);
+        const { groups: titleGroups, order: titleOrder } = _groupByTitle(catEvents);
+        titleOrder.forEach((title, idx) => {
+            const evGroup = titleGroups[title];
+            const tr = createEventRow(evGroup, cat, idx, titleOrder.length, totalCols, year, holidaySet, todayCol);
             tbody.appendChild(tr);
         });
+    };
+
+    // 1パス目: 固定カテゴリを指定順で先頭に描画
+    PINNED_ORDER.forEach(pinId => {
+        const cat = CATEGORIES.find(c => c.id === pinId);
+        if (cat) _renderCatRows(cat);
+    });
+
+    // 2パス目: 通常カテゴリ
+    CATEGORIES.forEach(cat => {
+        if (pinnedSet.has(cat.id)) return;
+        _renderCatRows(cat);
     });
 
     const other = grouped["__other__"] || [];
     if (other.length > 0) {
         const defCat = { id: "other", name: "その他", color: "#94a3b8", bg: "#f8fafc", border: "#cbd5e1" };
-        other.forEach((ev, idx) => {
-            const tr = createEventRow(ev, defCat, idx, other.length, totalCols, year, holidaySet, todayCol);
+        const { groups: otherGroups, order: otherOrder } = _groupByTitle(other);
+        otherOrder.forEach((title, idx) => {
+            const evGroup = otherGroups[title];
+            const tr = createEventRow(evGroup, defCat, idx, otherOrder.length, totalCols, year, holidaySet, todayCol);
             tbody.appendChild(tr);
         });
     }
@@ -755,6 +842,9 @@ function _subHeaderLabel(month, localIdx) {
     if (_tlMode === "day") {
         return String(localIdx + 1);
     }
+    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
+        return `${month + 1}/${_weekMondayStarts[month][localIdx]}`;
+    }
     const starts = MODE_STARTS[_tlMode];
     return `${month + 1}/${starts[localIdx]}`;
 }
@@ -802,7 +892,7 @@ function createEmptyRow(cat, totalCols, year, holidaySet, todayCol) {
 }
 
 // ---- マーカー行（休日・朝会など、日ごとにマーカーを表示する行） ----
-function createMarkerRow(cat, totalCols, year, holidaySet, todayCol) {
+function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions, catEvents) {
     const tr = document.createElement("tr");
     tr.className = "gs-event-row gs-cat-first-row gs-cat-last-row gs-marker-row";
     tr.dataset.category = cat.id;
@@ -826,18 +916,64 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol) {
     tdEvt.appendChild(evtInner);
     tr.appendChild(tdEvt);
 
-    // マーカー判定関数を取得
-    const shouldMark = _getMarkerPredicate(cat, year, holidaySet);
+    // マーカー判定関数を取得（候補日の判定用）
+    const shouldMark = _getMarkerPredicate(cat, year, holidaySet, exceptions);
+    // イベントがある日を高速検索用にSetで持つ
+    const eventDates = new Set();
+    (catEvents || []).forEach(e => {
+        let d = new Date(e.startDate + "T00:00:00");
+        const end = new Date(e.endDate + "T00:00:00");
+        while (d <= end) {
+            eventDates.add(formatDateYMD(d));
+            d.setDate(d.getDate() + 1);
+        }
+    });
+
+    const isSignedIn = !!getActiveAccount();
 
     for (let c = 0; c < totalCols; c++) {
         const td = createTimelineCell(c, year, holidaySet, todayCol);
-        if (shouldMark(c)) {
+        const result = shouldMark(c);
+        if (result) {
             td.classList.add("gs-marker-cell");
             const marker = document.createElement("span");
             marker.className = "gs-marker";
-            marker.style.color = cat.color;
-            marker.textContent = "●";
+
+            const isHoliday = holidaySet && holidaySet.has(result.dateStr);
+            const hasEvent = eventDates.has(result.dateStr);
+
+            let markerActive;
+            if (isHoliday) {
+                // 祝日 → 常に✕
+                td.classList.add("gs-marker-excluded");
+                marker.textContent = "✕";
+                marker.style.color = "#94a3b8";
+                markerActive = false;
+            } else if (isSignedIn) {
+                // サインイン済み → Outlookイベントの有無で決定
+                if (hasEvent) {
+                    marker.textContent = "●";
+                    marker.style.color = cat.color;
+                    markerActive = true;
+                } else {
+                    td.classList.add("gs-marker-excluded");
+                    marker.textContent = "✕";
+                    marker.style.color = "#94a3b8";
+                    markerActive = false;
+                }
+            } else {
+                // 未サインイン → デフォルト●
+                marker.textContent = "●";
+                marker.style.color = cat.color;
+                markerActive = true;
+            }
             td.appendChild(marker);
+
+            // クリックで簡易モーダルを開く
+            td.style.cursor = "pointer";
+            td.addEventListener("click", () => {
+                openSimpleEventModal(result.dateStr, cat.name, markerActive);
+            });
         }
         tr.appendChild(td);
     }
@@ -845,7 +981,11 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol) {
 }
 
 // マーカー判定関数を返す
-function _getMarkerPredicate(cat, year, holidaySet) {
+// 戻り値: null（マーカーなし）| "active"（通常マーカー）| "excluded"（除外日）
+// dateStr も返す: { status, dateStr }
+function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
+    const exceptSet = new Set((exceptions && exceptions[cat.id]) || []);
+
     if (cat.id === "holiday") {
         // 休日: holidaySetに含まれる日にマーカー
         return (colIdx) => {
@@ -854,43 +994,96 @@ function _getMarkerPredicate(cat, year, holidaySet) {
                 const localIdx = colIdx - _tlColOffsets[month];
                 const dayNum = localIdx + 1;
                 const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayNum).padStart(2, "0")}`;
-                return holidaySet && holidaySet.has(dateStr);
+                if (!(holidaySet && holidaySet.has(dateStr))) return null;
+                return { status: exceptSet.has(dateStr) ? "excluded" : "active", dateStr };
             }
-            // 週・5日モード: 範囲内に祝日があればマーク
             const start = colToStartDate(colIdx, year);
             const end = colToEndDate(colIdx, year);
-            if (!holidaySet) return false;
+            if (!holidaySet) return null;
             const s = parseDateStr(start);
             const e = parseDateStr(end);
             for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-                if (holidaySet.has(formatDateYMD(d))) return true;
+                if (holidaySet.has(formatDateYMD(d))) {
+                    const ds = formatDateYMD(d);
+                    return { status: exceptSet.has(ds) ? "excluded" : "active", dateStr: ds };
+                }
             }
-            return false;
+            return null;
         };
     }
     if (cat.id === "morning_meeting") {
-        // 朝会: 毎週月曜日にマーカー
+        // 朝会: 毎週月曜日にマーカー（除外日チェック付き）
         return (colIdx) => {
             if (_tlMode === "day") {
                 const month = _colToMonth(colIdx);
                 const localIdx = colIdx - _tlColOffsets[month];
                 const dayNum = localIdx + 1;
                 const d = new Date(year, month, dayNum);
-                return d.getDay() === 1; // 月曜
+                if (d.getDay() !== 1) return null;
+                const dateStr = formatDateYMD(d);
+                return { status: exceptSet.has(dateStr) ? "excluded" : "active", dateStr };
             }
-            // 週・5日モード: 範囲内に月曜があればマーク
             const start = colToStartDate(colIdx, year);
             const end = colToEndDate(colIdx, year);
             const s = parseDateStr(start);
             const e = parseDateStr(end);
             for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-                if (d.getDay() === 1) return true;
+                if (d.getDay() === 1) {
+                    const ds = formatDateYMD(d);
+                    return { status: exceptSet.has(ds) ? "excluded" : "active", dateStr: ds };
+                }
             }
-            return false;
+            return null;
         };
     }
     // デフォルト: マーカーなし
-    return () => false;
+    return () => null;
+}
+
+// ---- マーカー除外日の永続化 ----
+function _loadMarkerExceptions(year) {
+    try {
+        const raw = localStorage.getItem(`gyro_marker_exceptions_${year}`);
+        return raw ? JSON.parse(raw) : {};
+    } catch { return {}; }
+}
+function _saveMarkerExceptions(year, exceptions) {
+    try {
+        localStorage.setItem(`gyro_marker_exceptions_${year}`, JSON.stringify(exceptions));
+    } catch (e) { console.warn("除外日の保存に失敗:", e); }
+}
+function _toggleMarkerException(catId, dateStr, year) {
+    const exceptions = _loadMarkerExceptions(year);
+    if (!exceptions[catId]) exceptions[catId] = [];
+    const idx = exceptions[catId].indexOf(dateStr);
+    if (idx >= 0) {
+        exceptions[catId].splice(idx, 1);
+    } else {
+        exceptions[catId].push(dateStr);
+    }
+    _saveMarkerExceptions(year, exceptions);
+    rerenderFromCache();
+}
+
+// 除外リストから指定日を確実に削除（トグルではなく一方向）
+function _removeMarkerException(catId, dateStr, year) {
+    const exceptions = _loadMarkerExceptions(year);
+    if (!exceptions[catId]) return;
+    const idx = exceptions[catId].indexOf(dateStr);
+    if (idx >= 0) {
+        exceptions[catId].splice(idx, 1);
+        _saveMarkerExceptions(year, exceptions);
+    }
+}
+
+// 除外リストに指定日を確実に追加（トグルではなく一方向）
+function _addMarkerException(catId, dateStr, year) {
+    const exceptions = _loadMarkerExceptions(year);
+    if (!exceptions[catId]) exceptions[catId] = [];
+    if (!exceptions[catId].includes(dateStr)) {
+        exceptions[catId].push(dateStr);
+        _saveMarkerExceptions(year, exceptions);
+    }
 }
 
 // ---- イベント行 ----
@@ -898,12 +1091,14 @@ function _getMarkerPredicate(cat, year, holidaySet) {
 // rowSpanはborder-collapse:separateでボーダー整合性の問題を起こすため削除。
 // バッジは先頭行のみ表示し、CSSで非先頭行のborder-bottomを透明にして
 // 視覚的なグループ化を実現。
-function createEventRow(ev, cat, idx, totalInCat, totalCols, year, holidaySet, todayCol) {
+function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidaySet, todayCol) {
+    // evGroup: 同タイトルのイベント配列
+    const primaryEv = evGroup[0];
     const tr = document.createElement("tr");
     tr.className = "gs-event-row";
     tr.dataset.category = cat.id;
     tr.dataset.categoryName = cat.name;
-    tr.dataset.eventId = ev.id;
+    tr.dataset.eventIds = evGroup.map(e => e.id).join(",");
 
     // 全行に個別のカテゴリセルを配置（rowSpan不使用）
     const tdCat = document.createElement("td");
@@ -925,14 +1120,14 @@ function createEventRow(ev, cat, idx, totalInCat, totalCols, year, holidaySet, t
 
     const evtLabel = document.createElement("span");
     evtLabel.className = "gs-evt-label";
-    evtLabel.textContent = ev.title;
-    evtLabel.title = ev.title;
+    evtLabel.textContent = primaryEv.title;
+    evtLabel.title = primaryEv.title;
     evtLabel.setAttribute("role", "button");
     evtLabel.setAttribute("tabindex", "0");
-    evtLabel.setAttribute("aria-label", `${ev.title}を編集（${ev.startDate}〜${ev.endDate}）`);
-    evtLabel.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(ev, cat.name); });
+    evtLabel.setAttribute("aria-label", `${primaryEv.title}を編集`);
+    evtLabel.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(primaryEv, cat.name); });
     evtLabel.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEventModal(ev, cat.name); }
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEventModal(primaryEv, cat.name); }
     });
     evtInner.appendChild(evtLabel);
 
@@ -947,43 +1142,62 @@ function createEventRow(ev, cat, idx, totalInCat, totalCols, year, holidaySet, t
     tdEvt.appendChild(evtInner);
     tr.appendChild(tdEvt);
 
-    const startCol = absCol(ev.startDate);
-    const endCol = absCol(ev.endDate);
+    // 各イベントの startCol/endCol を事前計算
+    const ranges = evGroup.map(ev => ({
+        ev,
+        startCol: absCol(ev.startDate),
+        endCol:   absCol(ev.endDate),
+    }));
 
     for (let c = 0; c < totalCols; c++) {
         const td = createTimelineCell(c, year, holidaySet, todayCol);
-        if (c >= startCol && c <= endCol) {
+        // このカラムにバーがあるイベントを探す
+        const hit = ranges.find(r => c >= r.startCol && c <= r.endCol);
+        if (hit) {
+            const ev = hit.ev;
             td.classList.add("gs-bar-cell");
             td.dataset.bar = "true";
             td.dataset.eventId = ev.id;
             td.style.setProperty("--bar-bg", cat.bg);
             td.style.setProperty("--bar-border", cat.border);
             td.style.setProperty("--bar-color", cat.color);
-            if (c === startCol) {
+            if (c === hit.startCol) {
                 td.dataset.barEdge = "start";
             }
-            if (c === endCol) {
-                td.dataset.barEdge = (c === startCol) ? "both" : "end";
+            if (c === hit.endCol) {
+                td.dataset.barEdge = (c === hit.startCol) ? "both" : "end";
             }
             // バー内部要素
             const barInner = document.createElement("div");
             barInner.className = "gs-bar-inner";
             // リサイズハンドル
-            if (c === startCol) {
+            if (c === hit.startCol) {
                 const handle = document.createElement("div");
                 handle.className = "gs-resize-handle gs-resize-handle-left";
                 barInner.appendChild(handle);
             }
-            if (c === endCol) {
+            if (c === hit.endCol) {
                 const handle = document.createElement("div");
                 handle.className = "gs-resize-handle gs-resize-handle-right";
                 barInner.appendChild(handle);
             }
             td.appendChild(barInner);
 
-            // ポップオーバー: hover リスナー
-            td.addEventListener("mouseenter", () => { PopoverManager.scheduleShow(ev.id, td); });
-            td.addEventListener("mouseleave", () => { PopoverManager.scheduleHide(); });
+            // ポップオーバー + 同一イベントのバーセルのみホバー
+            ((barTd, evId) => {
+                barTd.addEventListener("mouseenter", () => {
+                    PopoverManager.scheduleShow(evId, barTd);
+                    if (!DragManager.active) {
+                        const row = barTd.closest("tr.gs-event-row");
+                        if (row) row.querySelectorAll(`.gs-bar-cell[data-event-id="${evId}"]`).forEach(c => c.classList.add("gs-bar-hover"));
+                    }
+                });
+                barTd.addEventListener("mouseleave", () => {
+                    PopoverManager.scheduleHide();
+                    const row = barTd.closest("tr.gs-event-row");
+                    if (row) row.querySelectorAll(`.gs-bar-cell[data-event-id="${evId}"]`).forEach(c => c.classList.remove("gs-bar-hover"));
+                });
+            })(td, ev.id);
 
             // ポップオーバー: タッチタップ リスナー
             ((barTd, evId) => {
@@ -1012,10 +1226,34 @@ function createEventRow(ev, cat, idx, totalInCat, totalCols, year, holidaySet, t
                     }
                 }, { passive: true });
             })(td, ev.id);
+
+            // バーセルのクリックで編集モーダルを開く
+            ((barTd, evId) => {
+                barTd.addEventListener("click", (e) => {
+                    if (DragManager.started) return;
+                    e.stopPropagation();
+                    PopoverManager.hide();
+                    const evObj = _eventsById[evId];
+                    if (evObj) {
+                        const catName = barTd.closest("tr.gs-event-row")?.dataset.categoryName;
+                        openEventModal(evObj, catName);
+                    }
+                });
+            })(td, ev.id);
+
+            td.dataset.col = c;
+            td.dataset.startCol = hit.startCol;
+            td.dataset.endCol = hit.endCol;
+        } else {
+            td.dataset.col = c;
+            // 空セルクリックでイベント追加モーダルを開く
+            td.style.cursor = "pointer";
+            td.addEventListener("click", () => {
+                const dateStr = colToStartDate(c, year);
+                const eventTitle = evGroup.length > 0 ? evGroup[0].title : null;
+                openEventModal(null, cat.name, dateStr, dateStr, eventTitle);
+            });
         }
-        td.dataset.col = c;
-        td.dataset.startCol = startCol;
-        td.dataset.endCol = endCol;
         tr.appendChild(td);
     }
     return tr;
@@ -1071,7 +1309,7 @@ function setupDragHandlers(table, year) {
         if (!tr) return;
 
         const col = parseInt(td.dataset.col, 10);
-        const eventId = tr.dataset.eventId || null;
+        const eventId = td.dataset.eventId || null;
         const catName = tr.dataset.categoryName || null;
         const evObj = eventId ? _eventsById[eventId] : null;
 
@@ -1100,9 +1338,13 @@ function setupDragHandlers(table, year) {
             );
         } else if (!td.dataset.bar && catName) {
             e.preventDefault();
+            // 行のイベントタイトルを取得（イベント名セルのテキスト）
+            const rowEventIds = (tr.dataset.eventIds || "").split(",").filter(Boolean);
+            const rowTitle = rowEventIds.length > 0 && _eventsById[rowEventIds[0]]
+                ? _eventsById[rowEventIds[0]].title : null;
             DragManager.begin(
                 "create", tr, col, e.clientX, e.clientY,
-                null, null, catName, -1, -1, year
+                null, null, catName, -1, -1, year, rowTitle
             );
         }
     });
@@ -1120,7 +1362,7 @@ function setupDragHandlers(table, year) {
         if (!tr) return;
 
         const col = parseInt(cell.dataset.col, 10);
-        const eventId = tr.dataset.eventId || null;
+        const eventId = cell.dataset.eventId || null;
         const catName = tr.dataset.categoryName || null;
         const evObj = eventId ? _eventsById[eventId] : null;
 
@@ -1179,7 +1421,7 @@ function setupDragHandlers(table, year) {
         if (!result) return;
 
         if (result.action === "create") {
-            onDragCreate(result.categoryName, result.startDate, result.endDate);
+            onDragCreate(result.categoryName, result.startDate, result.endDate, result.eventTitle);
         } else if (result.action === "move" || result.action === "resize") {
             onDragMoveOrResize(result.eventId, result.eventObj, result.startDate, result.endDate);
         }
@@ -1215,7 +1457,7 @@ function setupDragHandlers(table, year) {
         if (!result) return;
 
         if (result.action === "create") {
-            onDragCreate(result.categoryName, result.startDate, result.endDate);
+            onDragCreate(result.categoryName, result.startDate, result.endDate, result.eventTitle);
         } else if (result.action === "move" || result.action === "resize") {
             onDragMoveOrResize(result.eventId, result.eventObj, result.startDate, result.endDate);
         }

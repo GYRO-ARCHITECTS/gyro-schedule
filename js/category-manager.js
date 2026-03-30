@@ -192,6 +192,7 @@ function _executeDuplicate() {
 }
 
 // ---- カテゴリリスト描画（v3: 単一リスト） ----
+// _rawConfig.yearCategories[year] を唯一の情報源として描画する
 function _renderCategoryList() {
     const list = document.getElementById("cat-list");
     list.innerHTML = "";
@@ -199,10 +200,20 @@ function _renderCategoryList() {
     if (!_rawConfig) return;
 
     const year = String(_catManagerYear);
-    const cats = _rawConfig.yearCategories?.[year] || [];
+    if (!_rawConfig.yearCategories[year]) {
+        _rawConfig.yearCategories[year] = [];
+    }
+    const cats = _rawConfig.yearCategories[year];
+
+    // 固定カテゴリが欠落していれば先頭に補完
+    const existingIds = new Set(cats.map(c => c.id));
+    DEFAULT_CATEGORIES.forEach(dc => {
+        if (FIXED_CATEGORY_IDS.has(dc.id) && !existingIds.has(dc.id)) {
+            cats.unshift({ id: dc.id, name: dc.name, color: dc.color });
+        }
+    });
 
     if (cats.length === 0) {
-        // 空の年度: ヒントを表示
         const hint = document.createElement("div");
         hint.className = "cat-empty-hint";
         hint.textContent = "この年度にはカテゴリがありません。追加するか、他の年から複製してください。";
@@ -253,6 +264,14 @@ function _createCategoryRow(id, name, color) {
         }
     });
 
+    const isFixed = FIXED_CATEGORY_IDS.has(id);
+
+    if (isFixed) {
+        nameInput.readOnly = true;
+        nameInput.title = "固定カテゴリのため名前を変更できません";
+        nameInput.style.opacity = "0.7";
+    }
+
     const removeBtn = document.createElement("button");
     removeBtn.type = "button";
     removeBtn.className = "cat-manager-remove";
@@ -260,6 +279,10 @@ function _createCategoryRow(id, name, color) {
     removeBtn.title = "削除";
     removeBtn.textContent = "\u2715";
     removeBtn.addEventListener("click", () => { row.remove(); });
+
+    if (isFixed) {
+        removeBtn.style.display = "none";
+    }
 
     row.appendChild(colorBtn);
     row.appendChild(nameInput);
@@ -370,7 +393,13 @@ async function _saveCategoryChanges() {
         return;
     }
 
-    // 空でもOK（その年のカテゴリを全削除可能）
+    // 固定カテゴリが欠落していたら自動補完
+    const savedIds = new Set(newCategories.map(c => c.id));
+    DEFAULT_CATEGORIES.forEach(dc => {
+        if (FIXED_CATEGORY_IDS.has(dc.id) && !savedIds.has(dc.id)) {
+            newCategories.unshift({ id: dc.id, name: dc.name, color: dc.color });
+        }
+    });
 
     // 保存処理
     const saveBtn = document.getElementById("cat-manager-save");

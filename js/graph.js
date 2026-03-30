@@ -59,7 +59,7 @@ async function fetchCalendarEvents(accessToken, year) {
         startDateTime,
         endDateTime,
         $top: "250",
-        $select: "subject,start,end,categories,isAllDay,showAs,bodyPreview,location",
+        $select: "id,type,seriesMasterId,subject,start,end,categories,isAllDay,showAs,bodyPreview,location",
         $orderby: "start/dateTime",
     });
 
@@ -88,7 +88,10 @@ async function fetchCalendarEvents(accessToken, year) {
         nextUrl = data["@odata.nextLink"] || null;
     }
 
-    return normalizeEvents(allEvents);
+    const normalized = normalizeEvents(allEvents);
+    // 生データ（normalizeEvents前）のcategoriesを保持（移行処理用）
+    normalized._rawGraphEvents = allEvents;
+    return normalized;
 }
 
 // ========================================
@@ -255,11 +258,26 @@ function normalizeEvents(graphEvents) {
 
         return {
             id: event.id,
+            graphType: event.type || "singleInstance", // "singleInstance" | "occurrence" | "seriesMaster"
+            seriesMasterId: event.seriesMasterId || null,
             title: event.subject || "(無題)",
             startDate,
             endDate,
             isAllDay: event.isAllDay,
-            categories: event.categories || [],
+            categories: (function() {
+                const rawCats = event.categories || [];
+                // Outlook色カテゴリを除外してアプリカテゴリのみ返す
+                const appCats = rawCats.filter(c => !OUTLOOK_COLOR_CATS.has(c));
+                if (appCats.length > 0) return appCats;
+                // フォールバック: Outlook色カテゴリのみの場合（旧データ）
+                if (rawCats.length > 0) {
+                    const colorCat = rawCats[0];
+                    if (colorCat === "Blue category") return ["朝会"];
+                    if (colorCat === "Purple category") return ["GYRO休み"];
+                    if (OUTLOOK_COLOR_CATS.has(colorCat)) return []; // 未分類として扱う
+                }
+                return rawCats;
+            })(),
             showAs: event.showAs,
             bodyPreview: event.bodyPreview || "",
             location: event.location?.displayName || "",
@@ -294,18 +312,26 @@ async function createCalendarEvent(accessToken, eventData) {
 
 // ---- 書き込み: イベント更新 ----
 async function updateCalendarEvent(accessToken, eventId, eventData) {
-    const baseUrl = await getCalendarBaseUrl(accessToken, "calendar/events");
     const body = buildEventBody(eventData);
+    const headers = {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+        Prefer: 'outlook.timezone="Asia/Tokyo"',
+    };
 
-    const response = await fetch(`${baseUrl}/${eventId}`, {
-        method: "PATCH",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "Content-Type": "application/json",
-            Prefer: 'outlook.timezone="Asia/Tokyo"',
-        },
-        body: JSON.stringify(body),
+    // calendar/events を最優先（グループカレンダー + calendarView IDと互換性高い）
+    const calEventsUrl = await getCalendarBaseUrl(accessToken, "calendar/events");
+    let response = await fetch(`${calEventsUrl}/${eventId}`, {
+        method: "PATCH", headers, body: JSON.stringify(body),
     });
+
+    // 404 → events エンドポイントでフォールバック
+    if (response.status === 404) {
+        const eventsUrl = await getCalendarBaseUrl(accessToken, "events");
+        response = await fetch(`${eventsUrl}/${eventId}`, {
+            method: "PATCH", headers, body: JSON.stringify(body),
+        });
+    }
 
     if (!response.ok) {
         const errorBody = await response.json().catch(() => ({}));
@@ -317,13 +343,23 @@ async function updateCalendarEvent(accessToken, eventId, eventData) {
 }
 
 // ---- 書き込み: イベント削除 ----
+// グループカレンダーでは calendar/events が正しいパス
+// フォールバック: calendar/events → events
 async function deleteCalendarEvent(accessToken, eventId) {
-    const baseUrl = await getCalendarBaseUrl(accessToken, "calendar/events");
+    console.log("[DELETE] eventId:", eventId);
+    const headers = { Authorization: `Bearer ${accessToken}` };
 
-    const response = await fetch(`${baseUrl}/${eventId}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    // 1. calendar/events を最優先（グループカレンダー + calendarView IDと互換性高い）
+    const calEventsUrl = await getCalendarBaseUrl(accessToken, "calendar/events");
+    let response = await fetch(`${calEventsUrl}/${eventId}`, { method: "DELETE", headers });
+    console.log("[DELETE] calendar/events:", response.status);
+
+    // 2. 404 → events エンドポイントでフォールバック
+    if (response.status === 404) {
+        const eventsUrl = await getCalendarBaseUrl(accessToken, "events");
+        response = await fetch(`${eventsUrl}/${eventId}`, { method: "DELETE", headers });
+        console.log("[DELETE] events fallback:", response.status);
+    }
 
     if (!response.ok && response.status !== 204) {
         const errorBody = await response.json().catch(() => ({}));
@@ -332,6 +368,21 @@ async function deleteCalendarEvent(accessToken, eventId) {
     }
 
     return true;
+}
+
+// ---- デュアルカテゴリ方式 ----
+// Outlook色カテゴリ（定義済み）の一覧
+const OUTLOOK_COLOR_CATS = new Set([
+    "Blue category", "Green category", "Orange category",
+    "Purple category", "Red category", "Yellow category",
+    "None",
+]);
+
+// アプリカテゴリ名 → Outlook色カテゴリを返す
+function _getOutlookColorCategory(appCatName) {
+    if (appCatName === "朝会") return "Blue category";
+    if (appCatName === "GYRO休み") return "Purple category";
+    return "Red category";
 }
 
 // ---- ヘルパー: Graph API用のイベントボディ構築 ----
@@ -351,9 +402,10 @@ function buildEventBody(eventData) {
         showAs: "free",
     };
 
-    // カテゴリ
+    // デュアルカテゴリ: [Outlook色カテゴリ, アプリカテゴリ名]
     if (eventData.category) {
-        body.categories = [eventData.category];
+        const colorCat = _getOutlookColorCategory(eventData.category);
+        body.categories = [colorCat, eventData.category];
     }
 
     // メモ
@@ -365,4 +417,133 @@ function buildEventBody(eventData) {
     }
 
     return body;
+}
+
+// ========================================
+// Outlookカテゴリ色同期
+// ========================================
+
+// Outlookプリセット色とHex値のマッピング
+const OUTLOOK_PRESETS = [
+    { name: "preset0",  hex: "#e7a1a2" }, // Red
+    { name: "preset1",  hex: "#f9ba89" }, // Orange
+    { name: "preset2",  hex: "#f7dd8f" }, // Brown/Peach
+    { name: "preset3",  hex: "#fcfa90" }, // Yellow
+    { name: "preset4",  hex: "#78d168" }, // Green
+    { name: "preset5",  hex: "#9fdcc9" }, // Teal
+    { name: "preset6",  hex: "#c6d2b0" }, // Olive
+    { name: "preset7",  hex: "#9db7e8" }, // Blue
+    { name: "preset8",  hex: "#b5a1e2" }, // Purple
+    { name: "preset9",  hex: "#daaec2" }, // Cranberry
+    { name: "preset10", hex: "#dad9dc" }, // Steel
+    { name: "preset11", hex: "#6b7994" }, // DarkSteel
+    { name: "preset12", hex: "#bfbfbf" }, // Gray
+    { name: "preset13", hex: "#6f6f6f" }, // DarkGray
+    { name: "preset14", hex: "#4f4f4f" }, // Black
+    { name: "preset15", hex: "#c11a25" }, // DarkRed
+    { name: "preset16", hex: "#e2620d" }, // DarkOrange
+    { name: "preset17", hex: "#c79930" }, // DarkBrown
+    { name: "preset18", hex: "#b9b300" }, // DarkYellow
+    { name: "preset19", hex: "#368f20" }, // DarkGreen
+    { name: "preset20", hex: "#329b7a" }, // DarkTeal
+    { name: "preset21", hex: "#778b45" }, // DarkOlive
+    { name: "preset22", hex: "#2858a5" }, // DarkBlue
+    { name: "preset23", hex: "#5c3fa3" }, // DarkPurple
+    { name: "preset24", hex: "#93446b" }, // DarkCranberry
+];
+
+function _hexToRgb(hex) {
+    const h = hex.replace("#", "");
+    return [parseInt(h.substring(0, 2), 16), parseInt(h.substring(2, 4), 16), parseInt(h.substring(4, 6), 16)];
+}
+
+function _closestPreset(hexColor) {
+    const [r, g, b] = _hexToRgb(hexColor);
+    let best = "preset7";
+    let bestDist = Infinity;
+    for (const p of OUTLOOK_PRESETS) {
+        const [pr, pg, pb] = _hexToRgb(p.hex);
+        const dist = (r - pr) ** 2 + (g - pg) ** 2 + (b - pb) ** 2;
+        if (dist < bestDist) { bestDist = dist; best = p.name; }
+    }
+    return best;
+}
+
+// Outlookカテゴリ色の明示的マッピング
+function _getOutlookPreset(catName) {
+    if (catName === "朝会") return "preset7";        // Blue
+    if (catName === "GYRO休み") return "preset23";    // DarkPurple
+    return "preset0";                                  // Red（それ以外すべて）
+}
+
+// Outlookのマスターカテゴリリストにブラウザ側の色を同期
+async function syncOutlookCategoryColors(accessToken, categories) {
+    const baseUrl = "https://graph.microsoft.com/v1.0/me/outlook/masterCategories";
+
+    // 1. 既存のマスターカテゴリを取得
+    let existing = [];
+    try {
+        const res = await fetch(baseUrl, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        if (res.ok) {
+            const data = await res.json();
+            existing = data.value || [];
+        }
+    } catch (e) {
+        console.warn("[カテゴリ色同期] マスターカテゴリ取得失敗:", e.message);
+        return;
+    }
+
+    const existingMap = new Map(existing.map(c => [c.displayName, c]));
+
+    // 2. 各カテゴリを同期（明示的な色マッピング）
+    for (const cat of categories) {
+        const presetColor = _getOutlookPreset(cat.name);
+        const existingCat = existingMap.get(cat.name);
+
+        try {
+            if (existingCat) {
+                // 既存 → 色が違えば更新
+                if (existingCat.color !== presetColor) {
+                    console.log(`[カテゴリ色同期] "${cat.name}" 更新: ${existingCat.color} → ${presetColor}`);
+                    const res = await fetch(`${baseUrl}/${encodeURIComponent(existingCat.id)}`, {
+                        method: "PATCH",
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ color: presetColor }),
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        console.warn(`[カテゴリ色同期] "${cat.name}" 更新失敗 (${res.status}):`, err?.error?.message);
+                    } else {
+                        console.log(`[カテゴリ色同期] "${cat.name}" 更新成功`);
+                    }
+                } else {
+                    console.log(`[カテゴリ色同期] "${cat.name}" 変更なし (${presetColor})`);
+                }
+            } else {
+                // 新規 → 作成
+                console.log(`[カテゴリ色同期] "${cat.name}" 新規作成: ${presetColor}`);
+                const res = await fetch(baseUrl, {
+                    method: "POST",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ displayName: cat.name, color: presetColor }),
+                });
+                if (!res.ok) {
+                    const err = await res.json().catch(() => ({}));
+                    console.warn(`[カテゴリ色同期] "${cat.name}" 作成失敗 (${res.status}):`, err?.error?.message);
+                }
+            }
+        } catch (e) {
+            console.warn(`[カテゴリ色同期] "${cat.name}" の同期失敗:`, e.message);
+        }
+    }
+
+    console.log(`[カテゴリ色同期] ${categories.length}件のカテゴリ色を同期しました`);
 }

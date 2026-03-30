@@ -69,6 +69,19 @@ async function getAccessToken() {
     }
 }
 
+// サイレント専用トークン取得（ポップアップを開かない）
+// 権限がなければ null を返す
+async function getAccessTokenSilentOnly(scopes) {
+    const account = getActiveAccount();
+    if (!account) return null;
+    try {
+        const response = await msalInstance.acquireTokenSilent({ scopes, account });
+        return response.accessToken;
+    } catch {
+        return null;
+    }
+}
+
 async function signOut() {
     const account = getActiveAccount();
     if (account) {
