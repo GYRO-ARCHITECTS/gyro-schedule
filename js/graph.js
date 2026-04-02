@@ -110,6 +110,7 @@ async function fetchCategoryConfig(accessToken) {
         $top: "1",
     });
 
+    let configEventId = null;
     try {
         const response = await fetch(`${baseUrl}?${params.toString()}`, {
             headers: { Authorization: `Bearer ${accessToken}` },
@@ -121,20 +122,25 @@ async function fetchCategoryConfig(accessToken) {
         if (!data.value || data.value.length === 0) return null;
 
         const configEvent = data.value[0];
+        configEventId = configEvent.id; // パース前にIDを保存
         const bodyContent = configEvent.body?.content || "";
 
         // HTMLタグ除去（Graph APIはtext/htmlで返す場合がある）
         const cleanContent = bodyContent.replace(/<[^>]*>/g, "").trim();
-        if (!cleanContent) return null;
+        if (!cleanContent) {
+            return { configEventId, rawConfig: { version: 3, yearCategories: {} } };
+        }
 
         const parsed = JSON.parse(cleanContent);
 
         // v1 → v3 マイグレーション
         if (!parsed.version || parsed.version === 1) {
-            if (!parsed.categories || !Array.isArray(parsed.categories)) return null;
+            if (!parsed.categories || !Array.isArray(parsed.categories)) {
+                return { configEventId, rawConfig: { version: 3, yearCategories: {} } };
+            }
             const thisYear = String(new Date().getFullYear());
             return {
-                configEventId: configEvent.id,
+                configEventId,
                 rawConfig: {
                     version: 3,
                     yearCategories: { [thisYear]: parsed.categories },
@@ -148,7 +154,6 @@ async function fetchCategoryConfig(accessToken) {
             const overrides = parsed.yearOverrides || {};
             const yearCategories = {};
 
-            // yearOverrides に記録されている年度を変換
             for (const [yr, ov] of Object.entries(overrides)) {
                 const hidden = new Set(ov.hidden || []);
                 const filtered = base.filter(c => !hidden.has(c.id));
@@ -158,7 +163,6 @@ async function fetchCategoryConfig(accessToken) {
                 }));
             }
 
-            // 現在の年度が無ければ base をそのままコピー
             const thisYear = String(new Date().getFullYear());
             if (!yearCategories[thisYear]) {
                 yearCategories[thisYear] = base.map(c => ({
@@ -166,23 +170,21 @@ async function fetchCategoryConfig(accessToken) {
                 }));
             }
 
-            return {
-                configEventId: configEvent.id,
-                rawConfig: { version: 3, yearCategories },
-            };
+            return { configEventId, rawConfig: { version: 3, yearCategories } };
         }
 
         // v3: そのまま返す
         if (parsed.version === 3 && parsed.yearCategories) {
-            return {
-                configEventId: configEvent.id,
-                rawConfig: parsed,
-            };
+            return { configEventId, rawConfig: parsed };
         }
 
-        return null;
+        return { configEventId, rawConfig: { version: 3, yearCategories: {} } };
     } catch (e) {
         console.warn("Config Event parse error:", e);
+        // パースエラーでもIDを返す（既存を上書きできるように）
+        if (configEventId) {
+            return { configEventId, rawConfig: { version: 3, yearCategories: {} } };
+        }
         return null;
     }
 }
