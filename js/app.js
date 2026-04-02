@@ -1328,17 +1328,17 @@ async function loadCalendar() {
                 };
             }
 
-            // GitHubトークン: Config Event → グローバル変数にセット
-            // localStorageにトークンがあり、Config Eventにない場合は自動移行
+            // GitHubトークン: Config Event or localStorage から取得
             const localGhToken = localStorage.getItem("ghToken");
+            const ghToken = _rawConfig.ghToken || localGhToken || "";
             if (localGhToken && !_rawConfig.ghToken) {
+                // Config Eventにも保存（他ユーザー用）。localStorageは削除しない
                 _rawConfig.ghToken = localGhToken;
                 saveCategoryConfig(token, _rawConfig, _configEventId).then(() => {
-                    localStorage.removeItem("ghToken");
-                    console.log("[GitHub公開] トークンをConfig Eventに移行しました");
-                }).catch(e => console.warn("[GitHub公開] トークン移行失敗:", e.message));
+                    console.log("[GitHub公開] トークンをConfig Eventにも保存しました");
+                }).catch(e => console.warn("[GitHub公開] トークン保存失敗:", e.message));
             }
-            window._ghTokenFromConfig = _rawConfig.ghToken || "";
+            window._ghTokenFromConfig = ghToken;
         }
         // 当年のカテゴリが無ければデフォルトをセット
         if (!_rawConfig.yearCategories[String(year)]) {
