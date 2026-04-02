@@ -553,6 +553,8 @@ async function syncOutlookCategoryColors(accessToken, categories) {
 // ========================================
 // GitHub自動公開: data/events.json を更新
 // ========================================
+let _lastGitHubSha = null; // 最新のSHAをキャッシュ
+
 async function publishEventsToGitHub(events, categories, year) {
     const { owner, repo, branch, path, token } = githubConfig;
     if (!token) {
@@ -565,19 +567,21 @@ async function publishEventsToGitHub(events, categories, year) {
         "Content-Type": "application/json",
     };
 
-    // 1. 既存ファイルのSHAを取得（更新にはSHAが必要）
-    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
-    let sha = null;
+    // 1. SHAを取得（キャッシュがなければAPIから取得）
+    let sha = _lastGitHubSha;
     let existingData = { lastUpdated: null, years: {} };
-    try {
-        const getRes = await fetch(getUrl, { headers: { Authorization: `token ${token}` } });
-        if (getRes.ok) {
-            const fileData = await getRes.json();
-            sha = fileData.sha;
-            existingData = JSON.parse(atob(fileData.content));
+    if (!sha) {
+        const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
+        try {
+            const getRes = await fetch(getUrl, { headers: { Authorization: `token ${token}` } });
+            if (getRes.ok) {
+                const fileData = await getRes.json();
+                sha = fileData.sha;
+                existingData = JSON.parse(atob(fileData.content));
+            }
+        } catch (e) {
+            console.warn("[GitHub公開] 既存ファイル取得失敗:", e.message);
         }
-    } catch (e) {
-        console.warn("[GitHub公開] 既存ファイル取得失敗:", e.message);
     }
 
     // 2. 現在年度のデータを更新
@@ -615,9 +619,12 @@ async function publishEventsToGitHub(events, categories, year) {
     });
 
     if (putRes.ok) {
+        const result = await putRes.json();
+        _lastGitHubSha = result.content?.sha || null; // 最新SHAをキャッシュ
         console.log("[GitHub公開] events.json を更新しました");
     } else {
         const err = await putRes.json().catch(() => ({}));
         console.warn("[GitHub公開] 更新失敗:", putRes.status, err.message || "");
+        _lastGitHubSha = null; // SHAをリセットして次回APIから再取得
     }
 }
