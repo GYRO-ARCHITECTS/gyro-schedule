@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-02T12:54:21.841Z",
+  "lastUpdated": "2026-04-02T13:01:40.074Z",
   "years": {
     "2026": {
       "events": [
@@ -188,6 +188,16 @@
           "title": "あああ",
           "startDate": "2026-04-07",
           "endDate": "2026-04-07",
+          "categories": [
+            "ああああ"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPSgAAAA==",
+          "title": "あああ",
+          "startDate": "2026-04-11",
+          "endDate": "2026-04-11",
           "categories": [
             "ああああ"
           ],
