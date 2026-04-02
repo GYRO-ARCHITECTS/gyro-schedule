@@ -125,8 +125,11 @@ async function fetchCategoryConfig(accessToken) {
         configEventId = configEvent.id; // パース前にIDを保存
         const bodyContent = configEvent.body?.content || "";
 
-        // HTMLタグ除去（Graph APIはtext/htmlで返す場合がある）
-        const cleanContent = bodyContent.replace(/<[^>]*>/g, "").trim();
+        // HTMLタグ除去 + HTMLエンティティをデコード（Graph APIはtext/htmlで返す場合がある）
+        const tagStripped = bodyContent.replace(/<[^>]*>/g, "").trim();
+        const textarea = document.createElement("textarea");
+        textarea.innerHTML = tagStripped;
+        const cleanContent = textarea.value.trim();
         if (!cleanContent) {
             return { configEventId, rawConfig: { version: 3, yearCategories: {} } };
         }
