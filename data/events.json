@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-02T10:29:26.252Z",
+  "lastUpdated": "2026-04-02T12:45:38.281Z",
   "years": {
     "2026": {
       "events": [
@@ -160,6 +160,16 @@
           "endDate": "2026-04-02",
           "categories": [
             "その他"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPOwAAAA==",
+          "title": "あああ",
+          "startDate": "2026-04-02",
+          "endDate": "2026-04-02",
+          "categories": [
+            "ああああ"
           ],
           "bodyPreview": ""
         },
@@ -544,6 +554,11 @@
           "id": "auto_その他",
           "name": "その他",
           "color": "#22c55e"
+        },
+        {
+          "id": "auto_ああああ",
+          "name": "ああああ",
+          "color": "#a855f7"
         }
       ]
     }
