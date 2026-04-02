@@ -1365,6 +1365,11 @@ async function loadCalendar() {
         // localStorageに公開用キャッシュを保存（未サインイン時に使用）
         _saveEventsToLocalStorage(year, graphEvents, CATEGORIES);
 
+        // GitHubに公開データを自動更新（バックグラウンド、エラーは無視）
+        publishEventsToGitHub(graphEvents, CATEGORIES, year).catch(e =>
+            console.warn("[GitHub公開]", e.message)
+        );
+
         hideStatus();
         renderLegend();
 

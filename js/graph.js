@@ -547,3 +547,75 @@ async function syncOutlookCategoryColors(accessToken, categories) {
 
     console.log(`[カテゴリ色同期] ${categories.length}件のカテゴリ色を同期しました`);
 }
+
+// ========================================
+// GitHub自動公開: data/events.json を更新
+// ========================================
+async function publishEventsToGitHub(events, categories, year) {
+    const { owner, repo, branch, path, token } = githubConfig;
+    if (!token) {
+        console.log("[GitHub公開] トークン未設定。スキップ。");
+        return;
+    }
+
+    const headers = {
+        Authorization: `token ${token}`,
+        "Content-Type": "application/json",
+    };
+
+    // 1. 既存ファイルのSHAを取得（更新にはSHAが必要）
+    const getUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
+    let sha = null;
+    let existingData = { lastUpdated: null, years: {} };
+    try {
+        const getRes = await fetch(getUrl, { headers: { Authorization: `token ${token}` } });
+        if (getRes.ok) {
+            const fileData = await getRes.json();
+            sha = fileData.sha;
+            existingData = JSON.parse(atob(fileData.content));
+        }
+    } catch (e) {
+        console.warn("[GitHub公開] 既存ファイル取得失敗:", e.message);
+    }
+
+    // 2. 現在年度のデータを更新
+    existingData.years[String(year)] = {
+        events: events.map(e => ({
+            id: e.id,
+            title: e.title,
+            startDate: e.startDate,
+            endDate: e.endDate,
+            categories: e.categories || [],
+            bodyPreview: e.bodyPreview || "",
+        })),
+        categories: categories.map(c => ({
+            id: c.id,
+            name: c.name,
+            color: c.color,
+        })),
+    };
+    existingData.lastUpdated = new Date().toISOString();
+
+    // 3. GitHub Contents APIでコミット
+    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(existingData, null, 2))));
+    const body = {
+        message: `auto: update events.json (${new Date().toLocaleDateString("ja-JP")})`,
+        content,
+        branch,
+    };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(putUrl, {
+        method: "PUT",
+        headers,
+        body: JSON.stringify(body),
+    });
+
+    if (putRes.ok) {
+        console.log("[GitHub公開] events.json を更新しました");
+    } else {
+        const err = await putRes.json().catch(() => ({}));
+        console.warn("[GitHub公開] 更新失敗:", putRes.status, err.message || "");
+    }
+}

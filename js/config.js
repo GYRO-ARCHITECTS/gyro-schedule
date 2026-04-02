@@ -22,6 +22,16 @@ const graphConfig = {
     year: new Date().getFullYear(),
 };
 
+// GitHub自動公開設定
+// トークンはlocalStorageから読み取り（コンソールで設定: localStorage.setItem("ghToken","ghp_xxx")）
+const githubConfig = {
+    owner: "GYRO-ARCHITECTS",
+    repo: "gyro-schedule",
+    branch: "main",
+    path: "data/events.json",
+    get token() { return localStorage.getItem("ghToken") || ""; },
+};
+
 // ========================================
 // カラーユーティリティ
 // ========================================
