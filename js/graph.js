@@ -558,8 +558,11 @@ async function syncOutlookCategoryColors(accessToken, categories) {
 // ========================================
 async function _fetchGitHubFile(token) {
     const { owner, repo, branch, path } = githubConfig;
-    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}`;
-    const res = await fetch(url, { headers: { Authorization: `token ${token}` } });
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&_t=${Date.now()}`;
+    const res = await fetch(url, {
+        headers: { Authorization: `token ${token}`, "If-None-Match": "" },
+        cache: "no-store",
+    });
     if (!res.ok) return { sha: null, data: { lastUpdated: null, years: {} } };
     const fileData = await res.json();
     const data = JSON.parse(atob(fileData.content));
