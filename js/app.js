@@ -886,6 +886,7 @@ async function handleSimpleSave() {
             closeSimpleModal();
             rerenderFromCache();
             announceStatus(`「${title}」を更新しました`);
+            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
         } else {
             // Outlookにイベントを新規作成 → キャッシュ追加 → rerender で自動的に●になる
             const created = await createCalendarEvent(token, eventData);
@@ -902,6 +903,7 @@ async function handleSimpleSave() {
             rerenderFromCache();
             closeSimpleModal();
             announceStatus(`「${title}」を追加しました`);
+            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
         }
     } catch (error) {
         console.error("Simple save failed:", error);
@@ -935,6 +937,7 @@ async function handleSimpleDelete() {
         document.getElementById("simple-modal-save")?.focus();
         closeSimpleModal();
         announceStatus(`「${deletedTitle}」を削除しました`);
+        publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
     } catch (error) {
         console.error("Simple delete failed:", error);
         const errSpan = document.querySelector('[data-field="simple-title"] .form-error');
@@ -1027,6 +1030,7 @@ async function handleSaveEvent(continueAdding) {
             closeModal();
             rerenderFromCache();
             announceStatus(`「${title}」を更新しました`);
+            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
         } else {
             // --- 新規：API の戻り値からイベントIDを取得する必要がある ---
             const created = await createCalendarEvent(token, eventData);
@@ -1054,6 +1058,7 @@ async function handleSaveEvent(continueAdding) {
                 rerenderFromCache();
                 announceStatus(`「${title}」を追加しました`);
             }
+            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
         }
     } catch (error) {
         console.error("Save event failed:", error);
@@ -1085,6 +1090,7 @@ async function handleDeleteEvent() {
         closeModal();
         rerenderFromCache();
         announceStatus(`「${deletedTitle}」を削除しました`);
+        publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
     } catch (error) {
         console.error("Delete event failed:", error);
         _hideDeleteConfirm();
