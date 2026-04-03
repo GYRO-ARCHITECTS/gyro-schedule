@@ -606,7 +606,7 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         deleteBtn.style.display = "none";
         saveNextBtn.style.display = "inline-block";
         titleFormGroup.style.display = "";
-        catFormGroup.style.display = "";
+        catFormGroup.style.display = "none"; // カテゴリは確定済み
         subEventGroup.style.display = ""; // サブイベント名フィールドを表示
         _updateCategoryPreview(catVal);
     }
@@ -991,8 +991,12 @@ async function handleSaveEvent(continueAdding) {
     // サブイベント名がある場合: "イベント名_サブイベント名" 形式でOutlookに保存
     const title = subName ? baseTitle + "_" + subName : baseTitle;
     const category = document.getElementById("evt-category").value;
-    const startDate = document.getElementById("evt-start").value;
-    const endDate = document.getElementById("evt-end").value;
+    const rawStart = document.getElementById("evt-start").value;
+    const rawEnd = document.getElementById("evt-end").value;
+    // 日付未入力時は今日をデフォルト
+    const today = new Date().toISOString().split("T")[0];
+    const startDate = rawStart || today;
+    const endDate = rawEnd || rawStart || today;
     const notes = document.getElementById("evt-notes").value.trim();
 
     // エラーをクリアしてからバリデーション
@@ -1005,16 +1009,7 @@ async function handleSaveEvent(continueAdding) {
         if (!firstErrorField) firstErrorField = "evt-title";
         hasError = true;
     }
-    if (!startDate) {
-        _setFieldError("start", "開始日を入力してください");
-        if (!firstErrorField) firstErrorField = "evt-start";
-        hasError = true;
-    }
-    if (!endDate) {
-        _setFieldError("end", "終了日を入力してください");
-        if (!firstErrorField) firstErrorField = "evt-end";
-        hasError = true;
-    }
+    // 日付は任意（未入力の場合は今日をデフォルトに）
     if (startDate && endDate && startDate > endDate) {
         _setFieldError("end", "終了日は開始日以降にしてください");
         if (!firstErrorField) firstErrorField = "evt-end";
