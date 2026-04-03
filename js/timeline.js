@@ -6,7 +6,7 @@
 // ========================================
 const ROW_HEIGHT = 36;
 const FIXED_COL_WIDTH_CAT = 120;
-const FIXED_COL_WIDTH_EVT = 200;
+const FIXED_COL_WIDTH_EVT = 250;
 const FIXED_COLS_TOTAL = FIXED_COL_WIDTH_CAT + FIXED_COL_WIDTH_EVT;
 const MONTH_NAMES = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 const RESIZE_ZONE_PX = 10;
