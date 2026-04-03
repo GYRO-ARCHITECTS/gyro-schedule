@@ -558,6 +558,7 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     const catFormGroup = document.querySelector('.form-group[data-field="category"]');
     const subEventGroup = document.getElementById("sub-event-group");
     const subNameEl = document.getElementById("evt-sub-name");
+    const titleLabelEl = document.getElementById("evt-title-label");
 
     if (event) {
         titleEl.textContent = "イベント編集";
@@ -577,10 +578,12 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         saveNextBtn.style.display = "none";
         titleFormGroup.style.display = "none";
         catFormGroup.style.display = "none";
-        subEventGroup.style.display = ""; // サブイベント名フィールドを表示
+        subEventGroup.style.display = "";
+        titleLabelEl.textContent = parentTitle;
+        titleLabelEl.style.display = "";
         _updateCategoryPreview(catVal);
     } else if (presetTitle) {
-        // セルクリック/ドラッグ: タイトルとカテゴリが確定済み
+        // セルクリック/ドラッグ/＋ボタン: タイトルとカテゴリが確定済み
         titleEl.textContent = "イベント追加";
         document.getElementById("evt-title").value = presetTitle;
         const catVal = categoryName || CATEGORIES[0].name;
@@ -594,7 +597,9 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         saveNextBtn.style.display = "none";
         titleFormGroup.style.display = "none";
         catFormGroup.style.display = "none";
-        subEventGroup.style.display = ""; // サブイベント名フィールドを表示
+        subEventGroup.style.display = "";
+        titleLabelEl.textContent = presetTitle;
+        titleLabelEl.style.display = "";
         _updateCategoryPreview(catVal);
         _presetTitleMode = true;
     } else {
@@ -611,6 +616,7 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         deleteBtn.style.display = "none";
         saveNextBtn.style.display = "inline-block";
         titleFormGroup.style.display = "";
+        titleLabelEl.style.display = "none";
         catFormGroup.style.display = "none"; // カテゴリは確定済み
         subEventGroup.style.display = ""; // サブイベント名フィールドを表示
         _updateCategoryPreview(catVal);
