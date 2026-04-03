@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T09:42:13.082Z",
+  "lastUpdated": "2026-04-03T09:42:41.689Z",
   "years": {
     "2026": {
       "events": [
@@ -658,6 +658,16 @@
           "title": "グッドデザイン賞_二次審査情報_登録期間",
           "startDate": "2026-06-30",
           "endDate": "2026-07-07",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPcQAAAA==",
+          "title": "グッドデザイン賞_二次審査結果",
+          "startDate": "2026-08-25",
+          "endDate": "2026-08-25",
           "categories": [
             "アワード"
           ],
