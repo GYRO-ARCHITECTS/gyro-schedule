@@ -568,10 +568,16 @@ async function _fetchGitHubFile(token) {
     });
     if (!res.ok) return { sha: null, data: { lastUpdated: null, years: {} } };
     const fileData = await res.json();
+    console.log("[GitHub公開] ファイル取得成功, sha:", fileData.sha, "size:", fileData.size);
     // GitHub APIはbase64に改行を含むため除去してからデコード
-    const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ""))));
-    const data = JSON.parse(decoded);
-    return { sha: fileData.sha, data };
+    try {
+        const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ""))));
+        const data = JSON.parse(decoded);
+        return { sha: fileData.sha, data };
+    } catch (e) {
+        console.warn("[GitHub公開] コンテンツデコード失敗:", e.message);
+        return { sha: fileData.sha, data: { lastUpdated: null, years: {} } };
+    }
 }
 
 async function publishEventsToGitHub(events, categories, year) {
