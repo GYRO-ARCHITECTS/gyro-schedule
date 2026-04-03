@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T09:19:00.892Z",
+  "lastUpdated": "2026-04-03T09:27:59.434Z",
   "years": {
     "2026": {
       "events": [
@@ -669,6 +669,11 @@
           "id": "mnig0pvgrp9z",
           "name": "対外発信",
           "color": "#dc2626"
+        },
+        {
+          "id": "mnipa99fm631",
+          "name": "社内勉強会",
+          "color": "#6366f1"
         }
       ]
     },
