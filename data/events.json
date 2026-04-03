@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T00:35:51.300Z",
+  "lastUpdated": "2026-04-03T00:35:56.437Z",
   "years": {
     "2026": {
       "events": [
@@ -580,6 +580,16 @@
           "endDate": "2026-12-28",
           "categories": [
             "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPUQAAAA==",
+          "title": "あああ",
+          "startDate": "2026-04-09",
+          "endDate": "2026-04-09",
+          "categories": [
+            "ああああ"
           ],
           "bodyPreview": ""
         }
