@@ -417,9 +417,11 @@ body { display:flex; flex-direction:column; }
 .gs-table[data-mode="day"] .gs-resize-handle { width:14px; }
 th.gs-month-end { border-right:2px solid var(--color-navy-400)!important; }
 td.gs-month-end { border-right:1px solid var(--color-navy-200)!important; }
+td.gs-month-end.gs-bar-cell { border-right-color:transparent!important; }
 
 .gs-bar-cell {
     cursor:grab; position:relative; isolation:isolate;
+    border-color:transparent!important;
     border-radius:0;
     padding:0;
     transition: filter var(--duration-fast),
