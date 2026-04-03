@@ -575,8 +575,8 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         subNameEl.value = "";
         _updateCategoryPreview(catVal);
     } else if (presetTitle) {
-        // セルクリック/ドラッグ: タイトルとカテゴリが確定済み → サブイベント名入力
-        titleEl.textContent = "サブイベント追加";
+        // セルクリック/ドラッグ: タイトルとカテゴリが確定済み
+        titleEl.textContent = "イベント追加";
         document.getElementById("evt-title").value = presetTitle;
         const catVal = categoryName || CATEGORIES[0].name;
         document.getElementById("evt-category").value = catVal;
@@ -607,7 +607,7 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         saveNextBtn.style.display = "inline-block";
         titleFormGroup.style.display = "";
         catFormGroup.style.display = "";
-        subEventGroup.style.display = "none";
+        subEventGroup.style.display = ""; // サブイベント名フィールドを表示
         _updateCategoryPreview(catVal);
     }
 
