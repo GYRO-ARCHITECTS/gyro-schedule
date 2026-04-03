@@ -561,7 +561,13 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
 
     if (event) {
         titleEl.textContent = "イベント編集";
-        document.getElementById("evt-title").value = event.title || "";
+        // タイトルから親タイトルとサブイベント名を分離
+        const rawTitle = event.title || "";
+        const underscoreIdx = rawTitle.indexOf("_");
+        const parentTitle = underscoreIdx >= 0 ? rawTitle.substring(0, underscoreIdx) : rawTitle;
+        const existingSubName = underscoreIdx >= 0 ? rawTitle.substring(underscoreIdx + 1) : "";
+        document.getElementById("evt-title").value = parentTitle;
+        subNameEl.value = existingSubName;
         const catVal = (event.categories && event.categories[0]) || categoryName || CATEGORIES[0].name;
         document.getElementById("evt-category").value = catVal;
         document.getElementById("evt-start").value = event.startDate || "";
@@ -571,8 +577,7 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         saveNextBtn.style.display = "none";
         titleFormGroup.style.display = "none";
         catFormGroup.style.display = "none";
-        subEventGroup.style.display = "none";
-        subNameEl.value = "";
+        subEventGroup.style.display = ""; // サブイベント名フィールドを表示
         _updateCategoryPreview(catVal);
     } else if (presetTitle) {
         // セルクリック/ドラッグ: タイトルとカテゴリが確定済み
