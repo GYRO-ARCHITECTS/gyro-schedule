@@ -1134,16 +1134,65 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     const evtInner = document.createElement("div");
     evtInner.className = "gs-evt-inner";
 
+    const parentTitle = _getParentTitle(primaryEv.title);
     const evtLabel = document.createElement("span");
     evtLabel.className = "gs-evt-label";
-    evtLabel.textContent = primaryEv.title;
-    evtLabel.title = primaryEv.title;
+    evtLabel.textContent = parentTitle;
+    evtLabel.title = parentTitle;
     evtLabel.setAttribute("role", "button");
     evtLabel.setAttribute("tabindex", "0");
-    evtLabel.setAttribute("aria-label", `${primaryEv.title}を編集`);
-    evtLabel.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(primaryEv, cat.name); });
-    evtLabel.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEventModal(primaryEv, cat.name); }
+    evtLabel.setAttribute("aria-label", `${parentTitle}の名称を変更`);
+    evtLabel.style.cursor = "pointer";
+
+    // クリックでインライン編集
+    evtLabel.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (evtLabel.querySelector("input")) return; // 既に編集中
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = parentTitle;
+        input.className = "gs-evt-rename-input";
+        input.style.cssText = "width:100%;font:inherit;padding:2px 4px;border:1px solid #f59e0b;border-radius:4px;outline:none;background:#fff;color:#1e293b;";
+
+        const oldText = evtLabel.textContent;
+        evtLabel.textContent = "";
+        evtLabel.appendChild(input);
+        input.focus();
+        input.select();
+
+        const save = async () => {
+            const newName = input.value.trim();
+            if (!newName || newName === parentTitle) {
+                evtLabel.textContent = oldText;
+                return;
+            }
+            evtLabel.textContent = newName + "...";
+
+            try {
+                const token = await getAccessToken();
+                // 同じ親タイトルの全イベントを更新
+                for (const ev of evGroup) {
+                    const subName = _getSubEventName(ev.title);
+                    const newTitle = subName ? newName + "_" + subName : newName;
+                    await updateCalendarEvent(token, ev.id, { title: newTitle, category: cat.name, startDate: ev.startDate, endDate: ev.endDate, notes: ev.bodyPreview || "" });
+                    ev.title = newTitle;
+                }
+                rerenderFromCache();
+                announceStatus(`「${parentTitle}」→「${newName}」に変更しました`);
+                publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+            } catch (err) {
+                console.error("Rename failed:", err);
+                evtLabel.textContent = oldText;
+                announceStatus("名称変更に失敗しました: " + err.message);
+            }
+        };
+
+        input.addEventListener("blur", save);
+        input.addEventListener("keydown", (ke) => {
+            if (ke.key === "Enter") { ke.preventDefault(); input.blur(); }
+            if (ke.key === "Escape") { evtLabel.textContent = oldText; }
+        });
     });
     evtInner.appendChild(evtLabel);
 
