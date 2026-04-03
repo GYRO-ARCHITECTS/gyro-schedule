@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T02:14:06.310Z",
+  "lastUpdated": "2026-04-03T02:16:46.447Z",
   "years": {
     "2025": {
       "events": [],
@@ -597,6 +597,16 @@
             "朝会"
           ],
           "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVgAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2026-07-01",
+          "endDate": "2026-09-30",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
         }
       ],
       "categories": [
@@ -608,22 +618,12 @@
         {
           "id": "gyro_holiday",
           "name": "GYRO休み",
-          "color": "#374151"
+          "color": "#14b8a6"
         },
         {
-          "id": "auto_あああ",
-          "name": "あああ",
-          "color": "#ef4444"
-        },
-        {
-          "id": "auto_その他",
-          "name": "その他",
-          "color": "#22c55e"
-        },
-        {
-          "id": "auto_ああああ",
-          "name": "ああああ",
-          "color": "#a855f7"
+          "id": "mni9tyvff3wd",
+          "name": "アワード",
+          "color": "#eab308"
         }
       ]
     },
