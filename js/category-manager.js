@@ -312,6 +312,7 @@ let _draggedRow = null;
 function _onDragStart(e) {
     _draggedRow = e.currentTarget;
     _draggedRow.style.opacity = "0.4";
+    _draggedRow.style.pointerEvents = "none"; // ドラッグ中は透過してターゲット検出を正確に
     e.dataTransfer.effectAllowed = "move";
     // ドラッグオーバーイベントをリスト全体に設定
     const list = document.getElementById("cat-list");
@@ -321,6 +322,7 @@ function _onDragStart(e) {
 
 function _onDragEnd(e) {
     e.currentTarget.style.opacity = "";
+    e.currentTarget.style.pointerEvents = "";
     _draggedRow = null;
     const list = document.getElementById("cat-list");
     list.removeEventListener("dragover", _onDragOver);
