@@ -30,8 +30,10 @@ let _tlColOffsets = [0]; // 初期化時に再構築
 let _tlTotalCols = 365;
 let _tlColWidth = 24;
 let _tlYear = null; // 初回描画でsetTimelineModeを確実に呼ぶ
-// 週モード用: 各月の月曜日開始日リスト（setTimelineModeで構築）
+// 全体モード用: 各月の月曜日開始日リスト（setTimelineModeで構築）
 let _weekMondayStarts = null; // [month] => [day1, day2, ...]
+// 週モード用: 表示中の週の月曜日
+let _currentWeekStart = null; // "YYYY-MM-DD"
 
 // 月内の月曜日の日付リストを返す
 function _getMondaysInMonth(year, month) {
@@ -43,13 +45,34 @@ function _getMondaysInMonth(year, month) {
     return mondays;
 }
 
+// 今日の週の月曜日を取得
+function _getMondayOfWeek(d) {
+    const date = new Date(d);
+    const day = date.getDay();
+    const diff = day === 0 ? -6 : 1 - day; // 日曜は前週の月曜
+    date.setDate(date.getDate() + diff);
+    return formatDateYMD(date);
+}
+
 // モードを設定し、列オフセットテーブルを再構築
 function setTimelineMode(modeId, year) {
     _tlMode = modeId;
     _tlYear = year;
 
-    // 週/全体モード: 各月の実際の月曜日を計算
-    if (modeId === "week" || modeId === "fit") {
+    if (modeId === "week") {
+        // 週モード: 7日間のみ表示
+        if (!_currentWeekStart) {
+            _currentWeekStart = _getMondayOfWeek(new Date());
+        }
+        _weekMondayStarts = null;
+        _tlColOffsets = [0, 7]; // 月ベースではなく週ベース
+        _tlTotalCols = 7;
+        _tlColWidth = 120; // 週表示は各日を広く
+        return;
+    }
+
+    // 全体モード: 各月の実際の月曜日を計算
+    if (modeId === "fit") {
         _weekMondayStarts = [];
         for (let m = 0; m < 12; m++) {
             _weekMondayStarts.push(_getMondaysInMonth(year, m));
@@ -66,10 +89,19 @@ function setTimelineMode(modeId, year) {
     _tlColWidth = MODE_COL_WIDTHS[modeId] || 80;
 }
 
+// 週ナビゲーション
+function navigateWeek(direction) {
+    const d = parseDateStr(_currentWeekStart);
+    d.setDate(d.getDate() + direction * 7);
+    _currentWeekStart = formatDateYMD(d);
+    rerenderFromCache(true);
+}
+
 // 月あたりの列数
 function _colsPerMonth(year, month) {
+    if (_tlMode === "week") return 7; // 週モードは7列固定（setTimelineModeで設定済み）
     if (_tlMode === "day") return daysInMonth(year, month);
-    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) return _weekMondayStarts[month].length;
+    if (_tlMode === "fit" && _weekMondayStarts) return _weekMondayStarts[month].length;
     const starts = MODE_STARTS[_tlMode];
     return starts ? starts.length : 4;
 }
@@ -88,12 +120,19 @@ function absCol(dateStr) {
     const month = d.getMonth();
     const day = d.getDate();
 
+    // 週モード: 表示中の週の月曜日からの日数差（0-6）
+    if (_tlMode === "week" && _currentWeekStart) {
+        const weekStart = parseDateStr(_currentWeekStart);
+        const diff = Math.floor((d - weekStart) / 86400000);
+        return diff; // -N〜6+N（範囲外もそのまま返す。呼び出し側でクランプ）
+    }
+
     if (_tlMode === "day") {
         return _tlColOffsets[month] + day - 1;
     }
 
-    // 週モード: 実際の月曜日リストから該当週を特定
-    if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
+    // 全体モード: 実際の月曜日リストから該当週を特定
+    if (_tlMode === "fit" && _weekMondayStarts) {
         const mondays = _weekMondayStarts[month];
         let wi = 0;
         for (let i = mondays.length - 1; i >= 0; i--) {
@@ -126,6 +165,13 @@ function _colToLocalIdx(colIdx) {
 
 // 列 → 開始日
 function colToStartDate(colIdx, year) {
+    // 週モード: 月曜日 + colIdx日
+    if (_tlMode === "week" && _currentWeekStart) {
+        const d = parseDateStr(_currentWeekStart);
+        d.setDate(d.getDate() + colIdx);
+        return formatDateYMD(d);
+    }
+
     const month = _colToMonth(colIdx);
     const localIdx = colIdx - _tlColOffsets[month];
 
@@ -146,6 +192,11 @@ function colToStartDate(colIdx, year) {
 
 // 列 → 終了日
 function colToEndDate(colIdx, year) {
+    // 週モード: 1日単位なので開始日と同じ
+    if (_tlMode === "week" && _currentWeekStart) {
+        return colToStartDate(colIdx, year);
+    }
+
     const month = _colToMonth(colIdx);
     const localIdx = colIdx - _tlColOffsets[month];
 
@@ -673,55 +724,98 @@ function renderTimeline(events, year, holidaySet, options) {
     thEvtM.rowSpan = 2;
     monthRow.appendChild(thEvtM);
 
-    for (let m = 0; m < 12; m++) {
-        const colsInMonth = _tlColOffsets[m + 1] - _tlColOffsets[m];
+    if (_tlMode === "week" && _currentWeekStart) {
+        // 週モード: 1つのヘッダーセルに週の範囲を表示
+        const ws = parseDateStr(_currentWeekStart);
+        const we = new Date(ws); we.setDate(we.getDate() + 6);
         const th = document.createElement("th");
         th.className = "gs-month-cell";
-        if (m % 2 === 1) th.classList.add("gs-month-even");
-        th.colSpan = colsInMonth;
-        // fitモードでは min-width を設定しない（table-layout:fixed; width:100% に任せる）
-        if (_tlMode !== "fit") th.style.minWidth = (colWidth * colsInMonth) + "px";
-        th.textContent = MONTH_NAMES[m];
-        if (today.getFullYear() === year && today.getMonth() === m) th.classList.add("gs-current-month");
+        th.colSpan = 7;
+        th.style.minWidth = (colWidth * 7) + "px";
+        th.textContent = `${ws.getMonth() + 1}/${ws.getDate()} 〜 ${we.getMonth() + 1}/${we.getDate()}`;
+        // 前週/次週ナビゲーションボタン
+        const prevBtn = document.createElement("button");
+        prevBtn.textContent = "◀";
+        prevBtn.className = "gs-week-nav-btn";
+        prevBtn.style.cssText = "background:none;border:none;cursor:pointer;color:#f59e0b;font-size:14px;padding:0 8px;";
+        prevBtn.addEventListener("click", () => navigateWeek(-1));
+        const nextBtn = document.createElement("button");
+        nextBtn.textContent = "▶";
+        nextBtn.className = "gs-week-nav-btn";
+        nextBtn.style.cssText = "background:none;border:none;cursor:pointer;color:#f59e0b;font-size:14px;padding:0 8px;";
+        nextBtn.addEventListener("click", () => navigateWeek(1));
+        th.prepend(prevBtn);
+        th.appendChild(nextBtn);
         monthRow.appendChild(th);
+    } else {
+        for (let m = 0; m < 12; m++) {
+            const colsInMonth = _tlColOffsets[m + 1] - _tlColOffsets[m];
+            const th = document.createElement("th");
+            th.className = "gs-month-cell";
+            if (m % 2 === 1) th.classList.add("gs-month-even");
+            th.colSpan = colsInMonth;
+            if (_tlMode !== "fit") th.style.minWidth = (colWidth * colsInMonth) + "px";
+            th.textContent = MONTH_NAMES[m];
+            if (today.getFullYear() === year && today.getMonth() === m) th.classList.add("gs-current-month");
+            monthRow.appendChild(th);
+        }
     }
     thead.appendChild(monthRow);
 
     // サブヘッダー行
     const subRow = document.createElement("tr");
     subRow.className = "gs-week-row";
+    const DOW_NAMES = ["日", "月", "火", "水", "木", "金", "土"];
 
-    for (let m = 0; m < 12; m++) {
-        const colsInMonth = _tlColOffsets[m + 1] - _tlColOffsets[m];
-        for (let li = 0; li < colsInMonth; li++) {
-            const globalCol = _tlColOffsets[m] + li;
+    if (_tlMode === "week" && _currentWeekStart) {
+        // 週モード: 月〜日の7列
+        for (let i = 0; i < 7; i++) {
             const th = document.createElement("th");
             th.className = "gs-week-cell";
-            if (m % 2 === 1) th.classList.add("gs-month-even");
-            th.textContent = _subHeaderLabel(m, li);
-
-            if (todayCol === globalCol) th.classList.add("gs-current-week");
-
-            // 月末セルに区切りクラスを付与
-            if (li === colsInMonth - 1) th.classList.add("gs-month-end");
-
-            // 1日モード: 土日祝の色
-            if (_tlMode === "day") {
-                const dayNum = li + 1;
-
-                const dateStr = `${year}-${String(m + 1).padStart(2, "0")}-${String(dayNum).padStart(2, "0")}`;
-                const d = new Date(year, m, dayNum);
-                const dow = d.getDay();
-                if (holidaySet && holidaySet.has(dateStr)) {
-                    th.classList.add("gs-holiday-col");
-                } else if (dow === 0) {
-                    th.classList.add("gs-sunday-col");
-                } else if (dow === 6) {
-                    th.classList.add("gs-saturday-col");
-                }
+            const d = parseDateStr(_currentWeekStart);
+            d.setDate(d.getDate() + i);
+            const dateStr = formatDateYMD(d);
+            const dow = d.getDay();
+            th.textContent = `${DOW_NAMES[dow]} ${d.getDate()}`;
+            if (holidaySet && holidaySet.has(dateStr)) {
+                th.classList.add("gs-holiday-col");
+            } else if (dow === 0) {
+                th.classList.add("gs-sunday-col");
+            } else if (dow === 6) {
+                th.classList.add("gs-saturday-col");
             }
-
+            if (todayCol === i) th.classList.add("gs-current-week");
             subRow.appendChild(th);
+        }
+    } else {
+        for (let m = 0; m < 12; m++) {
+            const colsInMonth = _tlColOffsets[m + 1] - _tlColOffsets[m];
+            for (let li = 0; li < colsInMonth; li++) {
+                const globalCol = _tlColOffsets[m] + li;
+                const th = document.createElement("th");
+                th.className = "gs-week-cell";
+                if (m % 2 === 1) th.classList.add("gs-month-even");
+                th.textContent = _subHeaderLabel(m, li);
+
+                if (todayCol === globalCol) th.classList.add("gs-current-week");
+                if (li === colsInMonth - 1) th.classList.add("gs-month-end");
+
+                if (_tlMode === "day") {
+                    const dayNum = li + 1;
+                    const dateStr = `${year}-${String(m + 1).padStart(2, "0")}-${String(dayNum).padStart(2, "0")}`;
+                    const d = new Date(year, m, dayNum);
+                    const dow = d.getDay();
+                    if (holidaySet && holidaySet.has(dateStr)) {
+                        th.classList.add("gs-holiday-col");
+                    } else if (dow === 0) {
+                        th.classList.add("gs-sunday-col");
+                    } else if (dow === 6) {
+                        th.classList.add("gs-saturday-col");
+                    }
+                }
+
+                subRow.appendChild(th);
+            }
         }
     }
     thead.appendChild(subRow);
@@ -1305,11 +1399,17 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     tr.appendChild(tdEvt);
 
     // 各イベントの startCol/endCol を事前計算
-    const ranges = evGroup.map(ev => ({
-        ev,
-        startCol: absCol(ev.startDate),
-        endCol:   absCol(ev.endDate),
-    }));
+    const ranges = evGroup.map(ev => {
+        let sc = absCol(ev.startDate);
+        let ec = absCol(ev.endDate);
+        // 週モード: 表示範囲外のイベントをクランプ
+        if (_tlMode === "week") {
+            if (ec < 0 || sc > 6) return null; // 完全に範囲外
+            sc = Math.max(0, sc);
+            ec = Math.min(6, ec);
+        }
+        return { ev, startCol: sc, endCol: ec };
+    }).filter(Boolean);
 
     for (let c = 0; c < totalCols; c++) {
         const td = createTimelineCell(c, year, holidaySet, todayCol);

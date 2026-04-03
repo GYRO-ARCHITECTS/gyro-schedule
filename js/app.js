@@ -121,7 +121,13 @@ function setupUI() {
             updateMonthLabel();
             rerenderFromCache();
         } else if (_currentView === "timeline") {
-            scrollToToday();
+            if (_tlMode === "week") {
+                _currentWeekStart = null; // リセット→setTimelineModeで今週に設定
+                setTimelineMode("week", currentYear);
+                rerenderFromCache(true);
+            } else {
+                scrollToToday();
+            }
         }
         announceStatus("今日の位置へ移動しました");
     });
