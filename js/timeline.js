@@ -751,6 +751,18 @@ function renderTimeline(events, year, holidaySet, options) {
             return;
         }
         const { groups: titleGroups, order: titleOrder } = _groupByTitle(catEvents);
+        // カスタム順序があれば適用
+        const customOrder = _rawConfig?.titleOrders?.[String(year)]?.[cat.name];
+        if (customOrder) {
+            titleOrder.sort((a, b) => {
+                const ia = customOrder.indexOf(a);
+                const ib = customOrder.indexOf(b);
+                if (ia === -1 && ib === -1) return 0;
+                if (ia === -1) return 1;
+                if (ib === -1) return -1;
+                return ia - ib;
+            });
+        }
         titleOrder.forEach((title, idx) => {
             const evGroup = titleGroups[title];
             const tr = createEventRow(evGroup, cat, idx, titleOrder.length, totalCols, year, holidaySet, todayCol);
@@ -1106,6 +1118,70 @@ function _addMarkerException(catId, dateStr, year) {
 // rowSpanはborder-collapse:separateでボーダー整合性の問題を起こすため削除。
 // バッジは先頭行のみ表示し、CSSで非先頭行のborder-bottomを透明にして
 // 視覚的なグループ化を実現。
+// ---- イベント行ドラッグ&ドロップ並べ替え ----
+const _rowDragState = { draggedRow: null, catName: null };
+let _rowDropIndicator = null;
+
+function _getRowDropIndicator() {
+    if (!_rowDropIndicator) {
+        _rowDropIndicator = document.createElement("tr");
+        _rowDropIndicator.innerHTML = '<td colspan="100" style="height:3px;background:#f59e0b;padding:0;border:none;"></td>';
+    }
+    return _rowDropIndicator;
+}
+
+function _showRowDropIndicator(targetRow, clientY) {
+    const indicator = _getRowDropIndicator();
+    const rect = targetRow.getBoundingClientRect();
+    const mid = rect.top + rect.height / 2;
+    const tbody = targetRow.parentNode;
+    if (clientY < mid) {
+        tbody.insertBefore(indicator, targetRow);
+    } else {
+        tbody.insertBefore(indicator, targetRow.nextSibling);
+    }
+}
+
+async function _handleRowDrop(targetRow, clientY, catName, year) {
+    const dragged = _rowDragState.draggedRow;
+    if (!dragged || dragged === targetRow) return;
+
+    const indicator = _getRowDropIndicator();
+    const tbody = targetRow.parentNode;
+    const rect = targetRow.getBoundingClientRect();
+    const mid = rect.top + rect.height / 2;
+
+    // DOM移動
+    if (clientY < mid) {
+        tbody.insertBefore(dragged, targetRow);
+    } else {
+        tbody.insertBefore(dragged, targetRow.nextSibling);
+    }
+    if (indicator.parentNode) indicator.parentNode.removeChild(indicator);
+
+    // 新しい順序を取得（同じカテゴリの行のみ）
+    const rows = [...tbody.querySelectorAll(`tr.gs-event-row[data-category-name="${catName}"]`)];
+    const newOrder = rows.map(r => {
+        const label = r.querySelector(".gs-evt-label");
+        return label ? label.textContent : "";
+    }).filter(t => t);
+
+    // _rawConfig に保存
+    if (!_rawConfig.titleOrders) _rawConfig.titleOrders = {};
+    if (!_rawConfig.titleOrders[String(year)]) _rawConfig.titleOrders[String(year)] = {};
+    _rawConfig.titleOrders[String(year)][catName] = newOrder;
+
+    // バックグラウンドで永続化
+    try {
+        const token = await getAccessToken();
+        await saveCategoryConfig(token, _rawConfig, _configEventId);
+        console.log(`[行並べ替え] ${catName}: ${newOrder.join(" → ")}`);
+        announceStatus("行の順序を保存しました");
+    } catch (err) {
+        console.warn("[行並べ替え] 保存失敗:", err.message);
+    }
+}
+
 function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidaySet, todayCol) {
     // evGroup: 同タイトルのイベント配列
     const primaryEv = evGroup[0];
@@ -1132,6 +1208,43 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
 
     const evtInner = document.createElement("div");
     evtInner.className = "gs-evt-inner";
+
+    // ドラッグハンドル（行の並べ替え用）
+    if (totalInCat > 1) {
+        const dragHandle = document.createElement("span");
+        dragHandle.className = "gs-row-drag-handle";
+        dragHandle.textContent = "⋮⋮";
+        dragHandle.title = "ドラッグで並べ替え";
+        dragHandle.style.cssText = "cursor:grab;color:#94a3b8;font-size:11px;padding:0 3px;user-select:none;letter-spacing:-2px;";
+        evtInner.appendChild(dragHandle);
+
+        tr.draggable = true;
+        tr.addEventListener("dragstart", (e) => {
+            _rowDragState.draggedRow = tr;
+            _rowDragState.catName = cat.name;
+            tr.style.opacity = "0.3";
+            e.dataTransfer.effectAllowed = "move";
+            e.dataTransfer.setData("text/plain", "");
+        });
+        tr.addEventListener("dragend", () => {
+            tr.style.opacity = "";
+            _rowDragState.draggedRow = null;
+            _rowDragState.catName = null;
+            if (_rowDropIndicator?.parentNode) _rowDropIndicator.parentNode.removeChild(_rowDropIndicator);
+        });
+        tr.addEventListener("dragover", (e) => {
+            if (!_rowDragState.draggedRow || _rowDragState.catName !== cat.name) return;
+            if (tr === _rowDragState.draggedRow) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = "move";
+            _showRowDropIndicator(tr, e.clientY);
+        });
+        tr.addEventListener("drop", (e) => {
+            e.preventDefault();
+            if (!_rowDragState.draggedRow || _rowDragState.catName !== cat.name) return;
+            _handleRowDrop(tr, e.clientY, cat.name, year);
+        });
+    }
 
     const parentTitle = _getParentTitle(primaryEv.title);
     const evtLabel = document.createElement("span");
