@@ -2,6 +2,7 @@
 let currentYear = graphConfig.year;
 let _editingEvent = null;
 let _lastFocusBeforeModal = null; // モーダル前のフォーカス保持
+let _presetTitleMode = false; // セルクリックモード（notesにフォーカス）
 
 // 簡易モーダル用
 let _simpleEditingEvent = null;
@@ -577,12 +578,15 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         document.getElementById("evt-category").value = catVal;
         document.getElementById("evt-start").value = startDate || "";
         document.getElementById("evt-end").value = endDate || "";
-        document.getElementById("evt-notes").value = "";
+        const notesEl = document.getElementById("evt-notes");
+        notesEl.value = "";
+        notesEl.placeholder = "サブイベント名（例: 申込、試験、勉強会）";
         deleteBtn.style.display = "none";
         saveNextBtn.style.display = "none";
         titleFormGroup.style.display = "none";
         catFormGroup.style.display = "none";
         _updateCategoryPreview(catVal);
+        _presetTitleMode = true; // セルクリックモード: フォーカスをnotesに
     } else {
         // 「＋」ボタン: フルモーダル
         titleEl.textContent = "イベント追加";
@@ -612,7 +616,12 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     modal.classList.add("active");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
-    document.getElementById("evt-title").focus();
+    if (_presetTitleMode) {
+        document.getElementById("evt-notes").focus();
+        _presetTitleMode = false;
+    } else {
+        document.getElementById("evt-title").focus();
+    }
 }
 
 function closeModal() {

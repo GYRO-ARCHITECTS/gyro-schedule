@@ -448,6 +448,22 @@ td.gs-month-end:not(.gs-bar-cell) { border-right:1px solid var(--color-navy-200)
     border-top-right-radius:var(--bar-radius);
     border-bottom-right-radius:var(--bar-radius);
 }
+/* サブイベントのバー内ラベル */
+.gs-bar-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--bar-color);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    padding: 0 2px;
+}
 /* Single-cell hover fallback (JS adds .gs-bar-hover for whole-bar) */
 .gs-bar-cell:hover {
     filter:brightness(0.95) saturate(1.1);

@@ -521,7 +521,10 @@ const PopoverManager = {
 
         const el = this._el;
         el.querySelector(".gs-popover-accent").style.background = cat.color;
-        el.querySelector(".gs-popover-title").textContent = ev.title;
+        // サブイベント（単日+bodyPreview）はサブイベント名をタイトルに表示
+        const displayTitle = (ev.startDate === ev.endDate && ev.bodyPreview)
+            ? ev.bodyPreview : ev.title;
+        el.querySelector(".gs-popover-title").textContent = displayTitle;
 
         const badge = el.querySelector(".gs-popover-badge");
         badge.textContent = cat.name;
@@ -1180,6 +1183,13 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
                 const handle = document.createElement("div");
                 handle.className = "gs-resize-handle gs-resize-handle-right";
                 barInner.appendChild(handle);
+            }
+            // サブイベントラベル: 単日イベントでbodyPreviewがある場合にバー内にラベル表示
+            if (ev.startDate === ev.endDate && ev.bodyPreview) {
+                const label = document.createElement("span");
+                label.className = "gs-bar-label";
+                label.textContent = ev.bodyPreview.slice(0, 20);
+                barInner.appendChild(label);
             }
             td.appendChild(barInner);
 
