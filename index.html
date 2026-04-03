@@ -99,7 +99,18 @@
                         <span class="cat-preview-dot" id="cat-preview-dot" aria-hidden="true"></span>
                     </div>
                 </div>
-                <div class="form-row">
+                <div class="form-group" data-field="start" id="single-date-group">
+                    <label for="evt-date-single">日付</label>
+                    <input type="date" id="evt-date-single">
+                    <span class="form-error" role="alert" aria-live="polite"></span>
+                </div>
+                <div style="margin-bottom:12px;">
+                    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85em;color:#64748b;">
+                        <input type="checkbox" id="evt-multi-date" style="margin:0;">
+                        複数日にまたがる
+                    </label>
+                </div>
+                <div class="form-row" id="multi-date-group" style="display:none;">
                     <div class="form-group" data-field="start">
                         <label for="evt-start">開始日</label>
                         <input type="date" id="evt-start">
@@ -255,6 +266,6 @@
     <script src="js/calendar.js?v=20260402a" defer></script>
     <script src="js/listview.js?v=20260402a" defer></script>
     <script src="js/category-manager.js?v=20260403e" defer></script>
-    <script src="js/app.js?v=20260403c" defer></script>
+    <script src="js/app.js?v=20260403d" defer></script>
 </body>
 </html>

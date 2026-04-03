@@ -622,9 +622,37 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         _updateCategoryPreview(catVal);
     }
 
-    // 開始日min連動
+    // 単一日付 ↔ 複数日付 トグル制御
+    const singleDateInput = document.getElementById("evt-date-single");
+    const multiDateCheck = document.getElementById("evt-multi-date");
+    const singleDateGroup = document.getElementById("single-date-group");
+    const multiDateGroup = document.getElementById("multi-date-group");
     const startInput = document.getElementById("evt-start");
     const endInput = document.getElementById("evt-end");
+
+    // 編集時: 開始日≠終了日なら複数日モード
+    const isMultiDay = startInput.value && endInput.value && startInput.value !== endInput.value;
+    multiDateCheck.checked = isMultiDay;
+    singleDateGroup.style.display = isMultiDay ? "none" : "";
+    multiDateGroup.style.display = isMultiDay ? "" : "none";
+    singleDateInput.value = startInput.value || "";
+
+    // トグル切り替え
+    multiDateCheck.onchange = () => {
+        if (multiDateCheck.checked) {
+            singleDateGroup.style.display = "none";
+            multiDateGroup.style.display = "";
+            startInput.value = singleDateInput.value;
+            endInput.value = singleDateInput.value;
+            startInput.focus();
+        } else {
+            singleDateGroup.style.display = "";
+            multiDateGroup.style.display = "none";
+            singleDateInput.value = startInput.value;
+        }
+    };
+
+    // 開始日min連動
     if (startInput.value) {
         endInput.min = startInput.value;
     } else {
@@ -1002,12 +1030,17 @@ async function handleSaveEvent(continueAdding) {
     // サブイベント名がある場合: "イベント名_サブイベント名" 形式でOutlookに保存
     const title = subName ? baseTitle + "_" + subName : baseTitle;
     const category = document.getElementById("evt-category").value;
-    const rawStart = document.getElementById("evt-start").value;
-    const rawEnd = document.getElementById("evt-end").value;
-    // 日付未入力時は今日をデフォルト
+    const isMultiDay = document.getElementById("evt-multi-date").checked;
     const today = new Date().toISOString().split("T")[0];
-    const startDate = rawStart || today;
-    const endDate = rawEnd || rawStart || today;
+    let startDate, endDate;
+    if (isMultiDay) {
+        startDate = document.getElementById("evt-start").value || today;
+        endDate = document.getElementById("evt-end").value || startDate;
+    } else {
+        const singleDate = document.getElementById("evt-date-single").value || today;
+        startDate = singleDate;
+        endDate = singleDate;
+    }
     const notes = document.getElementById("evt-notes").value.trim();
 
     // エラーをクリアしてからバリデーション
