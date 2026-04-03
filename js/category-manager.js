@@ -410,6 +410,32 @@ async function _saveCategoryChanges() {
         const token = await getAccessToken();
         const savingYear = String(_catManagerYear);
 
+        // 削除されたカテゴリを特定し、関連イベントをOutlookから削除
+        const oldCats = (_rawConfig.yearCategories && _rawConfig.yearCategories[savingYear]) || [];
+        const newCatIds = new Set(newCategories.map(c => c.id));
+        const removedCats = oldCats.filter(c => !newCatIds.has(c.id));
+
+        if (removedCats.length > 0) {
+            const removedNames = new Set(removedCats.map(c => c.name));
+            const eventsToDelete = (_cachedGraphEvents || []).filter(e =>
+                e.startDate && e.startDate.startsWith(savingYear) &&
+                e.categories && e.categories.some(cat => removedNames.has(cat))
+            );
+
+            if (eventsToDelete.length > 0) {
+                console.log(`[カテゴリ削除] ${removedCats.map(c => c.name).join(", ")} のイベント ${eventsToDelete.length}件を削除`);
+                for (const ev of eventsToDelete) {
+                    try {
+                        await deleteCalendarEvent(token, ev.id);
+                    } catch (err) {
+                        console.warn(`[カテゴリ削除] イベント削除失敗: ${ev.title}`, err.message);
+                    }
+                }
+                const deletedIds = new Set(eventsToDelete.map(e => e.id));
+                _cachedGraphEvents = _cachedGraphEvents.filter(e => !deletedIds.has(e.id));
+            }
+        }
+
         // _rawConfig を更新
         if (!_rawConfig.yearCategories) _rawConfig.yearCategories = {};
         _rawConfig.yearCategories[savingYear] = newCategories;
@@ -433,6 +459,7 @@ async function _saveCategoryChanges() {
 
         closeCategoryManager();
         announceStatus(`${savingYear}年のカテゴリ設定を保存しました`);
+        publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
     } catch (error) {
         console.error("カテゴリ保存失敗:", error);
         const desc = document.querySelector(".cat-manager-desc");
