@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T02:42:40.805Z",
+  "lastUpdated": "2026-04-03T02:42:51.043Z",
   "years": {
     "2025": {
       "events": [],
@@ -149,32 +149,12 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE2tOajQAAAA==",
-          "title": "ああああ",
-          "startDate": "2026-03-31",
-          "endDate": "2026-03-31",
-          "categories": [
-            "あああ"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVwAAAA==",
           "title": "グッドデザイン賞　応募期間",
           "startDate": "2026-04-01",
           "endDate": "2026-05-21",
           "categories": [
             "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPOwAAAA==",
-          "title": "あああ",
-          "startDate": "2026-04-02",
-          "endDate": "2026-04-02",
-          "categories": [
-            "ああああ"
           ],
           "bodyPreview": ""
         },
@@ -579,16 +559,6 @@
           "id": "mniaobbgq5h3",
           "name": "社内イベント",
           "color": "#a855f7"
-        },
-        {
-          "id": "auto_あああ",
-          "name": "あああ",
-          "color": "#a855f7"
-        },
-        {
-          "id": "auto_ああああ",
-          "name": "ああああ",
-          "color": "#14b8a6"
         }
       ]
     },
