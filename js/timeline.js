@@ -870,10 +870,10 @@ function _subHeaderLabel(month, localIdx) {
         return String(localIdx + 1);
     }
     if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
-        return `${month + 1}/${_weekMondayStarts[month][localIdx]}`;
+        return String(_weekMondayStarts[month][localIdx]);
     }
     const starts = MODE_STARTS[_tlMode];
-    return `${month + 1}/${starts[localIdx]}`;
+    return String(starts[localIdx]);
 }
 
 // ---- 空カテゴリ行 ----
