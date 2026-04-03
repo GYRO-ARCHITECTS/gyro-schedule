@@ -890,24 +890,26 @@ function createEmptyRow(cat, totalCols, year, holidaySet, todayCol) {
 
     const tdEvt = document.createElement("td");
     tdEvt.className = "gs-fixed-col gs-col-evt gs-empty-evt";
-    tdEvt.setAttribute("role", "button");
-    tdEvt.setAttribute("tabindex", "0");
-    tdEvt.setAttribute("aria-label", `${cat.name}にイベントを追加`);
-    tdEvt.addEventListener("click", () => openEventModal(null, cat.name));
-    tdEvt.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEventModal(null, cat.name); }
-    });
-
     const evtInner = document.createElement("div");
     evtInner.className = "gs-evt-inner";
 
-    const addBtn = document.createElement("button");
-    addBtn.className = "gs-row-add-btn gs-row-add-btn-empty";
-    addBtn.textContent = "＋";
-    addBtn.title = `${cat.name}にイベントを追加`;
-    addBtn.setAttribute("aria-label", `${cat.name}にイベントを追加`);
-    addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name); });
-    evtInner.appendChild(addBtn);
+    if (!!getActiveAccount()) {
+        tdEvt.setAttribute("role", "button");
+        tdEvt.setAttribute("tabindex", "0");
+        tdEvt.setAttribute("aria-label", `${cat.name}にイベントを追加`);
+        tdEvt.addEventListener("click", () => openEventModal(null, cat.name));
+        tdEvt.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEventModal(null, cat.name); }
+        });
+
+        const addBtn = document.createElement("button");
+        addBtn.className = "gs-row-add-btn gs-row-add-btn-empty";
+        addBtn.textContent = "＋";
+        addBtn.title = `${cat.name}にイベントを追加`;
+        addBtn.setAttribute("aria-label", `${cat.name}にイベントを追加`);
+        addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name); });
+        evtInner.appendChild(addBtn);
+    }
 
     tdEvt.appendChild(evtInner);
     tr.appendChild(tdEvt);
@@ -1183,11 +1185,12 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     evtInner.className = "gs-evt-inner";
 
     const parentTitle = _getParentTitle(primaryEv.title);
+    const isSignedIn = !!getActiveAccount();
 
-    // ▲▼ボタン（行の並べ替え用、2行以上のカテゴリのみ）
-    if (totalInCat > 1) {
+    // ▲▼ボタン（サインイン時 + 2行以上）またはスペーサー（テキスト揃え用）
+    if (totalInCat > 1 && isSignedIn) {
         const btnWrap = document.createElement("span");
-        btnWrap.style.cssText = "display:inline-flex;flex-direction:column;gap:0;margin-right:2px;";
+        btnWrap.style.cssText = "display:inline-flex;flex-direction:column;gap:0;margin-right:2px;width:14px;";
 
         const upBtn = document.createElement("button");
         upBtn.textContent = "▲";
@@ -1206,18 +1209,28 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
         btnWrap.appendChild(upBtn);
         btnWrap.appendChild(downBtn);
         evtInner.appendChild(btnWrap);
+    } else {
+        // スペーサー（▲▼ボタンと同じ幅でテキスト位置を揃える）
+        const spacer = document.createElement("span");
+        spacer.style.cssText = "display:inline-block;width:14px;flex-shrink:0;";
+        evtInner.appendChild(spacer);
     }
+
     const evtLabel = document.createElement("span");
     evtLabel.className = "gs-evt-label";
     evtLabel.textContent = parentTitle;
     evtLabel.title = parentTitle;
-    evtLabel.setAttribute("role", "button");
-    evtLabel.setAttribute("tabindex", "0");
-    evtLabel.setAttribute("aria-label", `${parentTitle}の名称を変更`);
-    evtLabel.style.cursor = "pointer";
 
-    // クリックでインライン編集
-    evtLabel.addEventListener("click", (e) => {
+    // サインイン時のみインライン編集を有効化
+    if (isSignedIn) {
+        evtLabel.setAttribute("role", "button");
+        evtLabel.setAttribute("tabindex", "0");
+        evtLabel.setAttribute("aria-label", `${parentTitle}の名称を変更`);
+        evtLabel.style.cursor = "pointer";
+    }
+
+    // クリックでインライン編集（サインイン時のみ）
+    if (isSignedIn) evtLabel.addEventListener("click", (e) => {
         e.stopPropagation();
         if (evtLabel.querySelector("input")) return; // 既に編集中
 
@@ -1268,14 +1281,16 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     });
     evtInner.appendChild(evtLabel);
 
-    const addBtn = document.createElement("button");
-    addBtn.className = "gs-row-add-btn";
-    addBtn.textContent = "＋";
-    addBtn.title = `${cat.name}にイベントを追加`;
-    addBtn.setAttribute("aria-label", `${cat.name}にイベントを追加`);
-    const rowParentTitle = _getParentTitle(evGroup[0].title);
-    addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name, null, null, rowParentTitle); });
-    evtInner.appendChild(addBtn);
+    if (isSignedIn) {
+        const addBtn = document.createElement("button");
+        addBtn.className = "gs-row-add-btn";
+        addBtn.textContent = "＋";
+        addBtn.title = `${cat.name}にイベントを追加`;
+        addBtn.setAttribute("aria-label", `${cat.name}にイベントを追加`);
+        const rowParentTitle = _getParentTitle(evGroup[0].title);
+        addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name, null, null, rowParentTitle); });
+        evtInner.appendChild(addBtn);
+    }
 
     tdEvt.appendChild(evtInner);
     tr.appendChild(tdEvt);
