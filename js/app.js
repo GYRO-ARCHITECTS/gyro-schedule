@@ -640,18 +640,13 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     // トグルスイッチの見た目更新
     const _updateToggleUI = () => {
         const toggle = document.getElementById("evt-multi-date-toggle");
-        const label = document.getElementById("evt-multi-date-label");
         const dot = toggle?.querySelector("span");
         if (multiDateCheck.checked) {
             toggle.style.background = "#f59e0b";
-            if (dot) dot.style.transform = "translateX(14px)";
-            label.style.borderColor = "#f59e0b";
-            label.style.color = "#92400e";
+            if (dot) dot.style.transform = "translateX(16px)";
         } else {
             toggle.style.background = "#cbd5e1";
             if (dot) dot.style.transform = "translateX(0)";
-            label.style.borderColor = "#cbd5e1";
-            label.style.color = "#64748b";
         }
     };
     _updateToggleUI();
