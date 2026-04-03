@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T09:44:10.378Z",
+  "lastUpdated": "2026-04-03T09:47:34.353Z",
   "years": {
     "2026": {
       "events": [
@@ -688,6 +688,16 @@
           "title": "グッドデザイン賞_受賞発表",
           "startDate": "2026-10-15",
           "endDate": "2026-10-15",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPdAAAAA==",
+          "title": "グッドデザイン賞_応募期間",
+          "startDate": "2026-04-01",
+          "endDate": "2026-05-21",
           "categories": [
             "アワード"
           ],
