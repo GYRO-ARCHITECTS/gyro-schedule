@@ -4,9 +4,9 @@
 // ========================================
 // 定数
 // ========================================
-const ROW_HEIGHT = 32;
+const ROW_HEIGHT = 36;
 const FIXED_COL_WIDTH_CAT = 120;
-const FIXED_COL_WIDTH_EVT = 120;
+const FIXED_COL_WIDTH_EVT = 360;
 const FIXED_COLS_TOTAL = FIXED_COL_WIDTH_CAT + FIXED_COL_WIDTH_EVT;
 const MONTH_NAMES = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
 const RESIZE_ZONE_PX = 10;
@@ -20,7 +20,7 @@ const MODE_STARTS = {
     fit: [1, 8, 15, 22],
 };
 // モードごとの列幅 (px)。fit は動的計算のため null
-const MODE_COL_WIDTHS = { week: 80, fiveday: 48, day: 24, fit: null };
+const MODE_COL_WIDTHS = { week: 80, fiveday: 48, day: 28, fit: null };
 
 // ========================================
 // タイムラインモード状態
