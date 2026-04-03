@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T02:19:59.009Z",
+  "lastUpdated": "2026-04-03T02:20:02.950Z",
   "years": {
     "2025": {
       "events": [],
@@ -635,40 +635,30 @@
     "2027": {
       "events": [
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVAAAAA==",
+          "title": "dさf",
+          "startDate": "2027-01-04",
+          "endDate": "2027-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAEz61nqwAAAA==",
-          "title": "Ã£ÂÂÃ£ÂÂÃ£ÂÂ",
+          "title": "あああ",
           "startDate": "2027-01-07",
           "endDate": "2027-01-22",
           "categories": [],
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPUwAAAA==",
-          "title": "dÃ£ÂÂf",
-          "startDate": "2026-04-01",
-          "endDate": "2026-04-01",
-          "categories": [
-            "GYROÃ¤Â¼ÂÃ£ÂÂ¿"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVAAAAA==",
-          "title": "dÃ£ÂÂf",
-          "startDate": "2027-01-04",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYROÃ¤Â¼ÂÃ£ÂÂ¿"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVQAAAA==",
-          "title": "dÃ£ÂÂf",
+          "title": "dさf",
           "startDate": "2027-01-09",
           "endDate": "2027-01-09",
           "categories": [
-            "GYROÃ¤Â¼ÂÃ£ÂÂ¿"
+            "GYRO休み"
           ],
           "bodyPreview": ""
         }
@@ -676,12 +666,12 @@
       "categories": [
         {
           "id": "morning_meeting",
-          "name": "Ã¦ÂÂÃ¤Â¼Â",
+          "name": "朝会",
           "color": "#3b82f6"
         },
         {
           "id": "gyro_holiday",
-          "name": "GYROÃ¤Â¼ÂÃ£ÂÂ¿",
+          "name": "GYRO休み",
           "color": "#374151"
         }
       ]
