@@ -535,9 +535,8 @@ const PopoverManager = {
 
         const el = this._el;
         el.querySelector(".gs-popover-accent").style.background = cat.color;
-        // サブイベント（タイトルに_を含む）はサブイベント名を表示
-        const subName = _getSubEventName(ev.title);
-        el.querySelector(".gs-popover-title").textContent = subName || _getParentTitle(ev.title);
+        // タイトルをそのまま表示（「イベント名_サブ名」形式）
+        el.querySelector(".gs-popover-title").textContent = ev.title;
 
         const badge = el.querySelector(".gs-popover-badge");
         badge.textContent = cat.name;
@@ -1247,9 +1246,9 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
                 handle.className = "gs-resize-handle gs-resize-handle-right";
                 barInner.appendChild(handle);
             }
-            // サブイベントラベル: "タイトル_サブ名" 形式のイベントにバー内ラベル表示
+            // サブイベントラベル: バーの開始セルのみに表示
             const subName = _getSubEventName(ev.title);
-            if (subName) {
+            if (subName && c === hit.startCol) {
                 const label = document.createElement("span");
                 label.className = "gs-bar-label";
                 label.textContent = subName.slice(0, 20);
