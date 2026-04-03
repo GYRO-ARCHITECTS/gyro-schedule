@@ -137,8 +137,8 @@ function setupUI() {
         openCategoryManager();
     });
 
-    // 公開データ書き出しボタン
-    document.getElementById("export-btn").addEventListener("click", handleExportPublicData);
+    // 公開ボタン
+    document.getElementById("publish-btn").addEventListener("click", handlePublish);
 
     // ビュー切替
     setupViewSwitcher();
@@ -1262,7 +1262,7 @@ async function handleSignOut() {
     document.getElementById("sign-out-btn").style.display = "none";
     document.getElementById("add-event-btn").style.display = "none";
     document.getElementById("settings-btn").style.display = "none";
-    document.getElementById("export-btn").style.display = "none";
+    document.getElementById("publish-btn").style.display = "none";
     document.getElementById("legend").innerHTML = "";
     document.getElementById("month-nav").style.display = "none";
     document.getElementById("timeline-mode-bar").style.display = "none";
@@ -1481,7 +1481,7 @@ async function loadCalendar() {
             document.getElementById("sign-out-btn").style.display = "inline-block";
             document.getElementById("add-event-btn").style.display = "flex";
             document.getElementById("settings-btn").style.display = "flex";
-            document.getElementById("export-btn").style.display = "flex";
+            document.getElementById("publish-btn").style.display = "flex";
         }
 
         announceStatus(`${year}年のスケジュールを読み込みました（${graphEvents.length}件）`);
@@ -1598,59 +1598,21 @@ function _saveEventsToLocalStorage(year, events, categories) {
 // ========================================
 // 公開データ書き出し
 // ========================================
-async function handleExportPublicData() {
-    if (_cachedGraphEvents.length === 0) {
-        alert("書き出すイベントがありません。");
-        return;
-    }
-
-    const exportBtn = document.getElementById("export-btn");
-    exportBtn.disabled = true;
+async function handlePublish() {
+    const btn = document.getElementById("publish-btn");
+    const origText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "公開中...";
 
     try {
-        // 既存のevents.jsonを読み込んで他年度のデータを保持
-        let existingData = { lastUpdated: null, years: {} };
-        try {
-            const res = await fetch("data/events.json");
-            if (res.ok) existingData = await res.json();
-        } catch (e) { /* 無視 */ }
-
-        // 現在の年度のイベント+カテゴリを書き出し
-        const year = String(currentYear);
-        existingData.years[year] = {
-            events: _cachedGraphEvents.map(e => ({
-                id: e.id,
-                title: e.title,
-                startDate: e.startDate,
-                endDate: e.endDate,
-                categories: e.categories || [],
-                bodyPreview: e.bodyPreview || "",
-            })),
-            categories: CATEGORIES.map(c => ({
-                id: c.id,
-                name: c.name,
-                color: c.color,
-            })),
-        };
-        existingData.lastUpdated = new Date().toISOString();
-
-        // JSONファイルをダウンロード
-        const json = JSON.stringify(existingData, null, 2);
-        const blob = new Blob([json], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "events.json";
-        a.click();
-        URL.revokeObjectURL(url);
-
-        announceStatus("公開用データをダウンロードしました。data/events.json として配置してください。");
-        alert("events.json をダウンロードしました。\nリポジトリの data/events.json に配置してコミットすると、サインインなしでもイベントが表示されます。");
+        await publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear);
+        announceStatus("公開データを更新しました");
     } catch (error) {
-        console.error("Export failed:", error);
-        alert("書き出しに失敗しました: " + error.message);
+        console.error("Publish failed:", error);
+        announceStatus("公開に失敗しました: " + error.message);
     } finally {
-        exportBtn.disabled = false;
+        btn.disabled = false;
+        btn.textContent = origText;
     }
 }
 
