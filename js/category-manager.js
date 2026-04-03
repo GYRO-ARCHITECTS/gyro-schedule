@@ -414,6 +414,7 @@ async function _saveCategoryChanges() {
         const oldCats = (_rawConfig.yearCategories && _rawConfig.yearCategories[savingYear]) || [];
         const newCatIds = new Set(newCategories.map(c => c.id));
         const removedCats = oldCats.filter(c => !newCatIds.has(c.id));
+        console.log(`[カテゴリ保存] oldCats=${oldCats.map(c=>c.name).join(",")}, newCats=${newCategories.map(c=>c.name).join(",")}, removed=${removedCats.map(c=>c.name).join(",") || "なし"}`);
 
         if (removedCats.length > 0) {
             const removedNames = new Set(removedCats.map(c => c.name));
@@ -422,6 +423,7 @@ async function _saveCategoryChanges() {
                 e.categories && e.categories.some(cat => removedNames.has(cat))
             );
 
+            console.log(`[カテゴリ削除] 対象カテゴリ: ${[...removedNames].join(",")}, 対象イベント: ${eventsToDelete.length}件`, eventsToDelete.map(e => `${e.title}(${e.startDate},cats:${e.categories.join("/")})`));
             if (eventsToDelete.length > 0) {
                 console.log(`[カテゴリ削除] ${removedCats.map(c => c.name).join(", ")} のイベント ${eventsToDelete.length}件を削除`);
                 for (const ev of eventsToDelete) {
