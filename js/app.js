@@ -553,9 +553,11 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
 
     const saveNextBtn = document.getElementById("modal-save-next-btn");
 
-    // タイトル・カテゴリの表示/非表示制御
+    // タイトル・カテゴリ・サブイベント名の表示/非表示制御
     const titleFormGroup = document.querySelector('.form-group[data-field="title"]');
     const catFormGroup = document.querySelector('.form-group[data-field="category"]');
+    const subEventGroup = document.getElementById("sub-event-group");
+    const subNameEl = document.getElementById("evt-sub-name");
 
     if (event) {
         titleEl.textContent = "イベント編集";
@@ -569,24 +571,27 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         saveNextBtn.style.display = "none";
         titleFormGroup.style.display = "none";
         catFormGroup.style.display = "none";
+        subEventGroup.style.display = "none";
+        subNameEl.value = "";
         _updateCategoryPreview(catVal);
     } else if (presetTitle) {
-        // セルクリック/ドラッグ: タイトルとカテゴリが確定済み
-        titleEl.textContent = "イベント追加";
+        // セルクリック/ドラッグ: タイトルとカテゴリが確定済み → サブイベント名入力
+        titleEl.textContent = "サブイベント追加";
         document.getElementById("evt-title").value = presetTitle;
         const catVal = categoryName || CATEGORIES[0].name;
         document.getElementById("evt-category").value = catVal;
         document.getElementById("evt-start").value = startDate || "";
         document.getElementById("evt-end").value = endDate || "";
-        const notesEl = document.getElementById("evt-notes");
-        notesEl.value = "";
-        notesEl.placeholder = "サブイベント名（例: 申込、試験、勉強会）";
+        document.getElementById("evt-notes").value = "";
+        document.getElementById("evt-notes").placeholder = "補足情報";
+        subNameEl.value = "";
         deleteBtn.style.display = "none";
         saveNextBtn.style.display = "none";
         titleFormGroup.style.display = "none";
         catFormGroup.style.display = "none";
+        subEventGroup.style.display = ""; // サブイベント名フィールドを表示
         _updateCategoryPreview(catVal);
-        _presetTitleMode = true; // セルクリックモード: フォーカスをnotesに
+        _presetTitleMode = true;
     } else {
         // 「＋」ボタン: フルモーダル
         titleEl.textContent = "イベント追加";
@@ -596,10 +601,13 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
         document.getElementById("evt-start").value = startDate || "";
         document.getElementById("evt-end").value = endDate || "";
         document.getElementById("evt-notes").value = "";
+        document.getElementById("evt-notes").placeholder = "補足情報";
+        subNameEl.value = "";
         deleteBtn.style.display = "none";
         saveNextBtn.style.display = "inline-block";
         titleFormGroup.style.display = "";
         catFormGroup.style.display = "";
+        subEventGroup.style.display = "none";
         _updateCategoryPreview(catVal);
     }
 
@@ -617,7 +625,7 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     if (_presetTitleMode) {
-        document.getElementById("evt-notes").focus();
+        subNameEl.focus();
         _presetTitleMode = false;
     } else {
         document.getElementById("evt-title").focus();
@@ -978,7 +986,10 @@ function _clearFormErrors() {
 }
 
 async function handleSaveEvent(continueAdding) {
-    const title = document.getElementById("evt-title").value.trim();
+    const baseTitle = document.getElementById("evt-title").value.trim();
+    const subName = document.getElementById("evt-sub-name").value.trim();
+    // サブイベント名がある場合: "イベント名_サブイベント名" 形式でOutlookに保存
+    const title = subName ? baseTitle + "_" + subName : baseTitle;
     const category = document.getElementById("evt-category").value;
     const startDate = document.getElementById("evt-start").value;
     const endDate = document.getElementById("evt-end").value;

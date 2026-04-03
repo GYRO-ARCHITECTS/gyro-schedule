@@ -178,11 +178,25 @@ function colToEndDate(colIdx, year) {
 // ========================================
 // タイトルグループ化（同タイトルのイベントを1行にまとめる）
 // ========================================
+// 親タイトルを取得（"イベント名_サブイベント名" → "イベント名"）
+function _getParentTitle(title) {
+    if (!title) return "(無題)";
+    const idx = title.indexOf("_");
+    return idx >= 0 ? title.substring(0, idx) : title;
+}
+
+// サブイベント名を取得（"イベント名_サブイベント名" → "サブイベント名"、なければnull）
+function _getSubEventName(title) {
+    if (!title) return null;
+    const idx = title.indexOf("_");
+    return idx >= 0 ? title.substring(idx + 1) : null;
+}
+
 function _groupByTitle(events) {
     const groups = {};
     const order = [];
     events.forEach(ev => {
-        const key = ev.title || "(無題)";
+        const key = _getParentTitle(ev.title);
         if (!groups[key]) { groups[key] = []; order.push(key); }
         groups[key].push(ev);
     });
@@ -521,10 +535,9 @@ const PopoverManager = {
 
         const el = this._el;
         el.querySelector(".gs-popover-accent").style.background = cat.color;
-        // サブイベント（単日+bodyPreview）はサブイベント名をタイトルに表示
-        const displayTitle = (ev.startDate === ev.endDate && ev.bodyPreview)
-            ? ev.bodyPreview : ev.title;
-        el.querySelector(".gs-popover-title").textContent = displayTitle;
+        // サブイベント（タイトルに_を含む）はサブイベント名を表示
+        const subName = _getSubEventName(ev.title);
+        el.querySelector(".gs-popover-title").textContent = subName || _getParentTitle(ev.title);
 
         const badge = el.querySelector(".gs-popover-badge");
         badge.textContent = cat.name;
@@ -1184,11 +1197,12 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
                 handle.className = "gs-resize-handle gs-resize-handle-right";
                 barInner.appendChild(handle);
             }
-            // サブイベントラベル: 単日イベントでbodyPreviewがある場合にバー内にラベル表示
-            if (ev.startDate === ev.endDate && ev.bodyPreview) {
+            // サブイベントラベル: "タイトル_サブ名" 形式のイベントにバー内ラベル表示
+            const subName = _getSubEventName(ev.title);
+            if (subName) {
                 const label = document.createElement("span");
                 label.className = "gs-bar-label";
-                label.textContent = ev.bodyPreview.slice(0, 20);
+                label.textContent = subName.slice(0, 20);
                 barInner.appendChild(label);
             }
             td.appendChild(barInner);
