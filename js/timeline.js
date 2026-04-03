@@ -1201,7 +1201,8 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     addBtn.textContent = "＋";
     addBtn.title = `${cat.name}にイベントを追加`;
     addBtn.setAttribute("aria-label", `${cat.name}にイベントを追加`);
-    addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name); });
+    const rowParentTitle = _getParentTitle(evGroup[0].title);
+    addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name, null, null, rowParentTitle); });
     evtInner.appendChild(addBtn);
 
     tdEvt.appendChild(evtInner);
