@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T02:42:17.019Z",
+  "lastUpdated": "2026-04-03T02:42:40.805Z",
   "years": {
     "2025": {
       "events": [],
@@ -155,16 +155,6 @@
           "endDate": "2026-03-31",
           "categories": [
             "あああ"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE2tOajwAAAA==",
-          "title": "ファd",
-          "startDate": "2026-04-01",
-          "endDate": "2026-04-02",
-          "categories": [
-            "その他"
           ],
           "bodyPreview": ""
         },
@@ -594,11 +584,6 @@
           "id": "auto_あああ",
           "name": "あああ",
           "color": "#a855f7"
-        },
-        {
-          "id": "auto_その他",
-          "name": "その他",
-          "color": "#f97316"
         },
         {
           "id": "auto_ああああ",
