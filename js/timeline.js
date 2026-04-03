@@ -547,7 +547,7 @@ const PopoverManager = {
         el.querySelector(".gs-popover-dates").textContent =
             ev.startDate === ev.endDate ? startFmt : `${startFmt} 〜 ${endFmt}`;
 
-        el.querySelector(".gs-popover-notes").textContent = ev.bodyPreview || "";
+        el.querySelector(".gs-popover-notes").textContent = "";
 
         this._position(anchorEl);
         el.classList.add("gs-popover-visible");
