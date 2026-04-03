@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T02:17:08.411Z",
+  "lastUpdated": "2026-04-03T02:17:42.373Z",
   "years": {
     "2025": {
       "events": [],
@@ -585,6 +585,16 @@
           "endDate": "2026-09-30",
           "categories": [
             "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVwAAAA==",
+          "title": "グッドデザイン賞　応募期間",
+          "startDate": "2026-04-01",
+          "endDate": "2026-05-30",
+          "categories": [
+            "アワード"
           ],
           "bodyPreview": ""
         }
