@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T09:27:59.434Z",
+  "lastUpdated": "2026-04-03T09:28:26.820Z",
   "years": {
     "2026": {
       "events": [
@@ -620,6 +620,16 @@
           "endDate": "2027-01-04",
           "categories": [
             "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPbAAAAA==",
+          "title": "コネクトラボ勉強会",
+          "startDate": "2026-02-13",
+          "endDate": "2026-02-13",
+          "categories": [
+            "社内勉強会"
           ],
           "bodyPreview": ""
         }
