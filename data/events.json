@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T01:03:06.379Z",
+  "lastUpdated": "2026-04-03T01:03:28.723Z",
   "years": {
     "2026": {
       "events": [
@@ -599,6 +599,30 @@
           "id": "auto_ああああ",
           "name": "ああああ",
           "color": "#a855f7"
+        }
+      ]
+    },
+    "2027": {
+      "events": [
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAEz61nqwAAAA==",
+          "title": "あああ",
+          "startDate": "2027-01-07",
+          "endDate": "2027-01-22",
+          "categories": [],
+          "bodyPreview": ""
+        }
+      ],
+      "categories": [
+        {
+          "id": "morning_meeting",
+          "name": "朝会",
+          "color": "#3b82f6"
+        },
+        {
+          "id": "gyro_holiday",
+          "name": "GYRO休み",
+          "color": "#374151"
         }
       ]
     }
