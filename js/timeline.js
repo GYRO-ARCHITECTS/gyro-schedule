@@ -1187,32 +1187,41 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     const parentTitle = _getParentTitle(primaryEv.title);
     const isSignedIn = !!getActiveAccount();
 
-    // ▲▼ボタン（サインイン時 + 2行以上）またはスペーサー（テキスト揃え用）
+    // ▲▼ボタン（サインイン時 + 2行以上）— ホバー時のみ表示
     if (totalInCat > 1 && isSignedIn) {
         const btnWrap = document.createElement("span");
-        btnWrap.style.cssText = "display:inline-flex;flex-direction:column;gap:0;margin-right:2px;width:14px;";
+        btnWrap.className = "gs-row-move-wrap";
+        btnWrap.style.cssText = "display:inline-flex;flex-direction:column;gap:1px;margin-right:4px;width:18px;opacity:0;transition:opacity 0.15s;";
 
         const upBtn = document.createElement("button");
         upBtn.textContent = "▲";
         upBtn.className = "gs-row-move-btn";
-        upBtn.style.cssText = "font-size:8px;color:#94a3b8;background:none;border:none;cursor:pointer;padding:0 2px;line-height:1;";
-        if (idx === 0) { upBtn.disabled = true; upBtn.style.opacity = "0.3"; }
+        upBtn.style.cssText = "font-size:11px;color:#64748b;background:none;border:none;cursor:pointer;padding:2px 3px;line-height:1;border-radius:3px;transition:color 0.15s,background 0.15s;";
+        if (idx === 0) { upBtn.disabled = true; upBtn.style.opacity = "0.2"; }
+        upBtn.addEventListener("mouseenter", () => { if (!upBtn.disabled) upBtn.style.cssText += "color:#f59e0b;background:rgba(245,158,11,0.1);"; });
+        upBtn.addEventListener("mouseleave", () => { upBtn.style.color = "#64748b"; upBtn.style.background = "none"; });
         upBtn.addEventListener("click", (e) => { e.stopPropagation(); _moveRow(cat.name, parentTitle, -1, year); });
 
         const downBtn = document.createElement("button");
         downBtn.textContent = "▼";
         downBtn.className = "gs-row-move-btn";
-        downBtn.style.cssText = "font-size:8px;color:#94a3b8;background:none;border:none;cursor:pointer;padding:0 2px;line-height:1;";
-        if (idx === totalInCat - 1) { downBtn.disabled = true; downBtn.style.opacity = "0.3"; }
+        downBtn.style.cssText = "font-size:11px;color:#64748b;background:none;border:none;cursor:pointer;padding:2px 3px;line-height:1;border-radius:3px;transition:color 0.15s,background 0.15s;";
+        if (idx === totalInCat - 1) { downBtn.disabled = true; downBtn.style.opacity = "0.2"; }
+        downBtn.addEventListener("mouseenter", () => { if (!downBtn.disabled) downBtn.style.cssText += "color:#f59e0b;background:rgba(245,158,11,0.1);"; });
+        downBtn.addEventListener("mouseleave", () => { downBtn.style.color = "#64748b"; downBtn.style.background = "none"; });
         downBtn.addEventListener("click", (e) => { e.stopPropagation(); _moveRow(cat.name, parentTitle, 1, year); });
 
         btnWrap.appendChild(upBtn);
         btnWrap.appendChild(downBtn);
         evtInner.appendChild(btnWrap);
+
+        // 行ホバーでボタン表示
+        tr.addEventListener("mouseenter", () => { btnWrap.style.opacity = "1"; });
+        tr.addEventListener("mouseleave", () => { btnWrap.style.opacity = "0"; });
     } else {
         // スペーサー（▲▼ボタンと同じ幅でテキスト位置を揃える）
         const spacer = document.createElement("span");
-        spacer.style.cssText = "display:inline-block;width:14px;flex-shrink:0;";
+        spacer.style.cssText = "display:inline-block;width:22px;flex-shrink:0;";
         evtInner.appendChild(spacer);
     }
 
