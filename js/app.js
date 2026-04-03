@@ -126,10 +126,7 @@ function setupUI() {
         announceStatus("今日の位置へ移動しました");
     });
 
-    // ＋追加ボタン
-    document.getElementById("add-event-btn").addEventListener("click", () => {
-        openEventModal(null, null);
-    });
+    // ＋追加ボタン（削除済み）
 
     // 設定ボタン
     document.getElementById("settings-btn").addEventListener("click", () => {
@@ -1260,7 +1257,6 @@ async function handleSignOut() {
     document.getElementById("timeline-container").innerHTML = "";
     document.getElementById("user-name").textContent = "";
     document.getElementById("sign-out-btn").style.display = "none";
-    document.getElementById("add-event-btn").style.display = "none";
     document.getElementById("settings-btn").style.display = "none";
     document.getElementById("publish-btn").style.display = "none";
     document.getElementById("legend").innerHTML = "";
@@ -1499,7 +1495,6 @@ async function loadCalendar() {
         if (account) {
             document.getElementById("user-name").textContent = account.name || account.username;
             document.getElementById("sign-out-btn").style.display = "inline-block";
-            document.getElementById("add-event-btn").style.display = "flex";
             document.getElementById("settings-btn").style.display = "flex";
             document.getElementById("publish-btn").style.display = "flex";
         }
