@@ -76,6 +76,7 @@ function openCategoryManager() {
 
     _updateCatManagerYearLabel();
     _renderCategoryList();
+    _setupListDragEvents();
     _closeDuplicatePanel();
 
     modal.classList.remove("closing");
@@ -306,80 +307,82 @@ function _createCategoryRow(id, name, color) {
     return row;
 }
 
-// ---- ドラッグ&ドロップ並べ替え ----
+// ---- ドラッグ&ドロップ並べ替え（タッチ対応） ----
 let _draggedRow = null;
+let _dropIndicator = null;
+
+function _ensureDropIndicator() {
+    if (!_dropIndicator) {
+        _dropIndicator = document.createElement("div");
+        _dropIndicator.style.cssText = "height:3px;background:#f59e0b;border-radius:2px;margin:2px 0;transition:none;";
+    }
+    return _dropIndicator;
+}
 
 function _onDragStart(e) {
     _draggedRow = e.currentTarget;
-    _draggedRow.style.opacity = "0.4";
-    _draggedRow.style.pointerEvents = "none"; // ドラッグ中は透過してターゲット検出を正確に
+    requestAnimationFrame(() => { _draggedRow.style.opacity = "0.3"; });
     e.dataTransfer.effectAllowed = "move";
-    // ドラッグオーバーイベントをリスト全体に設定
-    const list = document.getElementById("cat-list");
-    list.addEventListener("dragover", _onDragOver);
-    list.addEventListener("drop", _onDrop);
+    e.dataTransfer.setData("text/plain", ""); // Firefox対応
 }
 
-function _onDragEnd(e) {
-    e.currentTarget.style.opacity = "";
-    e.currentTarget.style.pointerEvents = "";
+function _onDragEnd() {
+    if (_draggedRow) _draggedRow.style.opacity = "";
     _draggedRow = null;
-    const list = document.getElementById("cat-list");
-    list.removeEventListener("dragover", _onDragOver);
-    list.removeEventListener("drop", _onDrop);
-    // ドロップ先インジケータをクリア
-    list.querySelectorAll(".cat-manager-row").forEach(r => {
-        r.style.borderTop = "";
-        r.style.borderBottom = "";
-    });
+    if (_dropIndicator && _dropIndicator.parentNode) {
+        _dropIndicator.parentNode.removeChild(_dropIndicator);
+    }
 }
 
-function _onDragOver(e) {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
+function _setupListDragEvents() {
     const list = document.getElementById("cat-list");
-    // インジケータをクリア
-    list.querySelectorAll(".cat-manager-row").forEach(r => {
-        r.style.borderTop = "";
-        r.style.borderBottom = "";
-    });
-    // ドロップ先を特定
-    const target = _getDragTarget(e);
-    if (target && target !== _draggedRow) {
-        const rect = target.getBoundingClientRect();
-        const mid = rect.top + rect.height / 2;
-        if (e.clientY < mid) {
-            target.style.borderTop = "2px solid #f59e0b";
-        } else {
-            target.style.borderBottom = "2px solid #f59e0b";
+    if (!list) return;
+
+    list.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        if (!_draggedRow) return;
+
+        const indicator = _ensureDropIndicator();
+        const rows = [...list.querySelectorAll(".cat-manager-row")];
+        let insertBefore = null;
+
+        for (const row of rows) {
+            if (row === _draggedRow) continue;
+            const rect = row.getBoundingClientRect();
+            const mid = rect.top + rect.height / 2;
+            if (e.clientY < mid) {
+                // 固定カテゴリの前には入れない
+                if (FIXED_CATEGORY_IDS.has(row.dataset.catId)) continue;
+                insertBefore = row;
+                break;
+            }
         }
-    }
-}
 
-function _onDrop(e) {
-    e.preventDefault();
-    if (!_draggedRow) return;
-    const target = _getDragTarget(e);
-    if (!target || target === _draggedRow) return;
-    // 固定カテゴリの上には移動不可
-    if (FIXED_CATEGORY_IDS.has(target.dataset.catId)) return;
+        if (insertBefore) {
+            list.insertBefore(indicator, insertBefore);
+        } else {
+            // 末尾に配置
+            list.appendChild(indicator);
+        }
+    });
 
-    const list = document.getElementById("cat-list");
-    const rect = target.getBoundingClientRect();
-    const mid = rect.top + rect.height / 2;
-    if (e.clientY < mid) {
-        list.insertBefore(_draggedRow, target);
-    } else {
-        list.insertBefore(_draggedRow, target.nextSibling);
-    }
-}
+    list.addEventListener("drop", (e) => {
+        e.preventDefault();
+        if (!_draggedRow || !_dropIndicator || !_dropIndicator.parentNode) return;
+        // インジケータの位置にドラッグ行を挿入
+        _dropIndicator.parentNode.insertBefore(_draggedRow, _dropIndicator);
+        _dropIndicator.parentNode.removeChild(_dropIndicator);
+        _draggedRow.style.opacity = "";
+        _draggedRow = null;
+    });
 
-function _getDragTarget(e) {
-    let el = document.elementFromPoint(e.clientX, e.clientY);
-    while (el && !el.classList?.contains("cat-manager-row")) {
-        el = el.parentElement;
-    }
-    return el;
+    list.addEventListener("dragleave", (e) => {
+        // リスト外にドラッグしたらインジケータを消す
+        if (!list.contains(e.relatedTarget) && _dropIndicator && _dropIndicator.parentNode) {
+            _dropIndicator.parentNode.removeChild(_dropIndicator);
+        }
+    });
 }
 
 function _addCategoryRow() {
