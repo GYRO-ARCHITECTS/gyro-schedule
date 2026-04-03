@@ -408,7 +408,7 @@ body { display:flex; flex-direction:column; }
 .gs-fit-mode .gs-month-cell { min-width:0!important; }
 .gs-fit-mode .gs-week-cell { min-width:0; max-width:none; width:auto; }
 .gs-fit-mode .gs-week-td { min-width:0; max-width:none; width:auto; overflow:hidden; }
-.gs-fit-mode .gs-bar-cell { border-left-color:transparent; border-right-color:transparent; }
+.gs-fit-mode .gs-bar-cell { border-left-width:0; border-right-width:0; }
 .gs-fit-mode .gs-week-row th { font-size:10px; padding:2px 0; }
 .gs-fit-mode .gs-month-cell { font-size:12px; }
 
