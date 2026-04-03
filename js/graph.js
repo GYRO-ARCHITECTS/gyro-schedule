@@ -556,6 +556,9 @@ async function syncOutlookCategoryColors(accessToken, categories) {
 // ========================================
 // GitHub自動公開: data/events.json を更新
 // ========================================
+let _cachedGitHubSha = null;
+let _cachedGitHubData = null;
+
 async function _fetchGitHubFile(token) {
     const { owner, repo, branch, path } = githubConfig;
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&_t=${Date.now()}`;
@@ -578,19 +581,26 @@ async function publishEventsToGitHub(events, categories, year) {
 
     const maxRetries = 3;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
-        // 1. 毎回最新のSHAとデータを取得
         let sha, existingData;
-        try {
-            const file = await _fetchGitHubFile(token);
-            sha = file.sha;
-            existingData = file.data;
-        } catch (e) {
-            console.warn("[GitHub公開] ファイル取得失敗:", e.message);
-            existingData = { lastUpdated: null, years: {} };
-            sha = null;
+
+        // キャッシュSHAがあり初回試行 → GETスキップ（409回避）
+        if (_cachedGitHubSha && attempt === 1) {
+            sha = _cachedGitHubSha;
+            existingData = _cachedGitHubData ? JSON.parse(JSON.stringify(_cachedGitHubData)) : { lastUpdated: null, years: {} };
+        } else {
+            // キャッシュなし or リトライ → APIから再取得
+            try {
+                const file = await _fetchGitHubFile(token);
+                sha = file.sha;
+                existingData = file.data;
+            } catch (e) {
+                console.warn("[GitHub公開] ファイル取得失敗:", e.message);
+                existingData = { lastUpdated: null, years: {} };
+                sha = null;
+            }
         }
 
-        // 2. 現在年度のデータを更新
+        // 現在年度のデータを更新
         existingData.years[String(year)] = {
             events: events.map(e => ({
                 id: e.id,
@@ -608,7 +618,7 @@ async function publishEventsToGitHub(events, categories, year) {
         };
         existingData.lastUpdated = new Date().toISOString();
 
-        // 3. GitHub Contents APIでコミット
+        // GitHub Contents APIでコミット
         const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
         const content = btoa(unescape(encodeURIComponent(JSON.stringify(existingData, null, 2))));
         const body = {
@@ -628,18 +638,23 @@ async function publishEventsToGitHub(events, categories, year) {
         });
 
         if (putRes.ok) {
+            const result = await putRes.json();
+            _cachedGitHubSha = result.content?.sha || null;
+            _cachedGitHubData = existingData;
             console.log("[GitHub公開] events.json を更新しました");
             return;
         }
 
         if (putRes.status === 409 && attempt < maxRetries) {
+            _cachedGitHubSha = null; // キャッシュ破棄して次回GETで再取得
             console.log(`[GitHub公開] SHA競合、リトライ (${attempt}/${maxRetries})`);
-            await new Promise(r => setTimeout(r, 1000)); // 1秒待ってリトライ
+            await new Promise(r => setTimeout(r, 2000));
             continue;
         }
 
         const err = await putRes.json().catch(() => ({}));
         console.warn("[GitHub公開] 更新失敗:", putRes.status, err.message || "");
+        _cachedGitHubSha = null;
         return;
     }
 }
