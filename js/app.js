@@ -637,8 +637,28 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     multiDateGroup.style.display = isMultiDay ? "" : "none";
     singleDateInput.value = startInput.value || "";
 
+    // トグルスイッチの見た目更新
+    const _updateToggleUI = () => {
+        const toggle = document.getElementById("evt-multi-date-toggle");
+        const label = document.getElementById("evt-multi-date-label");
+        const dot = toggle?.querySelector("span");
+        if (multiDateCheck.checked) {
+            toggle.style.background = "#f59e0b";
+            if (dot) dot.style.transform = "translateX(14px)";
+            label.style.borderColor = "#f59e0b";
+            label.style.color = "#92400e";
+        } else {
+            toggle.style.background = "#cbd5e1";
+            if (dot) dot.style.transform = "translateX(0)";
+            label.style.borderColor = "#cbd5e1";
+            label.style.color = "#64748b";
+        }
+    };
+    _updateToggleUI();
+
     // トグル切り替え
     multiDateCheck.onchange = () => {
+        _updateToggleUI();
         if (multiDateCheck.checked) {
             singleDateGroup.style.display = "none";
             multiDateGroup.style.display = "";
