@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T02:58:31.200Z",
+  "lastUpdated": "2026-04-03T03:11:04.517Z",
   "years": {
     "2025": {
       "events": [],
@@ -637,6 +637,16 @@
             "アワード"
           ],
           "bodyPreview": "2026年は未発表\n\n※参考：2025年情報\nhttps://www.adf.or.jp/adfaward/?id=1756161125-291108"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPXQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2026-12-29",
+          "endDate": "2027-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
         }
       ],
       "categories": [
