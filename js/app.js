@@ -1436,8 +1436,28 @@ async function loadCalendar() {
         _mergeEventCategories(graphEvents, _rawConfig, year);
         populateCategorySelect();
 
-        // 朝会イベントの自動同期は行わない（マーカーはOutlookデータから直接表示）
-        // ユーザーが簡易モーダルで個別に追加/削除する
+        // 朝会の重複イベントをクリーンアップ（同じ日に複数ある場合、1つを残し削除）
+        const morningEvents = graphEvents.filter(e =>
+            e.categories && e.categories.includes("朝会") && e.startDate === e.endDate
+        );
+        const meDateMap = new Map();
+        morningEvents.forEach(e => {
+            if (!meDateMap.has(e.startDate)) meDateMap.set(e.startDate, []);
+            meDateMap.get(e.startDate).push(e);
+        });
+        for (const [date, evts] of meDateMap) {
+            if (evts.length > 1) {
+                for (let i = 1; i < evts.length; i++) {
+                    try {
+                        await deleteCalendarEvent(token, evts[i].id);
+                        graphEvents = graphEvents.filter(e => e.id !== evts[i].id);
+                    } catch (err) {
+                        console.warn(`[重複削除] ${date} 削除失敗:`, err.message);
+                    }
+                }
+                console.log(`[重複削除] ${date}: ${evts.length - 1}件の重複朝会を削除`);
+            }
+        }
 
         // Outlookカテゴリの色をブラウザ設定と同期（権限があるときのみ）
         const mbToken = await getAccessTokenSilentOnly(["MailboxSettings.ReadWrite"]);
