@@ -568,7 +568,9 @@ async function _fetchGitHubFile(token) {
     });
     if (!res.ok) return { sha: null, data: { lastUpdated: null, years: {} } };
     const fileData = await res.json();
-    const data = JSON.parse(atob(fileData.content));
+    // GitHub APIはbase64に改行を含むため除去してからデコード
+    const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ""))));
+    const data = JSON.parse(decoded);
     return { sha: fileData.sha, data };
 }
 
