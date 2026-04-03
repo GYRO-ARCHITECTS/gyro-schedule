@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-03T09:36:07.218Z",
+  "lastUpdated": "2026-04-03T09:36:43.176Z",
   "years": {
     "2026": {
       "events": [
@@ -630,6 +630,16 @@
           "endDate": "2026-02-13",
           "categories": [
             "社内勉強会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPbQAAAA==",
+          "title": "二級建築士_学科_製図",
+          "startDate": "2026-07-14",
+          "endDate": "2026-07-14",
+          "categories": [
+            "資格"
           ],
           "bodyPreview": ""
         }
