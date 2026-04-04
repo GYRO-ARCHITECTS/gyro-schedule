@@ -209,17 +209,20 @@ async function _executeDuplicate() {
 
         try {
             const token = await getAccessToken();
-            const sourceEvents = (_cachedGraphEvents || []).filter(e =>
-                e.startDate && e.startDate.startsWith(sourceYear) &&
+            // 複製元の年のイベントをOutlookから取得（キャッシュは現在年のみのため）
+            console.log(`[複製] ${sourceYear}年のイベントをOutlookから取得中...`);
+            const allSourceEvents = await fetchCalendarEvents(token, Number(sourceYear));
+            const sourceEvents = allSourceEvents.filter(e =>
                 e.categories && e.categories.some(c => eventCatNames.has(c))
             );
+            console.log(`[複製] 対象イベント: ${sourceEvents.length}件`);
 
             let created = 0;
             for (const ev of sourceEvents) {
                 // 日付の年を変更
                 const newStart = targetYear + ev.startDate.substring(4);
                 const newEnd = targetYear + ev.endDate.substring(4);
-                const category = ev.categories.find(c => clonedCatNames.has(c)) || ev.categories[0];
+                const category = ev.categories.find(c => eventCatNames.has(c)) || ev.categories[0];
 
                 try {
                     const result = await createCalendarEvent(token, {
