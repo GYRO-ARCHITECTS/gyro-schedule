@@ -181,10 +181,13 @@ async function _executeDuplicate() {
     const catsToClone = sourceCats.filter(cat => !FIXED_CATEGORY_IDS.has(cat.id));
 
     const list = document.getElementById("cat-list");
-    // 既存の固定カテゴリ行は保持し、それ以外をクリア
-    const fixedRows = [...list.querySelectorAll(".cat-manager-row")].filter(r => FIXED_CATEGORY_IDS.has(r.dataset.catId));
     list.innerHTML = "";
-    fixedRows.forEach(r => list.appendChild(r));
+    // 固定カテゴリをDEFAULT_CATEGORIESの順序・色で再作成（朝会→GYRO休み）
+    DEFAULT_CATEGORIES.forEach(dc => {
+        if (FIXED_CATEGORY_IDS.has(dc.id)) {
+            list.appendChild(_createCategoryRow(dc.id, dc.name, dc.color));
+        }
+    });
 
     // 複製カテゴリをUIに追加
     const clonedCatNames = new Set();
