@@ -177,25 +177,16 @@ async function _executeDuplicate() {
     const targetYear = String(_catManagerYear);
     const sourceCats = _rawConfig.yearCategories[sourceYear];
 
-    // 固定カテゴリ（朝会・GYRO休み）を除外して複製
-    const catsToClone = sourceCats.filter(cat => !FIXED_CATEGORY_IDS.has(cat.id));
-
     const list = document.getElementById("cat-list");
     list.innerHTML = "";
-    // 固定カテゴリをDEFAULT_CATEGORIESの順序・色で再作成（朝会→GYRO休み）
-    DEFAULT_CATEGORIES.forEach(dc => {
-        if (FIXED_CATEGORY_IDS.has(dc.id)) {
-            list.appendChild(_createCategoryRow(dc.id, dc.name, dc.color));
-        }
-    });
 
-    // 複製カテゴリをUIに追加
+    // 複製元の全カテゴリをそのまま複製（色も踏襲）
     const clonedCatNames = new Set();
-    catsToClone.forEach(cat => {
-        const newId = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-        const row = _createCategoryRow(newId, cat.name, cat.color);
+    sourceCats.forEach(cat => {
+        const id = FIXED_CATEGORY_IDS.has(cat.id) ? cat.id : (Date.now().toString(36) + Math.random().toString(36).slice(2, 6));
+        const row = _createCategoryRow(id, cat.name, cat.color);
         list.appendChild(row);
-        clonedCatNames.add(cat.name);
+        if (!FIXED_CATEGORY_IDS.has(cat.id)) clonedCatNames.add(cat.name);
     });
 
     _closeDuplicatePanel();
