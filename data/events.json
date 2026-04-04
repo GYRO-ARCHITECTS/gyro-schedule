@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-04T07:27:02.750Z",
+  "lastUpdated": "2026-04-04T07:27:04.346Z",
   "years": {
     "2025": {
       "events": [],
@@ -1695,6 +1695,82 @@
           "id": "mnk0erm7dqih",
           "name": "社内勉強会",
           "color": "#6366f1"
+        }
+      ]
+    },
+    "2028": {
+      "events": [
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQCgAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQCwAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQJQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQJgAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQQAAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQQQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        }
+      ],
+      "categories": [
+        {
+          "id": "morning_meeting",
+          "name": "朝会",
+          "color": "#3b82f6"
+        },
+        {
+          "id": "gyro_holiday",
+          "name": "GYRO休み",
+          "color": "#374151"
         }
       ]
     }
