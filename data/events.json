@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-04T06:50:43.777Z",
+  "lastUpdated": "2026-04-04T06:59:13.744Z",
   "years": {
     "2025": {
       "events": [],
@@ -833,6 +833,26 @@
             "GYRO休み"
           ],
           "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPzgAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2027-07-01",
+          "endDate": "2027-09-30",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEP5wAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2027-07-01",
+          "endDate": "2027-09-30",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
         }
       ],
       "categories": [
@@ -847,42 +867,42 @@
           "color": "#3b82f6"
         },
         {
-          "id": "mnjz3lzhxnxj",
+          "id": "mnjzelsuncfi",
           "name": "パートナー休み",
           "color": "#64748b"
         },
         {
-          "id": "mnjz3lziq37n",
+          "id": "mnjzelsur9s4",
           "name": "社内イベント",
           "color": "#ec4899"
         },
         {
-          "id": "mnjz3lzi2ajq",
+          "id": "mnjzelsuis4d",
           "name": "アワード",
           "color": "#eab308"
         },
         {
-          "id": "mnjz3lzimh9z",
+          "id": "mnjzelsue5ql",
           "name": "資格",
           "color": "#a855f7"
         },
         {
-          "id": "mnjz3lzi6lc8",
+          "id": "mnjzelsutvrm",
           "name": "CSR",
           "color": "#22c55e"
         },
         {
-          "id": "mnjz3lzin0eu",
+          "id": "mnjzelsuls60",
           "name": "メディア露出",
           "color": "#f97316"
         },
         {
-          "id": "mnjz3lziov8u",
+          "id": "mnjzelsvf488",
           "name": "対外発信",
           "color": "#dc2626"
         },
         {
-          "id": "mnjz3lziyent",
+          "id": "mnjzelsvrna3",
           "name": "社内勉強会",
           "color": "#6366f1"
         }
