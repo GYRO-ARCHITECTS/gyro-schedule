@@ -197,12 +197,8 @@ async function _executeDuplicate() {
 
     _closeDuplicatePanel();
 
-    // イベントも複製（年を変更してOutlookに作成）
-    // GYRO休みのイベントも含める（朝会は除外）
-    const eventCatNames = new Set(clonedCatNames);
-    eventCatNames.add("GYRO休み");
-
-    if (getActiveAccount() && eventCatNames.size > 0) {
+    // イベントも複製（朝会以外の全カテゴリのイベントを複製）
+    if (getActiveAccount()) {
         const execBtn = document.getElementById("cat-duplicate-exec");
         const saveBtn = document.getElementById("cat-manager-save");
         if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "複製中..."; }
@@ -212,8 +208,9 @@ async function _executeDuplicate() {
             // 複製元の年のイベントをOutlookから取得（キャッシュは現在年のみのため）
             console.log(`[複製] ${sourceYear}年のイベントをOutlookから取得中...`);
             const allSourceEvents = await fetchCalendarEvents(token, Number(sourceYear));
+            // 朝会以外の全イベントを複製対象に
             const sourceEvents = allSourceEvents.filter(e =>
-                e.categories && e.categories.some(c => eventCatNames.has(c))
+                e.categories && !e.categories.includes("朝会")
             );
             console.log(`[複製] 対象イベント: ${sourceEvents.length}件`);
 
@@ -222,7 +219,7 @@ async function _executeDuplicate() {
                 // 日付の年を変更
                 const newStart = targetYear + ev.startDate.substring(4);
                 const newEnd = targetYear + ev.endDate.substring(4);
-                const category = ev.categories.find(c => eventCatNames.has(c)) || ev.categories[0];
+                const category = ev.categories[0];
 
                 try {
                     const result = await createCalendarEvent(token, {
