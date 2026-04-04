@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-04T06:41:38.485Z",
+  "lastUpdated": "2026-04-04T06:41:40.504Z",
   "years": {
     "2025": {
       "events": [],
@@ -813,6 +813,16 @@
             "GYRO休み"
           ],
           "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPdgAAAA==",
+          "title": "コネクトラボ勉強会",
+          "startDate": "2027-02-13",
+          "endDate": "2027-02-13",
+          "categories": [
+            "社内勉強会"
+          ],
+          "bodyPreview": ""
         }
       ],
       "categories": [
@@ -827,49 +837,44 @@
           "color": "#3b82f6"
         },
         {
-          "id": "mnio88mh6ccy",
-          "name": "朝会",
-          "color": "#3b82f6"
-        },
-        {
-          "id": "mnio88mismx0",
-          "name": "GYRO休み",
-          "color": "#14b8a6"
-        },
-        {
-          "id": "mnio88mi8o1g",
+          "id": "mnjys7n5yjyy",
           "name": "パートナー休み",
           "color": "#64748b"
         },
         {
-          "id": "mnio88mil33v",
+          "id": "mnjys7n5fkej",
           "name": "社内イベント",
           "color": "#ec4899"
         },
         {
-          "id": "mnio88miqj2s",
+          "id": "mnjys7n55zde",
           "name": "アワード",
           "color": "#eab308"
         },
         {
-          "id": "mnio88miblw8",
+          "id": "mnjys7n68r2a",
           "name": "資格",
           "color": "#a855f7"
         },
         {
-          "id": "mnio88miu5q6",
+          "id": "mnjys7n6xva3",
           "name": "CSR",
           "color": "#22c55e"
         },
         {
-          "id": "mnio88mintyp",
+          "id": "mnjys7n661xu",
           "name": "メディア露出",
           "color": "#f97316"
         },
         {
-          "id": "mnio88mjzklm",
+          "id": "mnjys7n6yv2u",
           "name": "対外発信",
           "color": "#dc2626"
+        },
+        {
+          "id": "mnjys7n6vzfz",
+          "name": "社内勉強会",
+          "color": "#6366f1"
         }
       ]
     }
