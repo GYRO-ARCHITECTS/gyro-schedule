@@ -170,25 +170,88 @@ function _closeDuplicatePanel() {
     document.getElementById("cat-duplicate-panel").style.display = "none";
 }
 
-function _executeDuplicate() {
+async function _executeDuplicate() {
     const sourceYear = document.getElementById("cat-duplicate-source").value;
     if (!sourceYear || !_rawConfig?.yearCategories?.[sourceYear]) return;
 
+    const targetYear = String(_catManagerYear);
     const sourceCats = _rawConfig.yearCategories[sourceYear];
-    const list = document.getElementById("cat-list");
-    list.innerHTML = "";
 
-    // 複製元のカテゴリを新しいIDでコピーしてUIに追加
-    sourceCats.forEach(cat => {
+    // 固定カテゴリ（朝会・GYRO休み）を除外して複製
+    const catsToClone = sourceCats.filter(cat => !FIXED_CATEGORY_IDS.has(cat.id));
+
+    const list = document.getElementById("cat-list");
+    // 既存の固定カテゴリ行は保持し、それ以外をクリア
+    const fixedRows = [...list.querySelectorAll(".cat-manager-row")].filter(r => FIXED_CATEGORY_IDS.has(r.dataset.catId));
+    list.innerHTML = "";
+    fixedRows.forEach(r => list.appendChild(r));
+
+    // 複製カテゴリをUIに追加
+    const clonedCatNames = new Set();
+    catsToClone.forEach(cat => {
         const newId = Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
         const row = _createCategoryRow(newId, cat.name, cat.color);
         list.appendChild(row);
+        clonedCatNames.add(cat.name);
     });
 
     _closeDuplicatePanel();
-    announceStatus(`${sourceYear}年のカテゴリを複製しました`);
 
-    const firstInput = list.querySelector(".cat-manager-name");
+    // イベントも複製（年を変更してOutlookに作成）
+    if (getActiveAccount() && clonedCatNames.size > 0) {
+        const execBtn = document.getElementById("cat-duplicate-exec");
+        const saveBtn = document.getElementById("cat-manager-save");
+        if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "複製中..."; }
+
+        try {
+            const token = await getAccessToken();
+            const sourceEvents = (_cachedGraphEvents || []).filter(e =>
+                e.startDate && e.startDate.startsWith(sourceYear) &&
+                e.categories && e.categories.some(c => clonedCatNames.has(c))
+            );
+
+            let created = 0;
+            for (const ev of sourceEvents) {
+                // 日付の年を変更
+                const newStart = targetYear + ev.startDate.substring(4);
+                const newEnd = targetYear + ev.endDate.substring(4);
+                const category = ev.categories.find(c => clonedCatNames.has(c)) || ev.categories[0];
+
+                try {
+                    const result = await createCalendarEvent(token, {
+                        title: ev.title,
+                        category: category,
+                        startDate: newStart,
+                        endDate: newEnd,
+                        notes: ev.bodyPreview || "",
+                    });
+                    _cachedGraphEvents.push({
+                        id: result?.id || "temp-" + Date.now(),
+                        title: ev.title,
+                        categories: [category],
+                        startDate: newStart,
+                        endDate: newEnd,
+                        bodyPreview: ev.bodyPreview || "",
+                    });
+                    created++;
+                } catch (err) {
+                    console.warn(`[複製] イベント作成失敗: ${ev.title}`, err.message);
+                }
+            }
+
+            console.log(`[複製] ${sourceYear}→${targetYear}: カテゴリ${catsToClone.length}件, イベント${created}/${sourceEvents.length}件`);
+            announceStatus(`${sourceYear}年から${catsToClone.length}カテゴリと${created}件のイベントを複製しました`);
+        } catch (err) {
+            console.error("[複製] 失敗:", err);
+            announceStatus(`カテゴリは複製しましたが、イベントの複製に失敗しました`);
+        } finally {
+            if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = "保存"; }
+        }
+    } else {
+        announceStatus(`${sourceYear}年のカテゴリを複製しました（${catsToClone.length}件）`);
+    }
+
+    const firstInput = list.querySelector(".cat-manager-name:not([readonly])");
     if (firstInput) firstInput.focus();
 }
 
