@@ -216,9 +216,10 @@ async function _executeDuplicate() {
 
             let created = 0;
             for (const ev of sourceEvents) {
-                // 日付の年を変更
+                // 日付の年を変更（年またぎイベントのオフセットを保持）
+                const yearDiff = Number(ev.endDate.substring(0, 4)) - Number(ev.startDate.substring(0, 4));
                 const newStart = targetYear + ev.startDate.substring(4);
-                const newEnd = targetYear + ev.endDate.substring(4);
+                const newEnd = String(Number(targetYear) + yearDiff) + ev.endDate.substring(4);
                 const category = ev.categories[0];
 
                 try {
