@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-04T07:26:09.181Z",
+  "lastUpdated": "2026-04-04T07:26:21.902Z",
   "years": {
     "2025": {
       "events": [],
@@ -1103,56 +1103,326 @@
             "GYRO休み"
           ],
           "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQDAAAAA==",
+          "title": "年始挨拶レター",
+          "startDate": "2027-01-05",
+          "endDate": "2027-01-05",
+          "categories": [
+            "対外発信"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQDQAAAA==",
+          "title": "コネクトラボ勉強会",
+          "startDate": "2027-02-13",
+          "endDate": "2027-02-13",
+          "categories": [
+            "社内勉強会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQDgAAAA==",
+          "title": "一得設計 休み",
+          "startDate": "2027-02-15",
+          "endDate": "2027-02-23",
+          "categories": [
+            "パートナー休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQDwAAAA==",
+          "title": "京都diploma",
+          "startDate": "2027-02-20",
+          "endDate": "2027-02-23",
+          "categories": [
+            "CSR"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AAMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAAAAAB7dcekqi9wSqNkAlVUmXwVBwA4t0PdGlKnSJr0beJILybGAAAAAAENAAA4t0PdGlKnSJr0beJILybGAATdARAQAAA=",
+          "title": "トウキョウ建築コレクション",
+          "startDate": "2027-03-03",
+          "endDate": "2027-03-08",
+          "categories": [
+            "CSR"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQEQAAAA==",
+          "title": "FELLOWS子どもミュージカル",
+          "startDate": "2027-03-07",
+          "endDate": "2027-03-08",
+          "categories": [
+            "CSR"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQEgAAAA==",
+          "title": "せんだいデザインリーグ",
+          "startDate": "2027-03-08",
+          "endDate": "2027-03-15",
+          "categories": [
+            "CSR"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQEwAAAA==",
+          "title": "近代建築 3月号",
+          "startDate": "2027-03-10",
+          "endDate": "2027-03-10",
+          "categories": [
+            "メディア露出"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQFAAAAA==",
+          "title": "3S circulation_DAY5",
+          "startDate": "2027-03-30",
+          "endDate": "2027-03-30",
+          "categories": [
+            "CSR"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQFQAAAA==",
+          "title": "日本空間デザイン賞_応募期間",
+          "startDate": "2027-03-30",
+          "endDate": "2027-05-14",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": "https://kukan.design/detail-guidelines/"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQFgAAAA==",
+          "title": "グッドデザイン賞_応募期間",
+          "startDate": "2027-04-01",
+          "endDate": "2027-05-21",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQFwAAAA==",
+          "title": "BBQ",
+          "startDate": "2027-05-18",
+          "endDate": "2027-05-18",
+          "categories": [
+            "社内イベント"
+          ],
+          "bodyPreview": "■場所：キラナガーデン豊洲　CABINエリア\n〒135-0061 東京都江東区豊洲６丁目５−２７\nhttps://www.kiranahresort-toyosu.com/\n\n■時間：11～15時"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQGAAAAA==",
+          "title": "（仮）日本建築家協会 優秀建築選_応募期間",
+          "startDate": "2027-06-25",
+          "endDate": "2027-08-01",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": "2026年は未発表\n\n※参考　2025年応募要項\nhttps://www.jia.or.jp/jia-official/cms/wp-content/uploads/2025/06/b6818375777350f7bf6124f640a61272.pdf"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQGQAAAA==",
+          "title": "グッドデザイン賞_一次審査結果",
+          "startDate": "2027-06-30",
+          "endDate": "2027-06-30",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": "https://www.g-mark.org/apply/gda/guide/outlines"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQGgAAAA==",
+          "title": "グッドデザイン賞_二次審査情報_登録期間",
+          "startDate": "2027-06-30",
+          "endDate": "2027-07-07",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQGwAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2027-07-01",
+          "endDate": "2027-09-30",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQHAAAAA==",
+          "title": "二級建築士_学科",
+          "startDate": "2027-07-05",
+          "endDate": "2027-07-05",
+          "categories": [
+            "資格"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQHQAAAA==",
+          "title": "一級建築士_学科",
+          "startDate": "2027-07-26",
+          "endDate": "2027-07-26",
+          "categories": [
+            "資格"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQHgAAAA==",
+          "title": "（仮）ADFデザイン_応募期間",
+          "startDate": "2027-08-01",
+          "endDate": "2027-12-01",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": "2026年は未発表\n\n※参考：2025年情報\nhttps://www.adf.or.jp/adfaward/?id=1756161125-291108"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQHwAAAA==",
+          "title": "グッドデザイン賞_二次審査結果",
+          "startDate": "2027-08-25",
+          "endDate": "2027-08-25",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQIAAAAA==",
+          "title": "グッドデザイン賞_公開情報・受賞展展示情報の登録期間",
+          "startDate": "2027-08-25",
+          "endDate": "2027-09-01",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQIQAAAA==",
+          "title": "二級建築士_製図",
+          "startDate": "2027-09-13",
+          "endDate": "2027-09-13",
+          "categories": [
+            "資格"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQIgAAAA==",
+          "title": "一級建築士_製図",
+          "startDate": "2027-10-11",
+          "endDate": "2027-10-11",
+          "categories": [
+            "資格"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQIwAAAA==",
+          "title": "グッドデザイン賞_受賞発表",
+          "startDate": "2027-10-15",
+          "endDate": "2027-10-15",
+          "categories": [
+            "アワード"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQJAAAAA==",
+          "title": "（仮）GYRO AWARD 2026",
+          "startDate": "2027-12-11",
+          "endDate": "2027-12-11",
+          "categories": [
+            "社内イベント"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQJQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQJgAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2027-12-29",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
         }
       ],
       "categories": [
-        {
-          "id": "gyro_holiday",
-          "name": "GYRO休み",
-          "color": "#374151"
-        },
         {
           "id": "morning_meeting",
           "name": "朝会",
           "color": "#3b82f6"
         },
         {
-          "id": "mnk014gf501l",
+          "id": "gyro_holiday",
+          "name": "GYRO休み",
+          "color": "#374151"
+        },
+        {
+          "id": "mnk0dwggepzu",
           "name": "パートナー休み",
           "color": "#64748b"
         },
         {
-          "id": "mnk014gfu864",
+          "id": "mnk0dwgg0bif",
           "name": "社内イベント",
           "color": "#ec4899"
         },
         {
-          "id": "mnk014gf86jh",
+          "id": "mnk0dwggqyhk",
           "name": "アワード",
           "color": "#eab308"
         },
         {
-          "id": "mnk014gfmmn6",
+          "id": "mnk0dwggzpfh",
           "name": "資格",
           "color": "#a855f7"
         },
         {
-          "id": "mnk014gf2qis",
+          "id": "mnk0dwgggyd8",
           "name": "CSR",
           "color": "#22c55e"
         },
         {
-          "id": "mnk014gf6b4i",
+          "id": "mnk0dwgh10ji",
           "name": "メディア露出",
           "color": "#f97316"
         },
         {
-          "id": "mnk014gfvxpr",
+          "id": "mnk0dwgh7dmm",
           "name": "対外発信",
           "color": "#dc2626"
         },
         {
-          "id": "mnk014gfcfy2",
+          "id": "mnk0dwghrbw2",
           "name": "社内勉強会",
           "color": "#6366f1"
         }
