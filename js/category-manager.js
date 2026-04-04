@@ -198,7 +198,11 @@ async function _executeDuplicate() {
     _closeDuplicatePanel();
 
     // イベントも複製（年を変更してOutlookに作成）
-    if (getActiveAccount() && clonedCatNames.size > 0) {
+    // GYRO休みのイベントも含める（朝会は除外）
+    const eventCatNames = new Set(clonedCatNames);
+    eventCatNames.add("GYRO休み");
+
+    if (getActiveAccount() && eventCatNames.size > 0) {
         const execBtn = document.getElementById("cat-duplicate-exec");
         const saveBtn = document.getElementById("cat-manager-save");
         if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = "複製中..."; }
@@ -207,7 +211,7 @@ async function _executeDuplicate() {
             const token = await getAccessToken();
             const sourceEvents = (_cachedGraphEvents || []).filter(e =>
                 e.startDate && e.startDate.startsWith(sourceYear) &&
-                e.categories && e.categories.some(c => clonedCatNames.has(c))
+                e.categories && e.categories.some(c => eventCatNames.has(c))
             );
 
             let created = 0;
