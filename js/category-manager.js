@@ -574,9 +574,10 @@ async function _saveCategoryChanges() {
         const savingYear = String(_catManagerYear);
 
         // 削除されたカテゴリを特定し、関連イベントをOutlookから削除
+        // 名前ベースで比較（IDが変わっても同名カテゴリがあればイベントは削除しない）
         const oldCats = (_rawConfig.yearCategories && _rawConfig.yearCategories[savingYear]) || [];
-        const newCatIds = new Set(newCategories.map(c => c.id));
-        const removedCats = oldCats.filter(c => !newCatIds.has(c.id));
+        const newCatNames = new Set(newCategories.map(c => c.name));
+        const removedCats = oldCats.filter(c => !newCatNames.has(c.name));
         console.log(`[カテゴリ保存] oldCats=${oldCats.map(c=>c.name).join(",")}, newCats=${newCategories.map(c=>c.name).join(",")}, removed=${removedCats.map(c=>c.name).join(",") || "なし"}`);
 
         if (removedCats.length > 0) {
