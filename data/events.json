@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-23T02:18:39.711Z",
+  "lastUpdated": "2026-04-23T02:19:12.778Z",
   "years": {
     "2025": {
       "events": [],
@@ -769,6 +769,16 @@
           "title": "社内報_4号",
           "startDate": "2026-02-16",
           "endDate": "2026-02-16",
+          "categories": [
+            "社内報"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE6t-bmAAAAA==",
+          "title": "社内報_5号_3号",
+          "startDate": "2026-01-19",
+          "endDate": "2026-01-19",
           "categories": [
             "社内報"
           ],
