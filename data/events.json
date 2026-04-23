@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-04-23T02:13:40.893Z",
+  "lastUpdated": "2026-04-23T02:16:17.632Z",
   "years": {
     "2025": {
       "events": [],
@@ -805,6 +805,11 @@
           "id": "mnipa99fm631",
           "name": "社内勉強会",
           "color": "#6366f1"
+        },
+        {
+          "id": "moauo4c7hbq4",
+          "name": "社内報",
+          "color": "#ca8a04"
         }
       ]
     },
