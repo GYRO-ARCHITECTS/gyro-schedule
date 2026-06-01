@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-01T04:10:24.398Z",
+  "lastUpdated": "2026-06-01T04:10:53.033Z",
   "years": {
     "2025": {
       "events": [],
@@ -877,6 +877,16 @@
           "endDate": "2027-01-04",
           "categories": [
             "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L6QAAAA==",
+          "title": "経費〆切",
+          "startDate": "2026-06-03",
+          "endDate": "2026-06-03",
+          "categories": [
+            "管理部"
           ],
           "bodyPreview": ""
         }
