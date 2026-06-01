@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-01T04:00:30.234Z",
+  "lastUpdated": "2026-06-01T04:10:24.398Z",
   "years": {
     "2025": {
       "events": [],
@@ -891,6 +891,11 @@
           "id": "gyro_holiday",
           "name": "GYRO休み",
           "color": "#14b8a6"
+        },
+        {
+          "id": "mpuookeeua67",
+          "name": "管理部",
+          "color": "#ef4444"
         },
         {
           "id": "mnifpm1rz9ni",
