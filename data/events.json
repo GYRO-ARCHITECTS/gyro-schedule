@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-02T01:34:28.655Z",
+  "lastUpdated": "2026-06-02T01:37:04.909Z",
   "years": {
     "2025": {
       "events": [],
@@ -361,6 +361,16 @@
           "endDate": "2026-06-02",
           "categories": [],
           "bodyPreview": "関係各位\r\n\r\nお世話になります\r\n武蔵村山市冷凍冷蔵倉庫のWEB会議の案内を送ります\r\nご確認ください\r\n\r\n________________________________________________________________________________\r\nMicrosoft Teams 会議\r\n参加する: https://teams.microsoft.com/meet/42427082345001?p=r8hxwslCEvi2wP22C1\r\n会議 ID: 424 270 823 45"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L8QAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-06-03",
+          "endDate": "2026-06-03",
+          "categories": [
+            "管理部・MG室"
+          ],
+          "bodyPreview": ""
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L6AAAAA==",
@@ -877,16 +887,6 @@
           "endDate": "2027-01-04",
           "categories": [
             "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L8QAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-06-03",
-          "endDate": "2026-06-03",
-          "categories": [
-            "管理部・MG室"
           ],
           "bodyPreview": ""
         }
