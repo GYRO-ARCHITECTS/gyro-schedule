@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-05T02:24:26.808Z",
+  "lastUpdated": "2026-06-05T02:24:31.027Z",
   "years": {
     "2025": {
       "events": [],
@@ -481,6 +481,16 @@
           "bodyPreview": ""
         },
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L8wAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-07-03",
+          "endDate": "2026-07-03",
+          "categories": [
+            "管理部・MG室"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPYAAAAA==",
           "title": "二級建築士_学科",
           "startDate": "2026-07-05",
@@ -561,6 +571,16 @@
           "bodyPreview": "サークルMTG（teams）"
         },
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9AAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-08-03",
+          "endDate": "2026-08-03",
+          "categories": [
+            "管理部・MG室"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y5QAAAA==",
           "title": "朝会",
           "startDate": "2026-08-10",
@@ -631,6 +651,16 @@
           "bodyPreview": "【WEEK4】サークルMTG（teams）"
         },
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9QAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-09-03",
+          "endDate": "2026-09-03",
+          "categories": [
+            "管理部・MG室"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y6QAAAA==",
           "title": "朝会",
           "startDate": "2026-09-07",
@@ -638,7 +668,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルマネージャー会議（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPbgAAAA==",
@@ -658,7 +688,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルミーティング（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE6t-bnAAAAA==",
@@ -678,6 +708,16 @@
           "categories": [
             "朝会"
           ],
+          "bodyPreview": "管理部＋サークルマネージャー＋マネージメント室 ＋役員（ZOOM）"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9gAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-10-03",
+          "endDate": "2026-10-03",
+          "categories": [
+            "管理部・MG室"
+          ],
           "bodyPreview": ""
         },
         {
@@ -688,7 +728,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルマネージャー会議（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPbwAAAA==",
@@ -718,7 +758,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルミーティング（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y7wAAAA==",
@@ -728,7 +768,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "管理部＋サークルマネージャー＋マネージメント室 ＋役員（ZOOM）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y8AAAAA==",
@@ -737,6 +777,16 @@
           "endDate": "2026-11-02",
           "categories": [
             "朝会"
+          ],
+          "bodyPreview": "サークルマネージャー会議（teams）"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9wAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-11-03",
+          "endDate": "2026-11-03",
+          "categories": [
+            "管理部・MG室"
           ],
           "bodyPreview": ""
         },
@@ -748,7 +798,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルミーティング（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE6t-bnQAAAA==",
@@ -768,7 +818,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "管理部＋サークルマネージャー＋マネージメント室 ＋役員（ZOOM）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y8wAAAA==",
@@ -777,6 +827,16 @@
           "endDate": "2026-11-30",
           "categories": [
             "朝会"
+          ],
+          "bodyPreview": "サークルミーティング（teams）"
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L_AAAAA==",
+          "title": "★経費〆切★",
+          "startDate": "2026-12-03",
+          "endDate": "2026-12-03",
+          "categories": [
+            "管理部・MG室"
           ],
           "bodyPreview": ""
         },
@@ -788,7 +848,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルマネージャー会議（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPWgAAAA==",
@@ -818,7 +878,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "管理部＋サークルマネージャー＋マネージメント室 ＋役員（ZOOM）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y9wAAAA==",
@@ -828,7 +888,7 @@
           "categories": [
             "朝会"
           ],
-          "bodyPreview": ""
+          "bodyPreview": "サークルミーティング（teams）"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQQwAAAA==",
@@ -887,66 +947,6 @@
           "endDate": "2027-01-04",
           "categories": [
             "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L8wAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-07-03",
-          "endDate": "2026-07-03",
-          "categories": [
-            "管理部・MG室"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9AAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-08-03",
-          "endDate": "2026-08-03",
-          "categories": [
-            "管理部・MG室"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9QAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-09-03",
-          "endDate": "2026-09-03",
-          "categories": [
-            "管理部・MG室"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9gAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-10-03",
-          "endDate": "2026-10-03",
-          "categories": [
-            "管理部・MG室"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L9wAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-11-03",
-          "endDate": "2026-11-03",
-          "categories": [
-            "管理部・MG室"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFA63L_AAAAA==",
-          "title": "★経費〆切★",
-          "startDate": "2026-12-03",
-          "endDate": "2026-12-03",
-          "categories": [
-            "管理部・MG室"
           ],
           "bodyPreview": ""
         }
