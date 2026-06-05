@@ -238,8 +238,8 @@ async function _executeDuplicate() {
                 }
             }
 
-            console.log(`[複製] ${sourceYear}→${targetYear}: カテゴリ${catsToClone.length}件, イベント${created}/${sourceEvents.length}件`);
-            announceStatus(`${sourceYear}年から${catsToClone.length}カテゴリと${created}件のイベントを複製しました`);
+            console.log(`[複製] ${sourceYear}→${targetYear}: カテゴリ${clonedCatNames.size}件, イベント${created}/${sourceEvents.length}件`);
+            announceStatus(`${sourceYear}年から${clonedCatNames.size}カテゴリと${created}件のイベントを複製しました`);
         } catch (err) {
             console.error("[複製] 失敗:", err);
             announceStatus(`カテゴリは複製しましたが、イベントの複製に失敗しました`);
@@ -247,7 +247,7 @@ async function _executeDuplicate() {
             if (saveBtn) { saveBtn.disabled = false; saveBtn.textContent = "保存"; }
         }
     } else {
-        announceStatus(`${sourceYear}年のカテゴリを複製しました（${catsToClone.length}件）`);
+        announceStatus(`${sourceYear}年のカテゴリを複製しました（${clonedCatNames.size}件）`);
     }
 
     const firstInput = list.querySelector(".cat-manager-name:not([readonly])");

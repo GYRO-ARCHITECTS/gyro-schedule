@@ -428,52 +428,6 @@ function buildEventBody(eventData) {
 // Outlookカテゴリ色同期
 // ========================================
 
-// Outlookプリセット色とHex値のマッピング
-const OUTLOOK_PRESETS = [
-    { name: "preset0",  hex: "#e7a1a2" }, // Red
-    { name: "preset1",  hex: "#f9ba89" }, // Orange
-    { name: "preset2",  hex: "#f7dd8f" }, // Brown/Peach
-    { name: "preset3",  hex: "#fcfa90" }, // Yellow
-    { name: "preset4",  hex: "#78d168" }, // Green
-    { name: "preset5",  hex: "#9fdcc9" }, // Teal
-    { name: "preset6",  hex: "#c6d2b0" }, // Olive
-    { name: "preset7",  hex: "#9db7e8" }, // Blue
-    { name: "preset8",  hex: "#b5a1e2" }, // Purple
-    { name: "preset9",  hex: "#daaec2" }, // Cranberry
-    { name: "preset10", hex: "#dad9dc" }, // Steel
-    { name: "preset11", hex: "#6b7994" }, // DarkSteel
-    { name: "preset12", hex: "#bfbfbf" }, // Gray
-    { name: "preset13", hex: "#6f6f6f" }, // DarkGray
-    { name: "preset14", hex: "#4f4f4f" }, // Black
-    { name: "preset15", hex: "#c11a25" }, // DarkRed
-    { name: "preset16", hex: "#e2620d" }, // DarkOrange
-    { name: "preset17", hex: "#c79930" }, // DarkBrown
-    { name: "preset18", hex: "#b9b300" }, // DarkYellow
-    { name: "preset19", hex: "#368f20" }, // DarkGreen
-    { name: "preset20", hex: "#329b7a" }, // DarkTeal
-    { name: "preset21", hex: "#778b45" }, // DarkOlive
-    { name: "preset22", hex: "#2858a5" }, // DarkBlue
-    { name: "preset23", hex: "#5c3fa3" }, // DarkPurple
-    { name: "preset24", hex: "#93446b" }, // DarkCranberry
-];
-
-function _hexToRgb(hex) {
-    const h = hex.replace("#", "");
-    return [parseInt(h.substring(0, 2), 16), parseInt(h.substring(2, 4), 16), parseInt(h.substring(4, 6), 16)];
-}
-
-function _closestPreset(hexColor) {
-    const [r, g, b] = _hexToRgb(hexColor);
-    let best = "preset7";
-    let bestDist = Infinity;
-    for (const p of OUTLOOK_PRESETS) {
-        const [pr, pg, pb] = _hexToRgb(p.hex);
-        const dist = (r - pr) ** 2 + (g - pg) ** 2 + (b - pb) ** 2;
-        if (dist < bestDist) { bestDist = dist; best = p.name; }
-    }
-    return best;
-}
-
 // Outlookカテゴリ色の明示的マッピング
 function _getOutlookPreset(catName) {
     if (catName === "朝会") return "preset7";        // Blue

@@ -331,6 +331,39 @@ body { display:flex; flex-direction:column; }
 .gs-empty-evt .gs-evt-inner { justify-content:center; }
 .gs-empty-evt:hover .gs-row-add-btn-empty { opacity:0.8; }
 
+/* カテゴリ末尾の「＋ イベントを追加」行 */
+.gs-add-evt { cursor:pointer; }
+.gs-add-row-btn {
+    border:none; background:transparent; cursor:pointer;
+    color:var(--color-text-tertiary); font-size:12px; line-height:1;
+    padding:2px 6px; border-radius:var(--radius-sm); white-space:nowrap;
+    opacity:0.55; transition:opacity var(--duration-fast), background var(--duration-fast), color var(--duration-fast);
+}
+.gs-add-evt:hover .gs-add-row-btn,
+.gs-add-row-btn:hover { opacity:1; background:var(--color-amber-50); color:var(--color-amber-600); }
+
+/* 行削除ボタン（🗑）＋ 行内インライン確認 */
+.gs-row-del-btn {
+    flex-shrink:0; width:18px; height:18px; border:none; background:transparent;
+    color:var(--color-text-tertiary); font-size:11px; line-height:1;
+    cursor:pointer; border-radius:var(--radius-sm);
+    opacity:0; transition:opacity var(--duration-fast), background var(--duration-fast), color var(--duration-fast);
+    display:flex; align-items:center; justify-content:center;
+}
+.gs-event-row:hover .gs-row-del-btn { opacity:0.4; }
+.gs-row-del-btn:hover { opacity:1!important; background:var(--color-danger-light); color:var(--color-danger); border-radius:50%; }
+
+.gs-row-del-confirm { display:flex; align-items:center; gap:6px; width:100%; white-space:nowrap; overflow:hidden; }
+.gs-row-del-msg { font-size:11px; font-weight:600; color:var(--color-danger); }
+.gs-row-del-no, .gs-row-del-yes {
+    flex-shrink:0; border-radius:var(--radius-sm); font-size:11px; font-weight:600;
+    padding:3px 8px; cursor:pointer; line-height:1.4;
+}
+.gs-row-del-no { background:var(--color-surface); color:var(--color-text-secondary); border:1px solid var(--color-border); }
+.gs-row-del-yes { background:var(--color-danger); color:var(--color-text-inverse); border:1px solid var(--color-danger); }
+.gs-row-del-yes:hover { background:#b91c1c; border-color:#b91c1c; }
+.gs-row-del-yes:disabled { opacity:0.7; cursor:default; }
+
 .gs-corner {
     z-index:var(--z-tl-corner); background:var(--color-surface-raised);
     font-family:var(--font-display); font-weight:600; color:var(--color-navy-400);

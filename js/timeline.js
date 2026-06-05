@@ -1,26 +1,23 @@
 // Excel風タイムライン描画エンジン（ドラッグ操作対応・マルチモード版）
-// 表示モード: 週(week) / 5日(fiveday) / 1日(day) / 全体(fit)
+// 表示モード: 週(week) / 1日(day) / 全体(fit)
 
 // ========================================
 // 定数
 // ========================================
-const ROW_HEIGHT = 36;
 const FIXED_COL_WIDTH_CAT = 120;
 const FIXED_COL_WIDTH_EVT = 250;
 const FIXED_COLS_TOTAL = FIXED_COL_WIDTH_CAT + FIXED_COL_WIDTH_EVT;
 const MONTH_NAMES = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
-const RESIZE_ZONE_PX = 10;
 const DRAG_THRESHOLD = 5;
 const _isMobile = () => window.innerWidth <= 480;
 
 // モードごとの日付開始配列
 const MODE_STARTS = {
     week: [1, 8, 15, 22],
-    fiveday: [1, 6, 11, 16, 21, 26],
     fit: [1, 8, 15, 22],
 };
 // モードごとの列幅 (px)。fit は動的計算のため null
-const MODE_COL_WIDTHS = { week: 80, fiveday: 48, day: 28, fit: null };
+const MODE_COL_WIDTHS = { week: 80, day: 28, fit: null };
 
 // ========================================
 // タイムラインモード状態
@@ -763,11 +760,18 @@ function renderTimeline(events, year, holidaySet, options) {
                 return ia - ib;
             });
         }
+        let lastEventTr = null;
         titleOrder.forEach((title, idx) => {
             const evGroup = titleGroups[title];
             const tr = createEventRow(evGroup, cat, idx, titleOrder.length, totalCols, year, holidaySet, todayCol);
             tbody.appendChild(tr);
+            lastEventTr = tr;
         });
+        // 末尾に「イベント追加」行（サインイン時のみ）。区切り線を追加行下端へ移す
+        if (getActiveAccount()) {
+            if (lastEventTr) lastEventTr.classList.remove("gs-cat-last-row");
+            tbody.appendChild(createAddRow(cat, totalCols, year, holidaySet, todayCol));
+        }
     };
 
     // 1パス目: 固定カテゴリを指定順で先頭に描画
@@ -852,6 +856,7 @@ function _centerCatBadges(tbody) {
     };
 
     rows.forEach(row => {
+        if (row.classList.contains("gs-add-row")) return; // 追加行はバッジ中央揃えの基準に含めない
         const cat = row.dataset.categoryName;
         if (cat !== currentCat) {
             if (groupRows.length > 0) adjustGroup(groupRows);
@@ -911,6 +916,46 @@ function createEmptyRow(cat, totalCols, year, holidaySet, todayCol) {
         evtInner.appendChild(addBtn);
     }
 
+    tdEvt.appendChild(evtInner);
+    tr.appendChild(tdEvt);
+
+    for (let c = 0; c < totalCols; c++) {
+        tr.appendChild(createTimelineCell(c, year, holidaySet, todayCol));
+    }
+    return tr;
+}
+
+// ---- カテゴリ末尾の「イベント追加」行（イベントありカテゴリ用・サインイン時のみ） ----
+function createAddRow(cat, totalCols, year, holidaySet, todayCol) {
+    const tr = document.createElement("tr");
+    tr.className = "gs-event-row gs-add-row gs-cat-last-row";
+    tr.dataset.category = cat.id;
+    tr.dataset.categoryName = cat.name;
+
+    // カテゴリセルはバッジ無しの空セル（バッジは先頭行にある）
+    const tdCat = document.createElement("td");
+    tdCat.className = "gs-fixed-col gs-col-cat";
+    tr.appendChild(tdCat);
+
+    const tdEvt = document.createElement("td");
+    tdEvt.className = "gs-fixed-col gs-col-evt gs-add-evt";
+    tdEvt.setAttribute("role", "button");
+    tdEvt.setAttribute("tabindex", "0");
+    tdEvt.setAttribute("aria-label", `${cat.name}に新しいイベントを追加`);
+    tdEvt.addEventListener("click", () => openEventModal(null, cat.name));
+    tdEvt.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openEventModal(null, cat.name); }
+    });
+
+    const evtInner = document.createElement("div");
+    evtInner.className = "gs-evt-inner";
+    const addBtn = document.createElement("button");
+    addBtn.className = "gs-add-row-btn";
+    addBtn.textContent = "＋ イベントを追加";
+    addBtn.title = `${cat.name}に新しいイベントを追加`;
+    addBtn.setAttribute("aria-label", `${cat.name}に新しいイベントを追加`);
+    addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name); });
+    evtInner.appendChild(addBtn);
     tdEvt.appendChild(evtInner);
     tr.appendChild(tdEvt);
 
@@ -1132,9 +1177,13 @@ async function _moveRow(catName, parentTitle, direction, year) {
     );
     const { order: currentOrder } = _groupByTitle(catEvents);
 
-    // カスタム順序があれば使用、なければ現在順序
-    let order = _rawConfig.titleOrders[yearStr][catName];
-    if (!order || order.length === 0) order = [...currentOrder];
+    // 保存済み順序を尊重しつつ、現存タイトルだけ残し、保存に無い新規タイトルを末尾に追加。
+    // （新しく追加した行も並べ替え対象になる。描画時の表示順とも一致）
+    const saved = _rawConfig.titleOrders[yearStr][catName] || [];
+    let order = [
+        ...saved.filter(t => currentOrder.includes(t)),
+        ...currentOrder.filter(t => !saved.includes(t)),
+    ];
 
     const idx = order.indexOf(parentTitle);
     if (idx < 0) return;
@@ -1155,6 +1204,36 @@ async function _moveRow(catName, parentTitle, direction, year) {
     } catch (err) {
         console.warn("[行並べ替え] 保存失敗:", err.message);
     }
+}
+
+// 行削除のインライン確認UI（イベント名セルの中身を一時的に差し替える）
+function _showRowDeleteConfirm(evtInner, title, evIds, count) {
+    const confirmEl = document.createElement("div");
+    confirmEl.className = "gs-row-del-confirm";
+
+    const msg = document.createElement("span");
+    msg.className = "gs-row-del-msg";
+    msg.textContent = count > 1 ? `${count}件削除？` : "削除？";
+
+    const noBtn = document.createElement("button");
+    noBtn.className = "gs-row-del-no";
+    noBtn.textContent = "やめる";
+    noBtn.addEventListener("click", (e) => { e.stopPropagation(); rerenderFromCache(); });
+
+    const yesBtn = document.createElement("button");
+    yesBtn.className = "gs-row-del-yes";
+    yesBtn.textContent = "削除";
+    yesBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        yesBtn.disabled = true;
+        yesBtn.textContent = "削除中…";
+        onDeleteEventRow(title, evIds);
+    });
+
+    confirmEl.appendChild(msg);
+    confirmEl.appendChild(noBtn);
+    confirmEl.appendChild(yesBtn);
+    evtInner.replaceChildren(confirmEl);
 }
 
 function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidaySet, todayCol) {
@@ -1299,6 +1378,19 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
         const rowParentTitle = _getParentTitle(evGroup[0].title);
         addBtn.addEventListener("click", (e) => { e.stopPropagation(); openEventModal(null, cat.name, null, null, rowParentTitle); });
         evtInner.appendChild(addBtn);
+
+        // 行削除ボタン（ゴミ箱アイコン）— クリックで行内インライン確認
+        const delBtn = document.createElement("button");
+        delBtn.className = "gs-row-del-btn";
+        delBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>';
+        delBtn.title = `「${parentTitle}」を削除`;
+        delBtn.setAttribute("aria-label", `「${parentTitle}」を削除`);
+        const evIds = evGroup.map(ev => ev.id);
+        delBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            _showRowDeleteConfirm(evtInner, parentTitle, evIds, evGroup.length);
+        });
+        evtInner.appendChild(delBtn);
     }
 
     tdEvt.appendChild(evtInner);

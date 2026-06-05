@@ -9,7 +9,7 @@
     <!-- Preconnect to Google Fonts for faster font loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=20260403k">
+    <link rel="stylesheet" href="css/style.css?v=20260605b">
 </head>
 <body>
     <!-- Skip Link for keyboard users -->
@@ -23,14 +23,6 @@
                 <button id="today-btn" class="today-btn" title="今年へ移動" aria-label="今年へ移動">2026年</button>
                 <button id="next-year-btn" class="year-btn" title="翌年" aria-label="翌年へ移動">&rsaquo;</button>
             </nav>
-            <div id="view-switcher" class="view-switcher" role="tablist" aria-label="表示切替" style="display:none;">
-                <button class="view-btn active" data-view="timeline" role="tab" aria-selected="true" aria-controls="timeline-wrapper" title="タイムライン">&#9866; タイムライン</button>
-                <!-- カレンダー・リストは現在非表示 -->
-                <!--
-                <button class="view-btn" data-view="calendar" role="tab" aria-selected="false" aria-controls="timeline-wrapper" title="月カレンダー">&#9638; カレンダー</button>
-                <button class="view-btn" data-view="list" role="tab" aria-selected="false" aria-controls="timeline-wrapper" title="リスト">&#9776; リスト</button>
-                -->
-            </div>
             <div id="timeline-mode-bar" class="timeline-mode-bar" style="display:none;" role="radiogroup" aria-label="タイムライン表示間隔">
                 <button class="tl-mode-btn active" data-mode="day" role="radio" aria-checked="true">1日</button>
                 <button class="tl-mode-btn" data-mode="week" role="radio" aria-checked="false">週</button>
@@ -48,12 +40,6 @@
     </header>
 
     <div id="legend" role="complementary" aria-label="カテゴリ凡例" style="display:none;"></div>
-
-    <nav id="month-nav" class="month-nav" style="display:none;" aria-label="月ナビゲーション">
-        <button id="prev-month-btn" class="month-nav-btn" title="前月" aria-label="前月へ移動">&lsaquo;</button>
-        <span id="month-label" class="month-label" aria-live="polite" aria-atomic="true"></span>
-        <button id="next-month-btn" class="month-nav-btn" title="翌月" aria-label="翌月へ移動">&rsaquo;</button>
-    </nav>
 
     <div id="status-area" role="status" aria-live="polite">
         <div id="loading-spinner" style="display:none;" role="alert" aria-busy="true">
@@ -265,9 +251,7 @@
     <script src="js/holidays.js?v=20260402a" defer></script>
     <script src="js/auth.js?v=20260402a" defer></script>
     <script src="js/graph.js?v=20260403g" defer></script>
-    <script src="js/timeline.js?v=20260403n" defer></script>
-    <script src="js/calendar.js?v=20260402a" defer></script>
-    <script src="js/listview.js?v=20260402a" defer></script>
+    <script src="js/timeline.js?v=20260605c" defer></script>
     <script src="js/category-manager.js?v=20260404h" defer></script>
     <script src="js/app.js?v=20260404a" defer></script>
 </body>

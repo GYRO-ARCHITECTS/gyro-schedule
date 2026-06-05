@@ -16,8 +16,7 @@ let _rawConfig = null;     // Config Event の生データ（v2形式）
 // ========================================
 // ビュー状態管理
 // ========================================
-let _currentView = "timeline";  // "timeline" | "calendar" | "list"
-let _currentMonth = new Date().getMonth(); // 0-11 (カレンダービュー用)
+let _currentView = "timeline";  // タイムライン専用（旧構成: timeline | calendar | list）
 
 // ========================================
 // ローカルイベントキャッシュ（SPA の核）
@@ -42,28 +41,17 @@ function rerenderFromCache(initialLoad) {
     const scrollLeft = wrapper ? wrapper.scrollLeft : 0;
     const scrollTop = wrapper ? wrapper.scrollTop : 0;
 
-    switch (_currentView) {
-        case "timeline": {
-            // モードのオフセットテーブルが年と一致しなければ再構築
-            if (_tlYear !== currentYear) setTimelineMode(_tlMode, currentYear);
-            const allEvents = [..._cachedHolidays, ..._cachedGraphEvents];
-            if (initialLoad) {
-                renderTimeline(allEvents, currentYear, _cachedHolidaySet);
-            } else {
-                renderTimeline(allEvents, currentYear, _cachedHolidaySet, { skipScroll: true });
-                if (wrapper) {
-                    wrapper.scrollLeft = scrollLeft;
-                    wrapper.scrollTop = scrollTop;
-                }
-            }
-            break;
+    // モードのオフセットテーブルが年と一致しなければ再構築
+    if (_tlYear !== currentYear) setTimelineMode(_tlMode, currentYear);
+    const allEvents = [..._cachedHolidays, ..._cachedGraphEvents];
+    if (initialLoad) {
+        renderTimeline(allEvents, currentYear, _cachedHolidaySet);
+    } else {
+        renderTimeline(allEvents, currentYear, _cachedHolidaySet, { skipScroll: true });
+        if (wrapper) {
+            wrapper.scrollLeft = scrollLeft;
+            wrapper.scrollTop = scrollTop;
         }
-        case "calendar":
-            renderCalendar(_cachedGraphEvents, _cachedHolidays, currentYear, _currentMonth, _cachedHolidaySet);
-            break;
-        case "list":
-            renderListView(_cachedGraphEvents, _cachedHolidays, currentYear, _cachedHolidaySet);
-            break;
     }
 }
 
@@ -96,7 +84,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 // ---- UI初期設定 ----
 function setupUI() {
     updateYearLabel();
-    updateMonthLabel();
 
     document.getElementById("sign-in-btn").addEventListener("click", handleSignIn);
     document.getElementById("header-sign-in-btn").addEventListener("click", handleSignIn);
@@ -104,23 +91,16 @@ function setupUI() {
     document.getElementById("prev-year-btn").addEventListener("click", () => changeYear(-1));
     document.getElementById("next-year-btn").addEventListener("click", () => changeYear(1));
 
-    // 今日ボタン（ビューごとに挙動分岐）
+    // 今日ボタン: 別年なら今年へ、同年ならタイムラインを今日へスクロール
     document.getElementById("today-btn").addEventListener("click", () => {
         const thisYear = new Date().getFullYear();
-        const thisMonth = new Date().getMonth();
 
         if (currentYear !== thisYear) {
             currentYear = thisYear;
             graphConfig.year = thisYear;
-            _currentMonth = thisMonth;
             updateYearLabel();
-            updateMonthLabel();
             if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
-        } else if (_currentView === "calendar") {
-            _currentMonth = thisMonth;
-            updateMonthLabel();
-            rerenderFromCache();
-        } else if (_currentView === "timeline") {
+        } else {
             scrollToToday();
         }
         announceStatus("今日の位置へ移動しました");
@@ -137,28 +117,16 @@ function setupUI() {
     // 公開ボタン
     document.getElementById("publish-btn").addEventListener("click", handlePublish);
 
-    // ビュー切替
-    setupViewSwitcher();
-
     // タイムラインモード切替
     setupTimelineModeSwitcher();
-
-    // 月ナビ
-    setupMonthNav();
 
     // fitモード用リサイズハンドラ
     let _resizeTimer = 0;
     window.addEventListener("resize", () => {
-        if (_tlMode !== "fit" || _currentView !== "timeline") return;
+        if (_tlMode !== "fit") return;
         clearTimeout(_resizeTimer);
         _resizeTimer = setTimeout(() => rerenderFromCache(true), 200);
     });
-
-    // モバイル初期ビュー: スマホではリストビューをデフォルトにする
-    if (window.innerWidth <= 480 && _currentView === "timeline") {
-        const listBtn = document.querySelector('.view-btn[data-view="list"]');
-        if (listBtn) listBtn.click();
-    }
 
     // orientationchange: 画面回転時に再描画
     window.addEventListener("orientationchange", () => {
@@ -167,71 +135,6 @@ function setupUI() {
                 rerenderFromCache(true);
             }
         }, 300);
-    });
-}
-
-// ---- ビュー切替 ----
-function setupViewSwitcher() {
-    const viewBtns = document.querySelectorAll(".view-btn");
-
-    viewBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const view = btn.dataset.view;
-            if (view === _currentView) return;
-
-            // ボタンのアクティブ状態 + ARIA
-            viewBtns.forEach(b => {
-                b.classList.remove("active");
-                b.setAttribute("aria-selected", "false");
-            });
-            btn.classList.add("active");
-            btn.setAttribute("aria-selected", "true");
-
-            _currentView = view;
-
-            // 月ナビの表示/非表示（年間カレンダーでは不要）
-            document.getElementById("month-nav").style.display = "none";
-
-            // タイムラインモードバーの表示/非表示
-            document.getElementById("timeline-mode-bar").style.display =
-                (view === "timeline") ? "flex" : "none";
-
-            // データがあれば再描画（ビュー切替は初回表示扱い）
-            if (_cachedGraphEvents.length > 0 || _cachedHolidays.length > 0) {
-                rerenderFromCache(true);
-            }
-
-            const viewNames = { timeline: "タイムライン", calendar: "カレンダー", list: "リスト" };
-            announceStatus(`${viewNames[view]}ビューに切り替えました`);
-        });
-
-        // キーボード: 矢印キーでタブ切替
-        btn.addEventListener("keydown", (e) => {
-            const btns = Array.from(viewBtns);
-            const idx = btns.indexOf(btn);
-            let next = -1;
-
-            if (e.key === "ArrowRight" || e.key === "ArrowDown") {
-                next = (idx + 1) % btns.length;
-            } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
-                next = (idx - 1 + btns.length) % btns.length;
-            } else if (e.key === "Home") {
-                next = 0;
-            } else if (e.key === "End") {
-                next = btns.length - 1;
-            }
-
-            if (next >= 0) {
-                e.preventDefault();
-                btns[next].focus();
-                btns[next].click();
-            }
-        });
-    });
-
-    // roving tabindex
-    viewBtns.forEach((btn, i) => {
-        btn.setAttribute("tabindex", i === 0 ? "0" : "-1");
     });
 }
 
@@ -259,7 +162,7 @@ function setupTimelineModeSwitcher() {
                 rerenderFromCache(true);
             }
 
-            const modeNames = { week: "週", fiveday: "5日", day: "1日", fit: "全体" };
+            const modeNames = { week: "週", day: "1日", fit: "全体" };
             announceStatus(`表示間隔を${modeNames[mode]}に切り替えました`);
         });
 
@@ -290,44 +193,6 @@ function setupTimelineModeSwitcher() {
     modeBtns.forEach((btn) => {
         btn.setAttribute("tabindex", btn.classList.contains("active") ? "0" : "-1");
     });
-}
-
-// ---- 月ナビ ----
-function setupMonthNav() {
-    document.getElementById("prev-month-btn").addEventListener("click", () => {
-        _currentMonth--;
-        if (_currentMonth < 0) {
-            _currentMonth = 11;
-            currentYear--;
-            graphConfig.year = currentYear;
-            updateYearLabel();
-            updateMonthLabel();
-            if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
-            return;
-        }
-        updateMonthLabel();
-        rerenderFromCache();
-    });
-
-    document.getElementById("next-month-btn").addEventListener("click", () => {
-        _currentMonth++;
-        if (_currentMonth > 11) {
-            _currentMonth = 0;
-            currentYear++;
-            graphConfig.year = currentYear;
-            updateYearLabel();
-            updateMonthLabel();
-            if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
-            return;
-        }
-        updateMonthLabel();
-        rerenderFromCache();
-    });
-}
-
-function updateMonthLabel() {
-    const el = document.getElementById("month-label");
-    if (el) el.textContent = `${currentYear}年 ${_currentMonth + 1}月`;
 }
 
 // ---- カテゴリselect動的生成 ----
@@ -714,74 +579,6 @@ function closeModal() {
             if (modal.classList.contains("closing")) onEnd();
         }, 500);
     }
-}
-
-// ========================================
-// 朝会イベント自動同期（Outlook連動）
-// ========================================
-async function _syncMorningMeetingEvents(token, year, graphEvents, holidaySet) {
-    const catName = "朝会";
-
-    // 1. 年間の全月曜日を列挙（祝日除く）
-    const targetDates = [];
-    for (let m = 0; m < 12; m++) {
-        const days = daysInMonth(year, m);
-        for (let d = 1; d <= days; d++) {
-            const date = new Date(year, m, d);
-            if (date.getDay() !== 1) continue;
-            const dateStr = formatDateYMD(date);
-            if (holidaySet && holidaySet.has(dateStr)) continue;
-            targetDates.push(dateStr);
-        }
-    }
-
-    // 2. 既存の朝会イベントがある日をSetで取得
-    const existingDates = new Set();
-    graphEvents.forEach(e => {
-        if (!e.categories || !e.categories.some(c => c === catName)) return;
-        let d = new Date(e.startDate + "T00:00:00");
-        const end = new Date(e.endDate + "T00:00:00");
-        while (d <= end) {
-            existingDates.add(formatDateYMD(d));
-            d.setDate(d.getDate() + 1);
-        }
-    });
-
-    // 3. 不足分を特定
-    const missing = targetDates.filter(d => !existingDates.has(d));
-    if (missing.length === 0) {
-        console.log("[朝会同期] 全月曜日にイベントあり。同期不要。");
-        return;
-    }
-
-    console.log(`[朝会同期] ${missing.length}件の朝会イベントを作成します`);
-
-    // 4. 逐次作成
-    let created = 0;
-    for (const dateStr of missing) {
-        try {
-            const result = await createCalendarEvent(token, {
-                title: catName,
-                category: catName,
-                startDate: dateStr,
-                endDate: dateStr,
-                notes: "",
-            });
-            graphEvents.push({
-                id: result?.id || "temp-" + Date.now(),
-                title: catName,
-                categories: [catName],
-                startDate: dateStr,
-                endDate: dateStr,
-                bodyPreview: "",
-            });
-            created++;
-        } catch (err) {
-            console.warn(`[朝会同期] ${dateStr} の作成に失敗:`, err.message);
-        }
-    }
-
-    console.log(`[朝会同期] ${created}/${missing.length}件 作成完了`);
 }
 
 // ========================================
@@ -1173,6 +970,48 @@ async function handleDeleteEvent() {
 }
 
 // ========================================
+// 行削除（イベント名行の🗑ボタン経由・同一タイトルの全イベントを削除）
+// ========================================
+// 確認UIは timeline.js 側（_showRowDeleteConfirm）で済ませてから呼ばれる
+async function onDeleteEventRow(title, evIds) {
+    if (!getActiveAccount()) { _showSignInPrompt(); return; }
+    if (!evIds || evIds.length === 0) return;
+
+    try {
+        const token = await getAccessToken();
+        // サーバ先行削除（楽観更新しない＝部分失敗時の不整合を防ぐ）
+        const okIds = [];
+        for (const id of evIds) {
+            try {
+                await deleteCalendarEvent(token, id);
+                okIds.push(id);
+            } catch (e) {
+                console.warn("[行削除] 個別削除に失敗:", id, e.message);
+            }
+        }
+
+        if (okIds.length > 0) {
+            const okSet = new Set(okIds);
+            _cachedGraphEvents = _cachedGraphEvents.filter(e => !okSet.has(e.id));
+            rerenderFromCache();
+            announceStatus(`「${title}」を削除しました（${okIds.length}件）`);
+            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+        }
+
+        if (okIds.length < evIds.length) {
+            // 一部（または全部）失敗 → 残った行を再描画で戻し、件数を通知
+            rerenderFromCache();
+            alert(`${evIds.length - okIds.length}件の削除に失敗しました。`);
+        }
+    } catch (error) {
+        console.error("Row delete failed:", error);
+        rerenderFromCache();
+        announceStatus("削除に失敗しました");
+        alert("削除に失敗しました: " + error.message);
+    }
+}
+
+// ========================================
 // ドラッグ操作コールバック（SPA楽観的更新）
 // ========================================
 
@@ -1260,7 +1099,6 @@ async function handleSignOut() {
     document.getElementById("settings-btn").style.display = "none";
     document.getElementById("publish-btn").style.display = "none";
     document.getElementById("legend").innerHTML = "";
-    document.getElementById("month-nav").style.display = "none";
     document.getElementById("timeline-mode-bar").style.display = "none";
     // サインアウト後は公開ビューに戻る
     loadPublicCalendar();
@@ -1543,13 +1381,11 @@ function changeYear(delta) {
     currentYear += delta;
     graphConfig.year = currentYear;
     updateYearLabel();
-    updateMonthLabel();
     if (getActiveAccount()) loadCalendar(); else loadPublicCalendar();
 }
 
 function updateYearLabel() {
-    const el = document.getElementById("year-label");
-    if (el) el.textContent = currentYear + "年";
+    // 年表示は「今日」ボタンのラベルとして表示している（#year-label 要素は存在しない）
     document.getElementById("today-btn").textContent = currentYear + "年";
 }
 

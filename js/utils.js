@@ -26,15 +26,6 @@ function addDaysToDateStr(dateStr, days) {
     return formatDateYMD(d);
 }
 
-// 日付範囲を "M/D" or "M/D - M/D" にフォーマット
-function formatDateRangeShort(startDate, endDate) {
-    const s = startDate.split("-");
-    const startStr = `${parseInt(s[1])}/${parseInt(s[2])}`;
-    if (startDate === endDate) return startStr;
-    const e = endDate.split("-");
-    return `${startStr} - ${parseInt(e[1])}/${parseInt(e[2])}`;
-}
-
 // HTMLエスケープ
 function escapeHtml(text) {
     const div = document.createElement("div");
