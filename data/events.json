@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-05T02:37:34.790Z",
+  "lastUpdated": "2026-06-05T02:37:54.333Z",
   "years": {
     "2025": {
       "events": [],
@@ -945,6 +945,16 @@
           "title": "夏休み取得期間",
           "startDate": "2027-01-01",
           "endDate": "2027-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFBy2HdQAAAA==",
+          "title": "テスト",
+          "startDate": "2026-06-05",
+          "endDate": "2026-06-05",
           "categories": [
             "GYRO休み"
           ],
