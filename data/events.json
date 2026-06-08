@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-08T04:10:09.044Z",
+  "lastUpdated": "2026-06-08T04:10:16.993Z",
   "years": {
     "2025": {
       "events": [],
@@ -883,6 +883,16 @@
           "title": "経費〆切",
           "startDate": "2026-06-03",
           "endDate": "2026-06-03",
+          "categories": [
+            "管理部"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFCOvcvgAAAA==",
+          "title": "経費〆切",
+          "startDate": "2026-07-03",
+          "endDate": "2026-07-03",
           "categories": [
             "管理部"
           ],
