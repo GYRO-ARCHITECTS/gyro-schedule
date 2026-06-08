@@ -532,8 +532,10 @@ const PopoverManager = {
 
         const el = this._el;
         el.querySelector(".gs-popover-accent").style.background = cat.color;
-        // タイトルをそのまま表示（「イベント名_サブ名」形式）
-        el.querySelector(".gs-popover-title").textContent = ev.title;
+        // 親タイトルとサブイベント名を分離して表示
+        el.querySelector(".gs-popover-title").textContent = _getParentTitle(ev.title);
+        const subEl = el.querySelector(".gs-popover-sub");
+        if (subEl) subEl.textContent = _getSubEventName(ev.title); // 空なら CSS :empty で非表示
 
         const badge = el.querySelector(".gs-popover-badge");
         badge.textContent = cat.name;
@@ -992,13 +994,13 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
 
     // マーカー判定関数を取得（候補日の判定用）
     const shouldMark = _getMarkerPredicate(cat, year, holidaySet, exceptions);
-    // イベントがある日 → タイトル（サブ名込み）のMap。ドットのツールチップ用
-    const dateToTitle = new Map();
+    // イベントがある日 → イベントのMap（ドットのポップオーバー用）
+    const dateToEvent = new Map();
     (catEvents || []).forEach(e => {
         let d = new Date(e.startDate + "T00:00:00");
         const end = new Date(e.endDate + "T00:00:00");
         while (d <= end) {
-            dateToTitle.set(formatDateYMD(d), e.title);
+            dateToEvent.set(formatDateYMD(d), e);
             d.setDate(d.getDate() + 1);
         }
     });
@@ -1014,7 +1016,7 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
             marker.className = "gs-marker";
 
             const isHoliday = holidaySet && holidaySet.has(result.dateStr);
-            const hasEvent = dateToTitle.has(result.dateStr);
+            const hasEvent = dateToEvent.has(result.dateStr);
 
             let markerActive;
             if (isHoliday) {
@@ -1029,7 +1031,6 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
                     marker.textContent = "●";
                     marker.style.color = cat.color;
                     markerActive = true;
-                    td.title = dateToTitle.get(result.dateStr); // サブ名込みのフルタイトルをホバー表示
                 } else {
                     td.classList.add("gs-marker-excluded");
                     marker.textContent = "✕";
@@ -1043,6 +1044,15 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
                 markerActive = true;
             }
             td.appendChild(marker);
+
+            // イベントがある日はホバーでポップオーバー表示（バーと同じ仕組みを流用）
+            const mev = dateToEvent.get(result.dateStr);
+            if (markerActive && mev && mev.id) {
+                ((cell, evId) => {
+                    cell.addEventListener("mouseenter", () => PopoverManager.scheduleShow(evId, cell));
+                    cell.addEventListener("mouseleave", () => PopoverManager.scheduleHide());
+                })(td, mev.id);
+            }
 
             // クリックで簡易モーダルを開く
             td.style.cursor = "pointer";
