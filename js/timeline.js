@@ -992,13 +992,13 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
 
     // マーカー判定関数を取得（候補日の判定用）
     const shouldMark = _getMarkerPredicate(cat, year, holidaySet, exceptions);
-    // イベントがある日を高速検索用にSetで持つ
-    const eventDates = new Set();
+    // イベントがある日 → タイトル（サブ名込み）のMap。ドットのツールチップ用
+    const dateToTitle = new Map();
     (catEvents || []).forEach(e => {
         let d = new Date(e.startDate + "T00:00:00");
         const end = new Date(e.endDate + "T00:00:00");
         while (d <= end) {
-            eventDates.add(formatDateYMD(d));
+            dateToTitle.set(formatDateYMD(d), e.title);
             d.setDate(d.getDate() + 1);
         }
     });
@@ -1014,7 +1014,7 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
             marker.className = "gs-marker";
 
             const isHoliday = holidaySet && holidaySet.has(result.dateStr);
-            const hasEvent = eventDates.has(result.dateStr);
+            const hasEvent = dateToTitle.has(result.dateStr);
 
             let markerActive;
             if (isHoliday) {
@@ -1029,6 +1029,7 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
                     marker.textContent = "●";
                     marker.style.color = cat.color;
                     markerActive = true;
+                    td.title = dateToTitle.get(result.dateStr); // サブ名込みのフルタイトルをホバー表示
                 } else {
                     td.classList.add("gs-marker-excluded");
                     marker.textContent = "✕";

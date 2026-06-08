@@ -671,7 +671,13 @@ function openSimpleEventModal(dateStr, categoryName, isActive) {
     _simpleEditingEvent = existing || null;
     _simpleMarkerActive = !!isActive; // マーカー状態を保持
     document.getElementById("simple-evt-date").value = dateStr;
-    document.getElementById("simple-evt-title").value = existing ? existing.title : categoryName;
+    // タイトルを親タイトルとサブイベント名に分離（他カテゴリと同じ "親_サブ" 方式）
+    const rawTitle = existing ? (existing.title || "") : "";
+    const usIdx = rawTitle.indexOf("_");
+    const parentTitle = usIdx >= 0 ? rawTitle.substring(0, usIdx) : rawTitle;
+    const subName = usIdx >= 0 ? rawTitle.substring(usIdx + 1) : "";
+    document.getElementById("simple-evt-title").value = existing ? parentTitle : categoryName;
+    document.getElementById("simple-evt-sub-name").value = subName;
     document.getElementById("simple-evt-notes").value = existing ? (existing.bodyPreview || "") : "";
     // 削除ボタン: ●（active）のときに表示、✕のときに非表示
     document.getElementById("simple-modal-delete").style.display = isActive ? "inline-block" : "none";
@@ -720,7 +726,10 @@ function closeSimpleModal() {
 async function handleSimpleSave() {
     console.log("[handleSimpleSave] 呼び出し開始");
     const dateStr = document.getElementById("simple-evt-date").value;
-    const title = document.getElementById("simple-evt-title").value.trim() || _simpleEventCategory;
+    const baseTitle = document.getElementById("simple-evt-title").value.trim() || _simpleEventCategory;
+    const subName = document.getElementById("simple-evt-sub-name").value.trim();
+    // サブイベント名があれば "親_サブ" 形式に（他カテゴリと同じ）
+    const title = subName ? baseTitle + "_" + subName : baseTitle;
     const notes = document.getElementById("simple-evt-notes").value.trim();
     console.log("[handleSimpleSave] dateStr:", dateStr, "title:", title, "editing:", !!_simpleEditingEvent);
 
