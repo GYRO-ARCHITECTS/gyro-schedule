@@ -1068,6 +1068,16 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
 // マーカー判定関数を返す
 // 戻り値: null（マーカーなし）| "active"（通常マーカー）| "excluded"（除外日）
 // dateStr も返す: { status, dateStr }
+// 朝会の実施日を返す: 月曜（祝日でなければ）/ 火曜（月曜が祝日）/ null（月火とも祝日）
+function _morningMeetingDay(monday, holidaySet) {
+    const monStr = formatDateYMD(monday);
+    if (!holidaySet || !holidaySet.has(monStr)) return monStr;
+    const tue = new Date(monday);
+    tue.setDate(monday.getDate() + 1);
+    const tueStr = formatDateYMD(tue);
+    return holidaySet.has(tueStr) ? null : tueStr;
+}
+
 function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
     const exceptSet = new Set((exceptions && exceptions[cat.id]) || []);
 
@@ -1097,28 +1107,26 @@ function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
         };
     }
     if (cat.id === "morning_meeting") {
-        // 朝会: 毎週月曜日にマーカー（除外日チェック付き）
+        // 朝会: 原則 月曜。月曜が祝日なら火曜へ。月火とも祝日なら無し。
         return (colIdx) => {
             if (_tlMode === "day") {
                 const month = _colToMonth(colIdx);
                 const localIdx = colIdx - _tlColOffsets[month];
-                const dayNum = localIdx + 1;
-                const d = new Date(year, month, dayNum);
-                if (d.getDay() !== 1) return null;
-                const dateStr = formatDateYMD(d);
-                return { status: exceptSet.has(dateStr) ? "excluded" : "active", dateStr };
+                const d = new Date(year, month, localIdx + 1);
+                const dow = d.getDay();
+                if (dow !== 1 && dow !== 2) return null; // 月・火のみ候補
+                // この日が属する週の月曜を求め、実施日を判定
+                const monday = new Date(d);
+                monday.setDate(d.getDate() - (dow === 2 ? 1 : 0));
+                const eff = _morningMeetingDay(monday, holidaySet);
+                if (!eff || eff !== formatDateYMD(d)) return null; // この日が実施日でなければ無し
+                return { status: exceptSet.has(eff) ? "excluded" : "active", dateStr: eff };
             }
-            const start = colToStartDate(colIdx, year);
-            const end = colToEndDate(colIdx, year);
-            const s = parseDateStr(start);
-            const e = parseDateStr(end);
-            for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
-                if (d.getDay() === 1) {
-                    const ds = formatDateYMD(d);
-                    return { status: exceptSet.has(ds) ? "excluded" : "active", dateStr: ds };
-                }
-            }
-            return null;
+            // 週/全体: 列の月曜を起点に実施日を求める
+            const monday = parseDateStr(colToStartDate(colIdx, year));
+            const eff = _morningMeetingDay(monday, holidaySet);
+            if (!eff) return null;
+            return { status: exceptSet.has(eff) ? "excluded" : "active", dateStr: eff };
         };
     }
     // デフォルト: マーカーなし
