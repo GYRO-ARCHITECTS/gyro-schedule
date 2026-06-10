@@ -8,6 +8,7 @@ const FIXED_COL_WIDTH_CAT = 120;
 const FIXED_COL_WIDTH_EVT = 250;
 const FIXED_COLS_TOTAL = FIXED_COL_WIDTH_CAT + FIXED_COL_WIDTH_EVT;
 const MONTH_NAMES = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+const WEEKDAY_NAMES = ["日","月","火","水","木","金","土"];
 const DRAG_THRESHOLD = 5;
 const _isMobile = () => window.innerWidth <= 480;
 
@@ -697,7 +698,16 @@ function renderTimeline(events, year, holidaySet, options) {
             const th = document.createElement("th");
             th.className = "gs-week-cell";
             if (m % 2 === 1) th.classList.add("gs-month-even");
-            th.textContent = _subHeaderLabel(m, li);
+            // 日付＋曜日の2行表示
+            const hd = _subHeaderDate(m, li, year, holidaySet);
+            const numEl = document.createElement("span");
+            numEl.className = "gs-subhead-num";
+            numEl.textContent = String(hd.getDate());
+            const dowEl = document.createElement("span");
+            dowEl.className = "gs-subhead-dow";
+            dowEl.textContent = WEEKDAY_NAMES[hd.getDay()];
+            th.appendChild(numEl);
+            th.appendChild(dowEl);
 
             if (todayCol === globalCol) th.classList.add("gs-current-week");
 
@@ -871,16 +881,25 @@ function _centerCatBadges(tbody) {
     if (groupRows.length > 0) adjustGroup(groupRows);
 }
 
-// サブヘッダーラベル生成
-function _subHeaderLabel(month, localIdx) {
+// サブヘッダーに表示する日付（Date）を返す
+// day: その日 / week・fit: 朝会実施日（月曜。月曜が祝日なら火曜。月火とも祝日なら月曜にフォールバック）
+function _subHeaderDate(month, localIdx, year, holidaySet) {
     if (_tlMode === "day") {
-        return String(localIdx + 1);
+        return new Date(year, month, localIdx + 1);
     }
     if ((_tlMode === "week" || _tlMode === "fit") && _weekMondayStarts) {
-        return String(_weekMondayStarts[month][localIdx]);
+        const day = _weekMondayStarts[month][localIdx];
+        const monday = new Date(year, month, day);
+        const eff = _morningMeetingDay(monday, holidaySet);
+        if (eff) {
+            const effDate = parseDateStr(eff);
+            // 火曜が翌月に跨ぐ稀ケースは月曜表示に留める
+            if (effDate.getMonth() === month) return effDate;
+        }
+        return monday;
     }
     const starts = MODE_STARTS[_tlMode];
-    return String(starts[localIdx]);
+    return new Date(year, month, starts ? starts[localIdx] : 1);
 }
 
 // ---- 空カテゴリ行 ----

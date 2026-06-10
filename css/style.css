@@ -409,6 +409,12 @@ body { display:flex; flex-direction:column; }
 }
 .gs-current-week { background:var(--color-amber-50)!important; color:var(--color-amber-600)!important; font-weight:700!important; box-shadow:inset 0 -2px 0 var(--color-amber-400); }
 
+/* サブヘッダー: 日付＋曜日の2行表示 */
+.gs-week-cell .gs-subhead-num { display:block; line-height:1.2; }
+.gs-week-cell .gs-subhead-dow { display:block; font-size:8px; line-height:1.1; opacity:0.7; }
+.gs-table[data-mode="day"] .gs-subhead-dow { font-size:7px; }
+.gs-fit-mode .gs-subhead-dow { font-size:7px; }
+
 /* Corner cells: 詳細度を上げて .gs-month-row th / .gs-week-row th の z-index を確実に上書き */
 .gs-month-row th.gs-corner {
     z-index:var(--z-tl-corner);
