@@ -619,7 +619,7 @@ async function _saveCategoryChanges() {
 
         closeCategoryManager();
         announceStatus(`${savingYear}年のカテゴリ設定を保存しました`);
-        publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+        _publishAndNotify();
     } catch (error) {
         console.error("カテゴリ保存失敗:", error);
         const desc = document.querySelector(".cat-manager-desc");

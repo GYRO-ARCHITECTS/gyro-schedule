@@ -1241,6 +1241,7 @@ async function _moveRow(catName, parentTitle, direction, year) {
         await saveCategoryConfig(token, _rawConfig, _configEventId);
     } catch (err) {
         console.warn("[行並べ替え] 保存失敗:", err.message);
+        _showWarnToast("並び順の保存に失敗しました（リロードで元に戻る場合があります）");
     }
 }
 
@@ -1304,41 +1305,32 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
     const parentTitle = _getParentTitle(primaryEv.title);
     const isSignedIn = !!getActiveAccount();
 
-    // ▲▼ボタン（サインイン時 + 2行以上）— ホバー時のみ表示
+    // ▲▼ボタン（サインイン時 + 2行以上）— 表示制御はCSS（行ホバー / タッチ端末は常時表示）
     if (totalInCat > 1 && isSignedIn) {
         const btnWrap = document.createElement("span");
         btnWrap.className = "gs-row-move-wrap";
-        btnWrap.style.cssText = "display:inline-flex;flex-direction:column;gap:1px;margin-right:4px;width:18px;opacity:0;transition:opacity 0.15s;";
 
         const upBtn = document.createElement("button");
         upBtn.textContent = "▲";
         upBtn.className = "gs-row-move-btn";
-        upBtn.style.cssText = "font-size:11px;color:#64748b;background:none;border:none;cursor:pointer;padding:2px 3px;line-height:1;border-radius:3px;transition:color 0.15s,background 0.15s;";
-        if (idx === 0) { upBtn.disabled = true; upBtn.style.opacity = "0.2"; }
-        upBtn.addEventListener("mouseenter", () => { if (!upBtn.disabled) upBtn.style.cssText += "color:#f59e0b;background:rgba(245,158,11,0.1);"; });
-        upBtn.addEventListener("mouseleave", () => { upBtn.style.color = "#64748b"; upBtn.style.background = "none"; });
+        upBtn.setAttribute("aria-label", `「${parentTitle}」を上へ移動`);
+        if (idx === 0) upBtn.disabled = true;
         upBtn.addEventListener("click", (e) => { e.stopPropagation(); _moveRow(cat.name, parentTitle, -1, year); });
 
         const downBtn = document.createElement("button");
         downBtn.textContent = "▼";
         downBtn.className = "gs-row-move-btn";
-        downBtn.style.cssText = "font-size:11px;color:#64748b;background:none;border:none;cursor:pointer;padding:2px 3px;line-height:1;border-radius:3px;transition:color 0.15s,background 0.15s;";
-        if (idx === totalInCat - 1) { downBtn.disabled = true; downBtn.style.opacity = "0.2"; }
-        downBtn.addEventListener("mouseenter", () => { if (!downBtn.disabled) downBtn.style.cssText += "color:#f59e0b;background:rgba(245,158,11,0.1);"; });
-        downBtn.addEventListener("mouseleave", () => { downBtn.style.color = "#64748b"; downBtn.style.background = "none"; });
+        downBtn.setAttribute("aria-label", `「${parentTitle}」を下へ移動`);
+        if (idx === totalInCat - 1) downBtn.disabled = true;
         downBtn.addEventListener("click", (e) => { e.stopPropagation(); _moveRow(cat.name, parentTitle, 1, year); });
 
         btnWrap.appendChild(upBtn);
         btnWrap.appendChild(downBtn);
         evtInner.appendChild(btnWrap);
-
-        // 行ホバーでボタン表示
-        tr.addEventListener("mouseenter", () => { btnWrap.style.opacity = "1"; });
-        tr.addEventListener("mouseleave", () => { btnWrap.style.opacity = "0"; });
-    } else {
-        // スペーサー（▲▼ボタンと同じ幅でテキスト位置を揃える）
+    } else if (isSignedIn) {
+        // スペーサー（▲▼ボタンと同じ幅でテキスト位置を揃える。未サインイン時は不要）
         const spacer = document.createElement("span");
-        spacer.style.cssText = "display:inline-block;width:22px;flex-shrink:0;";
+        spacer.className = "gs-row-move-spacer";
         evtInner.appendChild(spacer);
     }
 
@@ -1364,7 +1356,6 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
         input.type = "text";
         input.value = parentTitle;
         input.className = "gs-evt-rename-input";
-        input.style.cssText = "width:100%;font:inherit;padding:2px 4px;border:1px solid #f59e0b;border-radius:4px;outline:none;background:#fff;color:#1e293b;";
 
         const oldText = evtLabel.textContent;
         evtLabel.textContent = "";
@@ -1391,7 +1382,7 @@ function createEventRow(evGroup, cat, idx, totalInCat, totalCols, year, holidayS
                 }
                 rerenderFromCache();
                 announceStatus(`「${parentTitle}」→「${newName}」に変更しました`);
-                publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+                _publishAndNotify();
             } catch (err) {
                 console.error("Rename failed:", err);
                 evtLabel.textContent = oldText;
@@ -1570,6 +1561,8 @@ function createTimelineCell(colIdx, year, holidaySet, todayCol) {
     // 月末判定: この列が月の最後の列かどうか
     const month = _colToMonth(colIdx);
     if (colIdx === _tlColOffsets[month + 1] - 1) td.classList.add("gs-month-end");
+    // 偶数月ゼブラ（ヘッダーと同じ条件）
+    if (month % 2 === 1) td.classList.add("gs-month-even");
 
     // 土日・祝日の背景色（1日モード時のみ正確に判定）
     if (_tlMode === "day") {

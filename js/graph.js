@@ -617,6 +617,9 @@ async function publishEventsToGitHub(events, categories, year) {
         const err = await putRes.json().catch(() => ({}));
         console.warn("[GitHub公開] 更新失敗:", putRes.status, err.message || "");
         _cachedGitHubSha = null;
+        if (typeof _showWarnToast === "function") {
+            _showWarnToast(`公開データの更新に失敗しました（HTTP ${putRes.status}）`);
+        }
         return;
     }
 }

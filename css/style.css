@@ -364,6 +364,40 @@ body { display:flex; flex-direction:column; }
 .gs-row-del-yes:hover { background:#b91c1c; border-color:#b91c1c; }
 .gs-row-del-yes:disabled { opacity:0.7; cursor:default; }
 
+/* 行並べ替え ▲▼ ボタン（行ホバーで表示） */
+.gs-row-move-wrap {
+    display:inline-flex; flex-direction:column; gap:1px; margin-right:4px; width:18px;
+    opacity:0; transition:opacity var(--duration-fast);
+}
+.gs-event-row:hover .gs-row-move-wrap { opacity:1; }
+.gs-row-move-spacer { display:inline-block; width:22px; flex-shrink:0; }
+.gs-row-move-btn {
+    font-size:11px; color:var(--color-text-tertiary); background:none; border:none;
+    cursor:pointer; padding:2px 3px; line-height:1; border-radius:var(--radius-sm);
+    transition:color var(--duration-fast), background var(--duration-fast);
+}
+.gs-row-move-btn:hover:not(:disabled) { color:var(--color-amber-600); background:var(--color-amber-50); }
+.gs-row-move-btn:disabled { opacity:0.2; cursor:default; }
+
+/* イベント名のインライン改名インプット */
+.gs-evt-rename-input {
+    width:100%; font:inherit; padding:2px 4px;
+    border:1px solid var(--color-amber-500); border-radius:var(--radius-sm);
+    outline:none; background:var(--color-surface); color:var(--color-text-primary);
+}
+
+/* 改名できることの手がかり: ラベルホバーで ✎ を表示 */
+.gs-evt-label[role="button"]:hover::after {
+    content:"✎"; margin-left:4px; font-size:10px;
+    color:var(--color-amber-600); opacity:0.8;
+}
+
+/* タッチ端末（ホバー不可）では行操作ボタンを常時うっすら表示 */
+@media (hover: none) {
+    .gs-row-move-wrap { opacity:0.5; }
+    .gs-row-add-btn, .gs-row-del-btn { opacity:0.45; }
+}
+
 .gs-corner {
     z-index:var(--z-tl-corner); background:var(--color-surface-raised);
     font-family:var(--font-display); font-weight:600; color:var(--color-navy-400);
@@ -424,7 +458,7 @@ body { display:flex; flex-direction:column; }
 }
 
 /* ====== Data Rows ====== */
-.gs-event-row { height:40px; transition:background var(--duration-fast); }
+.gs-event-row { height:34px; transition:background var(--duration-fast); }
 .gs-event-row:nth-child(even) .gs-col-evt { background:var(--color-surface-raised); }
 
 /* Category separator: strong top border on first row of each category group.
@@ -456,7 +490,7 @@ body { display:flex; flex-direction:column; }
 .gs-table[data-mode="day"] .gs-week-td { font-size:10px; }
 .gs-table[data-mode="day"] .gs-resize-handle { width:14px; }
 th.gs-month-end { border-right:2px solid var(--color-navy-400)!important; }
-td.gs-month-end { border-right:1px solid var(--color-navy-200)!important; }
+td.gs-month-end { border-right:2px solid var(--color-navy-300)!important; }
 
 .gs-bar-cell {
     cursor:grab; position:relative;
@@ -468,7 +502,7 @@ td.gs-month-end { border-right:1px solid var(--color-navy-200)!important; }
 }
 .gs-bar-inner {
     position:absolute;
-    left:-1px; right:-1px; top:8px; bottom:8px;
+    left:-1px; right:-1px; top:7px; bottom:7px;
     z-index:1;
     border-top:1px solid var(--bar-border);
     border-bottom:1px solid var(--bar-border);
@@ -493,21 +527,22 @@ td.gs-month-end { border-right:1px solid var(--color-navy-200)!important; }
     border-top-right-radius:var(--bar-radius);
     border-bottom-right-radius:var(--bar-radius);
 }
-/* サブイベントのバー内ラベル */
+/* サブイベントのバー内ラベル（開始セルからバーに沿ってはみ出して表示） */
 .gs-bar-label {
     position: absolute;
-    inset: 0;
+    left: 4px; top: 0; bottom: 0;
     display: flex;
     align-items: center;
-    justify-content: center;
+    width: max-content;
+    max-width: 240px;
     font-size: 9px;
     font-weight: 600;
     color: var(--bar-color);
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
     pointer-events: none;
-    padding: 0 2px;
+    z-index: 2;
+    text-shadow: 0 0 2px var(--bar-bg), 0 0 2px var(--bar-bg), 0 0 3px var(--bar-bg);
 }
 /* バーセルホバー: バー内部のみ色を変える（セル自体は動かさない） */
 .gs-bar-cell:hover .gs-bar-inner,
@@ -542,8 +577,8 @@ td.gs-month-end { border-right:1px solid var(--color-navy-200)!important; }
 .gs-marker-row .gs-marker-cell:hover { background: rgba(255,255,255,0.06); }
 
 .gs-today-col {
-    background:rgba(251,191,36,0.06)!important;
-    box-shadow:inset 1px 0 0 rgba(251,191,36,0.12), inset -1px 0 0 rgba(251,191,36,0.12);
+    background:rgba(251,191,36,0.08)!important;
+    box-shadow:inset 2px 0 0 var(--color-amber-400), inset -1px 0 0 rgba(251,191,36,0.2);
 }
 th.gs-today-col {
     background:var(--color-amber-50)!important;
@@ -553,6 +588,18 @@ th.gs-today-col {
 .gs-saturday-col { background:rgba(59,130,246,0.08); }
 .gs-sunday-col { background:rgba(220,38,38,0.08); }
 .gs-holiday-col { background:rgba(220,38,38,0.08); }
+
+/* 偶数月ゼブラ（background-image で土日・祝日の background-color と共存） */
+td.gs-month-even { background-image:linear-gradient(rgba(15,23,42,0.03), rgba(15,23,42,0.03)); }
+
+/* 行ホバー: 行全体をうっすらハイライト */
+.gs-event-row:hover .gs-week-td,
+.gs-event-row:hover .gs-fixed-col {
+    background-image:linear-gradient(rgba(245,158,11,0.05), rgba(245,158,11,0.05));
+}
+
+/* 固定列（イベント名）の右端にソフトシャドウ — スクロール時の前後関係を明示 */
+.gs-col-evt { box-shadow:4px 0 8px -4px rgba(15,23,42,0.18); }
 th.gs-saturday-col { color:var(--color-navy-400); font-weight:600; }
 th.gs-sunday-col { color:#dc6c6c; font-weight:600; }
 th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
@@ -725,6 +772,25 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
 .form-row { display:flex; gap:12px; }
 .form-row .form-group { flex:1; }
 
+/* 複数日トグルスイッチ */
+.evt-toggle-row { margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.evt-toggle-label { display:inline-flex; align-items:center; gap:8px; cursor:pointer; user-select:none; }
+.evt-toggle {
+    display:inline-block; width:36px; height:20px; position:relative;
+    background:var(--color-border); border-radius:10px;
+    transition:background var(--duration-fast);
+}
+.evt-toggle.on { background:var(--color-amber-500); }
+.evt-toggle-dot {
+    position:absolute; top:2px; left:2px; width:16px; height:16px;
+    background:var(--color-surface); border-radius:50%;
+    box-shadow:0 1px 2px rgba(0,0,0,0.2);
+    transition:transform var(--duration-fast);
+}
+.evt-toggle.on .evt-toggle-dot { transform:translateX(16px); }
+.evt-toggle-text { font-size:0.85em; color:var(--color-text-secondary); }
+.evt-toggle-check { display:none; }
+
 .modal-footer {
     display:flex; justify-content:space-between; align-items:center;
     padding:16px 24px;
@@ -835,22 +901,6 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
 
 .gs-saving { opacity:0.4; pointer-events:none; filter:grayscale(0.3); }
 
-/* ====== View Switcher ====== */
-.view-switcher {
-    display:flex; background:rgba(255,255,255,0.08); border-radius:var(--radius-md);
-    overflow:hidden; padding:3px; gap:2px;
-}
-.view-btn {
-    padding:0 14px; height:30px; background:transparent; color:var(--color-navy-400);
-    border:none; font-family:var(--font-display); font-size:11px; font-weight:500;
-    cursor:pointer; transition:all var(--duration-fast) var(--ease-out);
-    white-space:nowrap; display:flex; align-items:center; gap:4px;
-    border-radius:calc(var(--radius-md) - 1px); letter-spacing:0.02em;
-}
-.view-btn:hover { background:rgba(255,255,255,0.08); color:var(--color-navy-200); }
-.view-btn.active { background:var(--color-amber-500); color:var(--color-navy-950); font-weight:700; box-shadow:0 1px 4px rgba(0,0,0,0.15); }
-.view-btn:focus-visible { outline:2px solid var(--color-amber-300); outline-offset:1px; }
-
 /* ====== Timeline Mode Bar ====== */
 .timeline-mode-bar {
     display:flex; align-items:center; gap:2px;
@@ -873,119 +923,6 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
 }
 .tl-mode-btn:focus-visible { outline:2px solid var(--color-amber-300); outline-offset:1px; z-index:1; position:relative; }
 
-/* ====== Month Nav ====== */
-.month-nav {
-    display:flex; align-items:center; justify-content:center; gap:16px;
-    padding:8px 24px; background:var(--color-surface); border-bottom:1px solid var(--color-border); flex-shrink:0;
-}
-.month-nav-btn {
-    width:32px; height:32px; border:1px solid var(--color-border); background:var(--color-surface);
-    border-radius:var(--radius-md); cursor:pointer; font-size:18px; color:var(--color-text-secondary);
-    display:flex; align-items:center; justify-content:center;
-    transition:all var(--duration-fast) var(--ease-out);
-}
-.month-nav-btn:hover { background:var(--color-amber-50); color:var(--color-amber-600); border-color:var(--color-amber-200); }
-.month-nav-btn:focus-visible { outline:2px solid var(--color-amber-400); outline-offset:2px; }
-
-.month-label {
-    font-family:var(--font-display); font-size:16px; font-weight:700;
-    color:var(--color-text-primary); min-width:140px; text-align:center; letter-spacing:-0.01em;
-}
-
-/* ====== Calendar View ====== */
-/* ====== Year Calendar: 3列×4行の年間カレンダー ====== */
-.cal-year-grid {
-    display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
-    padding:16px 20px; max-width:1400px; margin:0 auto;
-    animation:fadeIn var(--duration-normal) var(--ease-out);
-}
-.cal-month-card {
-    background:var(--color-surface); border:1px solid var(--color-border);
-    border-radius:var(--radius-lg); padding:10px 12px;
-    transition:box-shadow var(--duration-fast) var(--ease-out);
-}
-.cal-month-card:hover { box-shadow:var(--shadow-md); }
-.cal-month-current { border-color:var(--color-amber-400); border-width:2px; }
-.cal-month-title {
-    font-family:var(--font-display); font-size:15px; font-weight:700;
-    color:var(--color-text-primary); text-align:center;
-    padding:4px 0 6px; border-bottom:2px solid var(--color-navy-800); margin-bottom:4px;
-}
-.cal-month-current .cal-month-title { color:var(--color-amber-600); }
-
-.cal-weekday-header { display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:1px; }
-.cal-weekday {
-    text-align:center; font-family:var(--font-display); font-size:10px;
-    font-weight:600; color:var(--color-text-tertiary); padding:3px 0;
-    letter-spacing:0.03em;
-}
-.cal-weekday-sat { color:var(--color-navy-400); }
-.cal-weekday-sun { color:var(--color-navy-400); }
-
-.cal-grid { display:grid; grid-template-columns:repeat(7,1fr); }
-.cal-day {
-    min-height:28px; padding:2px 1px; cursor:pointer; text-align:center;
-    border:1px solid transparent; border-radius:var(--radius-sm);
-    transition:background var(--duration-fast);
-    display:flex; flex-direction:column; align-items:center;
-}
-.cal-day:hover { background:var(--color-amber-50); }
-.cal-other-month { opacity:0.25; }
-.cal-today {
-    background:var(--color-amber-50)!important;
-    border-color:var(--color-amber-400)!important;
-}
-.cal-today .cal-day-number { color:var(--color-amber-600)!important; font-weight:800!important; }
-.cal-holiday .cal-day-number { color:var(--color-danger); }
-.cal-saturday .cal-day-number { color:var(--color-navy-400); }
-.cal-sunday .cal-day-number { color:var(--color-navy-400); }
-
-.cal-day-number {
-    font-family:var(--font-display); font-size:12px; font-weight:500;
-    color:var(--color-text-primary); line-height:1.4;
-}
-
-/* イベントドット */
-.cal-dot-row { display:flex; gap:2px; justify-content:center; flex-wrap:wrap; margin-top:1px; }
-.cal-event-dot {
-    width:5px; height:5px; border-radius:50%; flex-shrink:0;
-}
-.cal-dot-more {
-    font-size:7px; font-weight:700; color:var(--color-text-tertiary); line-height:5px;
-}
-
-/* 旧1ヶ月ビュー用（互換性維持） */
-.cal-holiday-name { font-size:8px; color:var(--color-danger); font-weight:500; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.cal-event-pill {
-    display:block; font-size:9px; font-weight:500; color:var(--color-text-inverse);
-    padding:1px 4px; border-radius:3px; margin-bottom:1px;
-    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; cursor:pointer;
-}
-.cal-event-pill:hover { filter:brightness(0.9); }
-.cal-more-events { font-size:9px; font-weight:500; color:var(--color-text-tertiary); }
-
-/* ====== List View ====== */
-.lv-container { padding:20px 24px; max-width:960px; margin:0 auto; animation:fadeIn var(--duration-normal) var(--ease-out); }
-.lv-month-group { margin-bottom:32px; }
-.lv-month-header { font-family:var(--font-display); font-size:16px; font-weight:700; color:var(--color-text-primary); padding:10px 0 8px; border-bottom:2px solid var(--color-navy-800); margin-bottom:4px; letter-spacing:-0.01em; }
-.lv-table { width:100%; border-collapse:collapse; }
-.lv-event-row { cursor:pointer; transition:all var(--duration-fast) var(--ease-out); }
-.lv-event-row:hover { background:rgba(245,158,11,0.04); }
-.lv-event-row td { padding:12px; border-bottom:1px solid var(--color-border); font-size:13px; vertical-align:middle; }
-.lv-event-row:focus-within { outline:2px solid var(--color-amber-400); outline-offset:-2px; border-radius:var(--radius-sm); }
-.lv-holiday-row td { padding:8px 12px; border-bottom:1px solid var(--color-border); font-size:12px; color:var(--color-danger); vertical-align:middle; }
-.lv-date { width:130px; color:var(--color-text-secondary); white-space:nowrap; font-variant-numeric:tabular-nums; font-size:14px; }
-.lv-category { width:120px; }
-.lv-cat-badge { display:inline-block; padding:2px 10px; border-radius:12px; font-size:10px; font-weight:700; color:var(--color-text-inverse); box-shadow:var(--shadow-sm); letter-spacing:0.02em; }
-.lv-holiday-badge { display:inline-block; padding:2px 10px; border-radius:12px; font-size:10px; font-weight:700; background:var(--color-danger-light); color:var(--color-danger); border:1px solid #fecaca; letter-spacing:0.02em; }
-.lv-title { color:var(--color-text-primary); font-weight:500; }
-.lv-on-saturday { background:rgba(0,0,0,0.04); }
-.lv-on-saturday .lv-date { color:var(--color-text-tertiary); font-weight:700; }
-.lv-on-sunday { background:rgba(0,0,0,0.04); }
-.lv-on-sunday .lv-date { color:var(--color-text-tertiary); font-weight:700; }
-.lv-on-holiday { background:rgba(0,0,0,0.04); }
-.lv-on-holiday .lv-date { color:var(--color-text-tertiary); font-weight:700; }
-.lv-empty-month { text-align:center; padding:40px; color:var(--color-text-tertiary); font-size:14px; font-weight:500; }
 
 /* ====== Screen Reader Only (a11y) ====== */
 .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
@@ -1321,11 +1258,8 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     box-shadow:0 0 0 2px white;
 }
 
-/* ====== Performance: Reduce paint on scrolling ====== */
 /* NOTE: thead に contain:layout を付けるとスタッキングコンテキストが生成され
    内部の z-index が tbody のセルより下になるため使用しない */
-.cal-grid { contain: layout style; }
-.lv-table { contain: layout style; }
 
 /* ====== Reduced Motion ====== */
 @media (prefers-reduced-motion: reduce) {
@@ -1343,15 +1277,12 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     #app-header { padding:8px 16px; height:auto; flex-wrap:wrap; gap:8px; }
     #app-header h1 { font-size:15px; }
     .header-right { font-size:11px; }
-    .view-switcher { order:10; }
 
     /* Touch-friendly buttons (40px) */
     .year-btn { width:40px; height:40px; }
     .today-btn { height:40px; padding:0 16px; font-size:12px; }
     .btn-add { height:40px; padding:0 16px; font-size:13px; }
-    .view-btn { height:36px; padding:0 12px; font-size:11px; }
     .tl-mode-btn { height:32px; padding:0 12px; font-size:11px; }
-    .month-nav-btn { width:40px; height:40px; }
 
     /* Legend: scrollable strip */
     #legend { padding:8px 16px; gap:4px; overflow-x:auto; flex-wrap:nowrap; -webkit-overflow-scrolling:touch; }
@@ -1361,22 +1292,11 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     .gs-col-cat { width:90px; min-width:90px; max-width:90px; }
     .gs-col-evt { left:90px; width:90px; min-width:90px; max-width:90px; }
 
-    /* Calendar: 2列レイアウト */
-    .cal-year-grid { grid-template-columns:repeat(2,1fr); gap:12px; padding:12px; }
-    .cal-month-card { padding:8px 10px; }
-    .cal-day-number { font-size:11px; }
-    .cal-event-dot { width:4px; height:4px; }
-
-    /* List view */
-    .lv-container { padding:16px; }
-    .lv-date { width:110px; font-size:13px; }
-
     /* Modal */
     .modal-content { width:95vw; max-width:95vw; }
 
     /* Nav bars */
     .timeline-mode-bar { padding:6px 16px; }
-    .month-nav { padding:6px 16px; }
 }
 
 /* ====== Responsive: Phone (≤480px) ====== */
@@ -1390,15 +1310,10 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     .header-right { width:100%; justify-content:flex-end; gap:8px; }
     #app-header h1 { font-size:14px; }
 
-    /* View switcher: full width */
-    .view-switcher { order:10; width:100%; justify-content:center; }
-    .view-btn { flex:1; justify-content:center; height:38px; font-size:11px; padding:0 6px; }
-
     /* Touch-friendly controls (44px minimum) */
     .year-btn { width:44px; height:44px; font-size:18px; }
     .today-btn { height:44px; padding:0 16px; font-size:12px; }
     .btn-add { height:44px; padding:0 14px; font-size:13px; }
-    .month-nav-btn { width:44px; height:44px; font-size:20px; }
     .tl-mode-btn { height:38px; padding:0 10px; font-size:11px; }
     .legend-manage-btn { padding:6px 12px; font-size:12px; min-height:36px; }
 
@@ -1414,30 +1329,11 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     .gs-week-row th { font-size:9px; }
     .gs-table[data-mode="day"] .gs-week-row th { font-size:7px; }
     .gs-cat-badge { font-size:9px; width:72px; padding:2px 0; }
-    .gs-event-row { height:36px; }
-    .gs-week-td { height:36px; }
+    .gs-event-row { height:34px; }
+    .gs-week-td { height:34px; }
     .gs-resize-handle { width:22px; }
     .gs-resize-handle-left { left:-8px; }
     .gs-resize-handle-right { right:-8px; }
-
-    /* Calendar: 1列レイアウト */
-    .cal-year-grid { grid-template-columns:1fr; gap:10px; padding:8px; }
-    .cal-month-card { padding:6px 8px; }
-    .cal-month-title { font-size:13px; padding:3px 0 4px; }
-    .cal-weekday { font-size:9px; padding:2px 0; }
-    .cal-day { min-height:24px; }
-    .cal-day-number { font-size:10px; }
-    .cal-event-dot { width:4px; height:4px; }
-
-    /* List View */
-    .lv-container { padding:8px 12px; }
-    .lv-month-header { font-size:14px; padding:8px 0 6px; }
-    .lv-event-row td { padding:10px 8px; font-size:12px; }
-    .lv-holiday-row td { padding:6px 8px; font-size:11px; }
-    .lv-date { width:80px; font-size:12px; }
-    .lv-category { width:80px; }
-    .lv-cat-badge { font-size:9px; padding:2px 8px; }
-    .lv-holiday-badge { font-size:9px; padding:2px 8px; }
 
     /* Modals: bottom sheet style */
     .modal-overlay { align-items:flex-end; }
@@ -1518,8 +1414,6 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
 
     /* Nav bars */
     .timeline-mode-bar { padding:6px 12px; gap:0; }
-    .month-nav { padding:6px 12px; gap:12px; }
-    .month-label { font-size:14px; min-width:120px; }
 
     /* Status area */
     #status-area { padding:60px 16px; }
@@ -1555,6 +1449,12 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     from { opacity: 0; transform: translateX(-50%) translateY(16px); }
     to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
+.gs-toast-warn {
+    background: var(--color-amber-600, #d97706);
+    color: #fff;
+    white-space: normal;
+    max-width: calc(100vw - 32px);
+}
 .gs-toast-btn {
     background: var(--color-amber-500);
     color: var(--color-navy-950);
@@ -1584,9 +1484,4 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
     #app-header h1 { font-size:13px; }
     .gs-col-evt { width:100px; min-width:100px; max-width:100px; }
     .gs-table { --col-w:40px; }
-    .cal-year-grid { grid-template-columns:1fr; gap:8px; padding:6px; }
-    .cal-day { min-height:22px; }
-    .view-btn { font-size:10px; }
-    .lv-date { width:70px; }
-    .lv-category { width:70px; }
 }

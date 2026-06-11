@@ -25,6 +25,9 @@ let _cachedGraphEvents = [];   // Graph API から取得したイベント
 let _cachedHolidays = [];      // 祝日データ
 let _cachedHolidaySet = null;  // 祝日判定用Set
 
+// メンテナンス処理（カテゴリ移行・朝会重複削除）を実行済みの年（セッション内）
+const _maintenanceDoneYears = new Set();
+
 // ---- アクセシビリティ: ステータス通知 ----
 function announceStatus(message) {
     const el = document.getElementById("a11y-status");
@@ -393,6 +396,40 @@ function _showSignInPrompt() {
     setTimeout(() => { if (toast.parentNode) toast.remove(); }, 4000);
 }
 
+// ---- 警告トースト（バックグラウンド処理の失敗通知） ----
+function _showWarnToast(message) {
+    const old = document.getElementById("warn-toast");
+    if (old) old.remove();
+
+    const toast = document.createElement("div");
+    toast.id = "warn-toast";
+    toast.className = "gs-toast gs-toast-warn";
+    toast.setAttribute("role", "alert");
+
+    const msg = document.createElement("span");
+    msg.textContent = message;
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "gs-toast-close";
+    closeBtn.textContent = "✕";
+    closeBtn.setAttribute("aria-label", "閉じる");
+    closeBtn.addEventListener("click", () => toast.remove());
+
+    toast.appendChild(msg);
+    toast.appendChild(closeBtn);
+    document.body.appendChild(toast);
+
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 6000);
+}
+
+// ---- GitHub公開（失敗時はトーストで通知する共通経路） ----
+function _publishAndNotify() {
+    publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => {
+        console.warn("[GitHub公開]", e.message);
+        _showWarnToast("公開データの自動更新に失敗しました（変更自体は保存済みです）");
+    });
+}
+
 // ---- モーダル操作 ----
 function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     // 未サインイン時は編集不可
@@ -499,17 +536,10 @@ function openEventModal(event, categoryName, startDate, endDate, presetTitle) {
     multiDateGroup.style.display = isMultiDay ? "" : "none";
     singleDateInput.value = startInput.value || "";
 
-    // トグルスイッチの見た目更新
+    // トグルスイッチの見た目更新（クラス切替、スタイルはCSS側）
     const _updateToggleUI = () => {
         const toggle = document.getElementById("evt-multi-date-toggle");
-        const dot = toggle?.querySelector("span");
-        if (multiDateCheck.checked) {
-            toggle.style.background = "#f59e0b";
-            if (dot) dot.style.transform = "translateX(16px)";
-        } else {
-            toggle.style.background = "#cbd5e1";
-            if (dot) dot.style.transform = "translateX(0)";
-        }
+        if (toggle) toggle.classList.toggle("on", multiDateCheck.checked);
     };
     _updateToggleUI();
 
@@ -760,7 +790,7 @@ async function handleSimpleSave() {
             closeSimpleModal();
             rerenderFromCache();
             announceStatus(`「${title}」を更新しました`);
-            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+            _publishAndNotify();
         } else {
             // Outlookにイベントを新規作成 → キャッシュ追加 → rerender で自動的に●になる
             const created = await createCalendarEvent(token, eventData);
@@ -777,7 +807,7 @@ async function handleSimpleSave() {
             rerenderFromCache();
             closeSimpleModal();
             announceStatus(`「${title}」を追加しました`);
-            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+            _publishAndNotify();
         }
     } catch (error) {
         console.error("Simple save failed:", error);
@@ -811,7 +841,7 @@ async function handleSimpleDelete() {
         document.getElementById("simple-modal-save")?.focus();
         closeSimpleModal();
         announceStatus(`「${deletedTitle}」を削除しました`);
-        publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+        _publishAndNotify();
     } catch (error) {
         console.error("Simple delete failed:", error);
         const errSpan = document.querySelector('[data-field="simple-title"] .form-error');
@@ -907,7 +937,7 @@ async function handleSaveEvent(continueAdding) {
             closeModal();
             rerenderFromCache();
             announceStatus(`「${title}」を更新しました`);
-            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+            _publishAndNotify();
         } else {
             // --- 新規：API の戻り値からイベントIDを取得する必要がある ---
             const created = await createCalendarEvent(token, eventData);
@@ -935,7 +965,7 @@ async function handleSaveEvent(continueAdding) {
                 rerenderFromCache();
                 announceStatus(`「${title}」を追加しました`);
             }
-            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+            _publishAndNotify();
         }
     } catch (error) {
         console.error("Save event failed:", error);
@@ -967,7 +997,7 @@ async function handleDeleteEvent() {
         closeModal();
         rerenderFromCache();
         announceStatus(`「${deletedTitle}」を削除しました`);
-        publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+        _publishAndNotify();
     } catch (error) {
         console.error("Delete event failed:", error);
         _hideDeleteConfirm();
@@ -1004,7 +1034,7 @@ async function onDeleteEventRow(title, evIds) {
             _cachedGraphEvents = _cachedGraphEvents.filter(e => !okSet.has(e.id));
             rerenderFromCache();
             announceStatus(`「${title}」を削除しました（${okIds.length}件）`);
-            publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => console.warn("[GitHub公開]", e.message));
+            _publishAndNotify();
         }
 
         if (okIds.length < evIds.length) {
@@ -1269,37 +1299,42 @@ async function loadCalendar() {
         // ② カレンダーイベント取得
         const holidays = getJapaneseHolidays(year);
         const holidaySet = buildHolidaySet(holidays);
-        const graphEvents = await fetchCalendarEvents(token, year);
+        let graphEvents = await fetchCalendarEvents(token, year);
         const rawGraphEvents = graphEvents._rawGraphEvents || [];
         delete graphEvents._rawGraphEvents;
-
-        // 既存イベントのOutlookカテゴリ名をデュアルカテゴリに一括移行（生データ使用）
-        await _migrateEventCategories(token, rawGraphEvents);
 
         // イベントからカテゴリを自動検出して _rawConfig に書き込み
         _mergeEventCategories(graphEvents, _rawConfig, year);
         populateCategorySelect();
 
-        // 朝会の重複イベントをクリーンアップ（同じ日に複数ある場合、1つを残し削除）
-        const morningEvents = graphEvents.filter(e =>
-            e.categories && e.categories.includes("朝会") && e.startDate === e.endDate
-        );
-        const meDateMap = new Map();
-        morningEvents.forEach(e => {
-            if (!meDateMap.has(e.startDate)) meDateMap.set(e.startDate, []);
-            meDateMap.get(e.startDate).push(e);
-        });
-        for (const [date, evts] of meDateMap) {
-            if (evts.length > 1) {
-                for (let i = 1; i < evts.length; i++) {
-                    try {
-                        await deleteCalendarEvent(token, evts[i].id);
-                        graphEvents = graphEvents.filter(e => e.id !== evts[i].id);
-                    } catch (err) {
-                        console.warn(`[重複削除] ${date} 削除失敗:`, err.message);
+        // メンテナンス処理（カテゴリ移行・朝会重複削除）はセッション内で年ごとに一度だけ
+        if (!_maintenanceDoneYears.has(year)) {
+            _maintenanceDoneYears.add(year);
+
+            // 既存イベントのOutlookカテゴリ名をデュアルカテゴリに一括移行（生データ使用）
+            await _migrateEventCategories(token, rawGraphEvents);
+
+            // 朝会の重複イベントをクリーンアップ（同じ日に複数ある場合、1つを残し削除）
+            const morningEvents = graphEvents.filter(e =>
+                e.categories && e.categories.includes("朝会") && e.startDate === e.endDate
+            );
+            const meDateMap = new Map();
+            morningEvents.forEach(e => {
+                if (!meDateMap.has(e.startDate)) meDateMap.set(e.startDate, []);
+                meDateMap.get(e.startDate).push(e);
+            });
+            for (const [date, evts] of meDateMap) {
+                if (evts.length > 1) {
+                    for (let i = 1; i < evts.length; i++) {
+                        try {
+                            await deleteCalendarEvent(token, evts[i].id);
+                            graphEvents = graphEvents.filter(e => e.id !== evts[i].id);
+                        } catch (err) {
+                            console.warn(`[重複削除] ${date} 削除失敗:`, err.message);
+                        }
                     }
+                    console.log(`[重複削除] ${date}: ${evts.length - 1}件の重複朝会を削除`);
                 }
-                console.log(`[重複削除] ${date}: ${evts.length - 1}件の重複朝会を削除`);
             }
         }
 
@@ -1321,10 +1356,11 @@ async function loadCalendar() {
         // localStorageに公開用キャッシュを保存（未サインイン時に使用）
         _saveEventsToLocalStorage(year, graphEvents, CATEGORIES);
 
-        // GitHubに公開データを自動更新（バックグラウンド、エラーは無視）
-        publishEventsToGitHub(graphEvents, CATEGORIES, year).catch(e =>
-            console.warn("[GitHub公開]", e.message)
-        );
+        // GitHubに公開データを自動更新（バックグラウンド、失敗時はトースト通知）
+        publishEventsToGitHub(graphEvents, CATEGORIES, year).catch(e => {
+            console.warn("[GitHub公開]", e.message);
+            _showWarnToast("公開データの自動更新に失敗しました");
+        });
 
         hideStatus();
         renderLegend();
