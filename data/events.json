@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-11T23:35:36.735Z",
+  "lastUpdated": "2026-06-11T23:35:42.849Z",
   "years": {
     "2025": {
       "events": [],
@@ -405,16 +405,24 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFCOvcxAAAAA==",
-          "title": "地所打ち合わせ候補日",
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFCrQPaAAAAA==",
+          "title": "佐田さんシール",
           "startDate": "2026-06-10",
           "endDate": "2026-06-10",
           "categories": [],
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFCOvcxQAAAA==",
-          "title": "地所打ち合わせ候補日",
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFCrQPZwAAAA==",
+          "title": "事業主確認メール",
+          "startDate": "2026-06-10",
+          "endDate": "2026-06-10",
+          "categories": [],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFC4zBvAAAAA==",
+          "title": "社内報／部署紹介",
           "startDate": "2026-06-12",
           "endDate": "2026-06-12",
           "categories": [],
@@ -446,6 +454,14 @@
           "categories": [
             "社内報"
           ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFCrQPaQAAAA==",
+          "title": "社内報アップ",
+          "startDate": "2026-06-15",
+          "endDate": "2026-06-15",
+          "categories": [],
           "bodyPreview": ""
         },
         {
