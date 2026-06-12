@@ -743,13 +743,12 @@ function renderTimeline(events, year, holidaySet, options) {
     const MARKER_CATEGORIES = new Set(["morning_meeting"]);
     const PINNED_ORDER = ["morning_meeting", "gyro_holiday"];
     const pinnedSet = new Set(PINNED_ORDER);
-    const _markerExceptions = _loadMarkerExceptions(year);
 
     // ---- カテゴリ行を描画するヘルパー ----
     const _renderCatRows = (cat) => {
         if (MARKER_CATEGORIES.has(cat.id)) {
             const markerEvents = grouped[cat.name] || [];
-            const tr = createMarkerRow(cat, totalCols, year, holidaySet, todayCol, _markerExceptions, markerEvents);
+            const tr = createMarkerRow(cat, totalCols, year, holidaySet, todayCol, markerEvents);
             tbody.appendChild(tr);
             return;
         }
@@ -987,7 +986,7 @@ function createAddRow(cat, totalCols, year, holidaySet, todayCol) {
 }
 
 // ---- マーカー行（休日・朝会など、日ごとにマーカーを表示する行） ----
-function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions, catEvents) {
+function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, catEvents) {
     const tr = document.createElement("tr");
     tr.className = "gs-event-row gs-cat-first-row gs-cat-last-row gs-marker-row";
     tr.dataset.category = cat.id;
@@ -1012,7 +1011,7 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
     tr.appendChild(tdEvt);
 
     // マーカー判定関数を取得（候補日の判定用）
-    const shouldMark = _getMarkerPredicate(cat, year, holidaySet, exceptions);
+    const shouldMark = _getMarkerPredicate(cat, year, holidaySet);
     // イベントがある日 → イベントのMap（ドットのポップオーバー用）
     const dateToEvent = new Map();
     (catEvents || []).forEach(e => {
@@ -1084,9 +1083,6 @@ function createMarkerRow(cat, totalCols, year, holidaySet, todayCol, exceptions,
     return tr;
 }
 
-// マーカー判定関数を返す
-// 戻り値: null（マーカーなし）| "active"（通常マーカー）| "excluded"（除外日）
-// dateStr も返す: { status, dateStr }
 // 朝会の実施日を返す: 月曜（祝日でなければ）/ 火曜（月曜が祝日）/ null（月火とも祝日）
 function _morningMeetingDay(monday, holidaySet) {
     const monStr = formatDateYMD(monday);
@@ -1097,9 +1093,9 @@ function _morningMeetingDay(monday, holidaySet) {
     return holidaySet.has(tueStr) ? null : tueStr;
 }
 
-function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
-    const exceptSet = new Set((exceptions && exceptions[cat.id]) || []);
-
+// マーカー判定関数を返す
+// 戻り値: null（マーカーなし）| { dateStr }（マーカーあり）
+function _getMarkerPredicate(cat, year, holidaySet) {
     if (cat.id === "holiday") {
         // 休日: holidaySetに含まれる日にマーカー
         return (colIdx) => {
@@ -1109,7 +1105,7 @@ function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
                 const dayNum = localIdx + 1;
                 const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(dayNum).padStart(2, "0")}`;
                 if (!(holidaySet && holidaySet.has(dateStr))) return null;
-                return { status: exceptSet.has(dateStr) ? "excluded" : "active", dateStr };
+                return { dateStr };
             }
             const start = colToStartDate(colIdx, year);
             const end = colToEndDate(colIdx, year);
@@ -1118,8 +1114,7 @@ function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
             const e = parseDateStr(end);
             for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
                 if (holidaySet.has(formatDateYMD(d))) {
-                    const ds = formatDateYMD(d);
-                    return { status: exceptSet.has(ds) ? "excluded" : "active", dateStr: ds };
+                    return { dateStr: formatDateYMD(d) };
                 }
             }
             return null;
@@ -1139,63 +1134,17 @@ function _getMarkerPredicate(cat, year, holidaySet, exceptions) {
                 monday.setDate(d.getDate() - (dow === 2 ? 1 : 0));
                 const eff = _morningMeetingDay(monday, holidaySet);
                 if (!eff || eff !== formatDateYMD(d)) return null; // この日が実施日でなければ無し
-                return { status: exceptSet.has(eff) ? "excluded" : "active", dateStr: eff };
+                return { dateStr: eff };
             }
             // 週/全体: 列の月曜を起点に実施日を求める
             const monday = parseDateStr(colToStartDate(colIdx, year));
             const eff = _morningMeetingDay(monday, holidaySet);
             if (!eff) return null;
-            return { status: exceptSet.has(eff) ? "excluded" : "active", dateStr: eff };
+            return { dateStr: eff };
         };
     }
     // デフォルト: マーカーなし
     return () => null;
-}
-
-// ---- マーカー除外日の永続化 ----
-function _loadMarkerExceptions(year) {
-    try {
-        const raw = localStorage.getItem(`gyro_marker_exceptions_${year}`);
-        return raw ? JSON.parse(raw) : {};
-    } catch { return {}; }
-}
-function _saveMarkerExceptions(year, exceptions) {
-    try {
-        localStorage.setItem(`gyro_marker_exceptions_${year}`, JSON.stringify(exceptions));
-    } catch (e) { console.warn("除外日の保存に失敗:", e); }
-}
-function _toggleMarkerException(catId, dateStr, year) {
-    const exceptions = _loadMarkerExceptions(year);
-    if (!exceptions[catId]) exceptions[catId] = [];
-    const idx = exceptions[catId].indexOf(dateStr);
-    if (idx >= 0) {
-        exceptions[catId].splice(idx, 1);
-    } else {
-        exceptions[catId].push(dateStr);
-    }
-    _saveMarkerExceptions(year, exceptions);
-    rerenderFromCache();
-}
-
-// 除外リストから指定日を確実に削除（トグルではなく一方向）
-function _removeMarkerException(catId, dateStr, year) {
-    const exceptions = _loadMarkerExceptions(year);
-    if (!exceptions[catId]) return;
-    const idx = exceptions[catId].indexOf(dateStr);
-    if (idx >= 0) {
-        exceptions[catId].splice(idx, 1);
-        _saveMarkerExceptions(year, exceptions);
-    }
-}
-
-// 除外リストに指定日を確実に追加（トグルではなく一方向）
-function _addMarkerException(catId, dateStr, year) {
-    const exceptions = _loadMarkerExceptions(year);
-    if (!exceptions[catId]) exceptions[catId] = [];
-    if (!exceptions[catId].includes(dateStr)) {
-        exceptions[catId].push(dateStr);
-        _saveMarkerExceptions(year, exceptions);
-    }
 }
 
 // ---- イベント行 ----

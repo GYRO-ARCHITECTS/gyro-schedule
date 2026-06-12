@@ -1234,6 +1234,69 @@ async function loadPublicCalendar() {
 }
 
 // ========================================
+// 朝会バックフィル: 祝日週のシフト先火曜にイベントを自動作成
+// ========================================
+// 「月曜が祝日なら朝会は火曜」のシフト先に実イベントが無いと✕表示のままになるため、
+// 不足分を作成してマーカーを●にする。対象はシフト火曜のみ（通常月曜の✕は尊重）。
+async function _backfillShiftedMorningMeetings(token, year, graphEvents, holidaySet) {
+    const catName = CATEGORIES.find(c => c.id === "morning_meeting")?.name || "朝会";
+
+    // 年内の全月曜から、実施日が火曜にシフトしている週を抽出
+    const targets = [];
+    for (let m = 0; m < 12; m++) {
+        const days = daysInMonth(year, m);
+        for (let d = 1; d <= days; d++) {
+            const date = new Date(year, m, d);
+            if (date.getDay() !== 1) continue; // 月曜のみ
+            const eff = _morningMeetingDay(date, holidaySet);
+            if (!eff) continue;                          // 月火とも祝日 → 朝会なし
+            if (eff === formatDateYMD(date)) continue;   // 通常週（月曜実施）→ 対象外
+            targets.push(eff);                           // シフト火曜
+        }
+    }
+    if (targets.length === 0) return;
+
+    // 既にイベントがある火曜は除外
+    const missing = targets.filter(eff =>
+        !graphEvents.some(e =>
+            e.categories && e.categories.includes(catName) &&
+            e.startDate <= eff && e.endDate >= eff
+        )
+    );
+    if (missing.length === 0) {
+        console.log("[朝会バックフィル] シフト火曜は全て作成済み");
+        return;
+    }
+
+    let created = 0;
+    for (const eff of missing) {
+        try {
+            const result = await createCalendarEvent(token, {
+                title: catName,
+                category: catName,
+                startDate: eff,
+                endDate: eff,
+                notes: "",
+            });
+            graphEvents.push({
+                id: result?.id || "temp-" + Date.now(),
+                title: catName,
+                categories: [catName],
+                startDate: eff,
+                endDate: eff,
+                bodyPreview: "",
+            });
+            created++;
+        } catch (err) {
+            console.warn(`[朝会バックフィル] ${eff} の作成に失敗:`, err.message);
+        }
+    }
+
+    console.log(`[朝会バックフィル] ${created}/${missing.length}件作成（対象: ${missing.join(", ")}）`);
+    if (created > 0) announceStatus(`祝日週の朝会を火曜に${created}件作成しました`);
+}
+
+// ========================================
 // カレンダー読み込み（初回 & 年変更時のみAPI通信）
 // ========================================
 async function loadCalendar() {
@@ -1336,6 +1399,9 @@ async function loadCalendar() {
                     console.log(`[重複削除] ${date}: ${evts.length - 1}件の重複朝会を削除`);
                 }
             }
+
+            // 祝日週のシフト先火曜に朝会イベントをバックフィル作成（✕→●）
+            await _backfillShiftedMorningMeetings(token, year, graphEvents, holidaySet);
         }
 
         // Outlookカテゴリの色をブラウザ設定と同期（権限があるときのみ）
