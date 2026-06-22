@@ -1166,6 +1166,21 @@ th.gs-holiday-col { color:#dc6c6c; font-weight:600; }
 }
 .cat-duplicate-exec:active { transform:translateY(0); }
 .cat-duplicate-exec:disabled { opacity:0.5; cursor:not-allowed; transform:none; box-shadow:none; }
+
+/* 複製履歴（後からでも取り消し） */
+.cat-dup-history { margin:4px 0 12px; padding:8px 10px; background:var(--color-surface-sunken, rgba(15,23,42,0.03)); border-radius:var(--radius-md); }
+.cat-dup-history-head { font-size:11px; font-weight:700; color:var(--color-text-tertiary); margin-bottom:6px; letter-spacing:0.02em; }
+.cat-dup-history-item { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:4px 0; }
+.cat-dup-history-item + .cat-dup-history-item { border-top:1px solid var(--color-border); }
+.cat-dup-history-label { font-size:12px; color:var(--color-text-secondary); }
+.cat-dup-undo-btn {
+    flex-shrink:0; font-size:11px; font-weight:600; padding:4px 10px; cursor:pointer;
+    background:var(--color-surface); color:var(--color-danger);
+    border:1px solid #fca5a5; border-radius:var(--radius-md);
+    transition:background var(--duration-fast);
+}
+.cat-dup-undo-btn:hover { background:var(--color-danger-light); }
+.cat-dup-undo-btn:disabled { opacity:0.6; cursor:default; }
 .cat-duplicate-close {
     font-size:12px; padding:7px 14px;
     border:1px solid var(--color-amber-200); border-radius:var(--radius-md);

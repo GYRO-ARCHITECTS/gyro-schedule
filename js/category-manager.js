@@ -76,6 +76,7 @@ function openCategoryManager() {
 
     _updateCatManagerYearLabel();
     _renderCategoryList();
+    _renderDuplicateHistory();
     _setupListDragEvents();
     _closeDuplicatePanel();
 
@@ -127,6 +128,7 @@ function _switchCatManagerYear(delta) {
     _catManagerYear += delta;
     _updateCatManagerYearLabel();
     _renderCategoryList();
+    _renderDuplicateHistory();
     _closeDuplicatePanel();
 }
 
@@ -250,12 +252,32 @@ async function _executeDuplicate() {
             console.log(`[複製] ${sourceYear}→${targetYear}: カテゴリ${clonedCatNames.size}件, イベント${created}/${sourceEvents.length}件`);
             announceStatus(`${sourceYear}年から${clonedCatNames.size}カテゴリと${created}件のイベントを複製しました`);
 
-            // 直後の取り消し（作成した予定を一括削除）。カテゴリ定義は対象外
-            if (createdIds.length > 0 && typeof _showUndoToast === "function") {
-                _showUndoToast(
-                    `${sourceYear}年から${created}件の予定を複製しました`,
-                    () => onDeleteEventRow("複製した予定", createdIds)
-                );
+            if (createdIds.length > 0) {
+                // 複製バッチを履歴に保存（後からでも取り消せるように）
+                const batch = {
+                    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+                    sourceYear, targetYear,
+                    count: created,
+                    createdAt: new Date().toISOString(),
+                    eventIds: createdIds,
+                };
+                if (!Array.isArray(_rawConfig.duplicateBatches)) _rawConfig.duplicateBatches = [];
+                _rawConfig.duplicateBatches.unshift(batch);
+                _rawConfig.duplicateBatches = _rawConfig.duplicateBatches.slice(0, 5); // 直近5件
+                try {
+                    await saveCategoryConfig(token, _rawConfig, _configEventId);
+                } catch (e) {
+                    console.warn("[複製履歴] 保存失敗:", e.message);
+                }
+                _renderDuplicateHistory();
+
+                // 直後の取り消しトースト（共通関数経由・確認なし）
+                if (typeof _showUndoToast === "function") {
+                    _showUndoToast(
+                        `${sourceYear}年から${created}件の予定を複製しました`,
+                        () => _undoDuplicateBatch(batch)
+                    );
+                }
             }
         } catch (err) {
             console.error("[複製] 失敗:", err);
@@ -269,6 +291,73 @@ async function _executeDuplicate() {
 
     const firstInput = list.querySelector(".cat-manager-name:not([readonly])");
     if (firstInput) firstInput.focus();
+}
+
+// ---- 複製履歴（後からでも取り消す） ----
+// バッチの作成イベントを一括削除し、履歴から除去して永続化する（共通経路）
+async function _undoDuplicateBatch(batch) {
+    if (!batch || !batch.eventIds || batch.eventIds.length === 0) return;
+    // 既存のイベント一括削除（サーバ先行・部分失敗耐性あり）
+    await onDeleteEventRow("複製した予定", batch.eventIds);
+    // 履歴から除去して永続化
+    if (Array.isArray(_rawConfig?.duplicateBatches)) {
+        _rawConfig.duplicateBatches = _rawConfig.duplicateBatches.filter(b => b.id !== batch.id);
+        try {
+            const token = await getAccessToken();
+            await saveCategoryConfig(token, _rawConfig, _configEventId);
+        } catch (e) {
+            console.warn("[複製履歴] 取り消し後の保存失敗:", e.message);
+        }
+    }
+    _renderDuplicateHistory();
+}
+
+// 現在モーダル表示中の年度を対象とする複製バッチを一覧表示
+function _renderDuplicateHistory() {
+    const container = document.getElementById("cat-dup-history");
+    if (!container) return;
+    container.innerHTML = "";
+
+    const batches = (_rawConfig?.duplicateBatches || [])
+        .filter(b => String(b.targetYear) === String(_catManagerYear));
+
+    if (batches.length === 0) {
+        container.style.display = "none";
+        return;
+    }
+    container.style.display = "block";
+
+    const head = document.createElement("div");
+    head.className = "cat-dup-history-head";
+    head.textContent = "複製履歴（取り消し可）";
+    container.appendChild(head);
+
+    batches.forEach(batch => {
+        const item = document.createElement("div");
+        item.className = "cat-dup-history-item";
+
+        const label = document.createElement("span");
+        label.className = "cat-dup-history-label";
+        const dt = batch.createdAt ? new Date(batch.createdAt) : null;
+        const dateStr = dt ? `${dt.getMonth() + 1}/${dt.getDate()}` : "";
+        label.textContent = `複製元 ${batch.sourceYear}年 → ${batch.count}件${dateStr ? `（${dateStr}）` : ""}`;
+
+        const undoBtn = document.createElement("button");
+        undoBtn.type = "button";
+        undoBtn.className = "cat-dup-undo-btn";
+        undoBtn.textContent = "取り消し";
+        undoBtn.addEventListener("click", async () => {
+            const ok = window.confirm(`この複製（${batch.count}件）を取り消して予定を削除しますか？`);
+            if (!ok) return;
+            undoBtn.disabled = true;
+            undoBtn.textContent = "取り消し中…";
+            await _undoDuplicateBatch(batch);
+        });
+
+        item.appendChild(label);
+        item.appendChild(undoBtn);
+        container.appendChild(item);
+    });
 }
 
 // ---- カテゴリリスト描画（v3: 単一リスト） ----
