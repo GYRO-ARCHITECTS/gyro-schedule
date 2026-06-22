@@ -177,6 +177,13 @@ async function _executeDuplicate() {
     const targetYear = String(_catManagerYear);
     const sourceCats = _rawConfig.yearCategories[sourceYear];
 
+    // 誤操作防止: 実行前に確認（イベントは即座に全社カレンダーへ作成されるため）
+    const ok = window.confirm(
+        `「${sourceYear}年」のカテゴリと予定（朝会以外）を ${targetYear}年 に複製します。\n\n` +
+        `複製した予定はすぐ全社カレンダーに作成されます（直後に「取り消し」できます）。\n続けますか？`
+    );
+    if (!ok) return;
+
     const list = document.getElementById("cat-list");
     list.innerHTML = "";
 
@@ -209,6 +216,7 @@ async function _executeDuplicate() {
             console.log(`[複製] 対象イベント: ${sourceEvents.length}件`);
 
             let created = 0;
+            const createdIds = []; // 取り消し用（実IDのみ）
             for (const ev of sourceEvents) {
                 // 日付の年を変更（年またぎイベントのオフセットを保持）
                 const yearDiff = Number(ev.endDate.substring(0, 4)) - Number(ev.startDate.substring(0, 4));
@@ -232,6 +240,7 @@ async function _executeDuplicate() {
                         endDate: newEnd,
                         bodyPreview: ev.bodyPreview || "",
                     });
+                    if (result?.id) createdIds.push(result.id);
                     created++;
                 } catch (err) {
                     console.warn(`[複製] イベント作成失敗: ${ev.title}`, err.message);
@@ -240,6 +249,14 @@ async function _executeDuplicate() {
 
             console.log(`[複製] ${sourceYear}→${targetYear}: カテゴリ${clonedCatNames.size}件, イベント${created}/${sourceEvents.length}件`);
             announceStatus(`${sourceYear}年から${clonedCatNames.size}カテゴリと${created}件のイベントを複製しました`);
+
+            // 直後の取り消し（作成した予定を一括削除）。カテゴリ定義は対象外
+            if (createdIds.length > 0 && typeof _showUndoToast === "function") {
+                _showUndoToast(
+                    `${sourceYear}年から${created}件の予定を複製しました`,
+                    () => onDeleteEventRow("複製した予定", createdIds)
+                );
+            }
         } catch (err) {
             console.error("[複製] 失敗:", err);
             announceStatus(`カテゴリは複製しましたが、イベントの複製に失敗しました`);

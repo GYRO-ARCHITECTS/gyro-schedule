@@ -422,6 +422,44 @@ function _showWarnToast(message) {
     setTimeout(() => { if (toast.parentNode) toast.remove(); }, 6000);
 }
 
+// ---- 取り消しトースト（「元に戻す」ボタン付き・長め表示） ----
+function _showUndoToast(message, onUndo) {
+    const old = document.getElementById("undo-toast");
+    if (old) old.remove();
+
+    const toast = document.createElement("div");
+    toast.id = "undo-toast";
+    toast.className = "gs-toast";
+    toast.setAttribute("role", "alert");
+
+    const msg = document.createElement("span");
+    msg.textContent = message;
+
+    const btn = document.createElement("button");
+    btn.className = "gs-toast-btn";
+    btn.textContent = "取り消し";
+    btn.addEventListener("click", async () => {
+        btn.disabled = true;
+        btn.textContent = "取り消し中…";
+        try { await onUndo(); } catch (e) { console.warn("[取り消し]", e.message); }
+        if (toast.parentNode) toast.remove();
+    });
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "gs-toast-close";
+    closeBtn.textContent = "✕";
+    closeBtn.setAttribute("aria-label", "閉じる");
+    closeBtn.addEventListener("click", () => toast.remove());
+
+    toast.appendChild(msg);
+    toast.appendChild(btn);
+    toast.appendChild(closeBtn);
+    document.body.appendChild(toast);
+
+    // 取り消しは重要なので長め（15秒）
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 15000);
+}
+
 // ---- GitHub公開（失敗時はトーストで通知する共通経路） ----
 function _publishAndNotify() {
     publishEventsToGitHub(_cachedGraphEvents, CATEGORIES, currentYear).catch(e => {
