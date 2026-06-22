@@ -181,8 +181,9 @@ async function _executeDuplicate() {
 
     // 誤操作防止: 実行前に確認（イベントは即座に全社カレンダーへ作成されるため）
     const ok = window.confirm(
-        `「${sourceYear}年」のカテゴリと予定（朝会以外）を ${targetYear}年 に複製します。\n\n` +
-        `複製した予定はすぐ全社カレンダーに作成されます（直後に「取り消し」できます）。\n続けますか？`
+        `「${sourceYear}年」のカテゴリとイベント名を ${targetYear}年 に複製します。\n\n` +
+        `日程は複製しません（予定は ${targetYear}/1/1 にまとめて作成され、後で各日へ移動できます）。\n` +
+        `直後または複製履歴から「取り消し」できます。\n続けますか？`
     );
     if (!ok) return;
 
@@ -217,35 +218,43 @@ async function _executeDuplicate() {
             );
             console.log(`[複製] 対象イベント: ${sourceEvents.length}件`);
 
+            // 「カテゴリ＋タイトル」で重複排除し、名前だけ複製（日程は複製しない）。
+            // 全イベントを複製先年の1/1に単日作成し、後で各日へ移動してもらう。
+            const seen = new Set();
+            const templates = [];
+            for (const ev of sourceEvents) {
+                const category = ev.categories[0];
+                const key = category + "\u0000" + ev.title;
+                if (seen.has(key)) continue;
+                seen.add(key);
+                templates.push({ title: ev.title, category });
+            }
+            const placeholderDate = `${targetYear}-01-01`;
+            console.log(`[複製] ユニーク化: ${sourceEvents.length}件 → ${templates.length}件`);
+
             let created = 0;
             const createdIds = []; // 取り消し用（実IDのみ）
-            for (const ev of sourceEvents) {
-                // 日付の年を変更（年またぎイベントのオフセットを保持）
-                const yearDiff = Number(ev.endDate.substring(0, 4)) - Number(ev.startDate.substring(0, 4));
-                const newStart = targetYear + ev.startDate.substring(4);
-                const newEnd = String(Number(targetYear) + yearDiff) + ev.endDate.substring(4);
-                const category = ev.categories[0];
-
+            for (const tpl of templates) {
                 try {
                     const result = await createCalendarEvent(token, {
-                        title: ev.title,
-                        category: category,
-                        startDate: newStart,
-                        endDate: newEnd,
-                        notes: ev.bodyPreview || "",
+                        title: tpl.title,
+                        category: tpl.category,
+                        startDate: placeholderDate,
+                        endDate: placeholderDate,
+                        notes: "",
                     });
                     _cachedGraphEvents.push({
                         id: result?.id || "temp-" + Date.now(),
-                        title: ev.title,
-                        categories: [category],
-                        startDate: newStart,
-                        endDate: newEnd,
-                        bodyPreview: ev.bodyPreview || "",
+                        title: tpl.title,
+                        categories: [tpl.category],
+                        startDate: placeholderDate,
+                        endDate: placeholderDate,
+                        bodyPreview: "",
                     });
                     if (result?.id) createdIds.push(result.id);
                     created++;
                 } catch (err) {
-                    console.warn(`[複製] イベント作成失敗: ${ev.title}`, err.message);
+                    console.warn(`[複製] イベント作成失敗: ${tpl.title}`, err.message);
                 }
             }
 
