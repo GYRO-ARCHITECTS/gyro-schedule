@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-22T02:21:33.086Z",
+  "lastUpdated": "2026-06-22T02:32:51.326Z",
   "years": {
     "2025": {
       "events": [],
@@ -3616,6 +3616,46 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfpAwAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2028-01-01",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfpgAAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2028-01-01",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfpgQAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2028-01-01",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfqJgAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2028-01-01",
+          "endDate": "2028-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfqJwAAAA==",
           "title": "夏休み取得期間",
           "startDate": "2028-01-01",
           "endDate": "2028-01-04",
