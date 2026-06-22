@@ -100,6 +100,11 @@ async function fetchCalendarEvents(accessToken, year) {
 const CONFIG_EVENT_SUBJECT = "__GYRO_SCHEDULE_CONFIG__";
 const CONFIG_EVENT_CATEGORY = "__GYRO_CONFIG__";
 
+// このアプリが作成したイベントに付ける隠し印カテゴリ。
+// 読み込み時はこの印（または既存のアプリ署名）を持つイベントだけを表示し、
+// Outlook側で直接作成された予定は取り込まない（一方向反映）。
+const APP_MARKER_CATEGORY = "__GYRO_APP__";
+
 // ---- Config Event 取得 ----
 async function fetchCategoryConfig(accessToken) {
     const baseUrl = await getCalendarBaseUrl(accessToken, "calendar/events");
@@ -251,6 +256,15 @@ function normalizeEvents(graphEvents) {
     graphEvents = graphEvents.filter(ev =>
         !(ev.categories || []).includes(CONFIG_EVENT_CATEGORY)
     );
+    // アプリ製イベントだけ通す（Outlook側で直接作成された予定を取り込まない）。
+    graphEvents = graphEvents.filter(ev => {
+        const cats = ev.categories || [];
+        if (cats.includes(APP_MARKER_CATEGORY)) return true; // ① 専用印
+        // ② 既存アプリ署名: 先頭が色カテゴリ かつ アプリカテゴリ名を伴う（[色, 名前]）。
+        //    色カテゴリだけのOutlook予定は除外する。
+        return OUTLOOK_COLOR_CATS.has(cats[0]) &&
+               cats.some(c => !OUTLOOK_COLOR_CATS.has(c) && c !== APP_MARKER_CATEGORY);
+    });
     return graphEvents.map((event) => {
         let startDate = event.start.dateTime.split("T")[0];
         let endDate = event.end.dateTime.split("T")[0];
@@ -270,7 +284,8 @@ function normalizeEvents(graphEvents) {
             endDate,
             isAllDay: event.isAllDay,
             categories: (function() {
-                const rawCats = event.categories || [];
+                // アプリ印を除去してから判定（表示には出さない）
+                const rawCats = (event.categories || []).filter(c => c !== APP_MARKER_CATEGORY);
                 // Outlook色カテゴリを除外してアプリカテゴリのみ返す
                 const appCats = rawCats.filter(c => !OUTLOOK_COLOR_CATS.has(c));
                 if (appCats.length > 0) return appCats;
@@ -407,11 +422,13 @@ function buildEventBody(eventData) {
         showAs: "free",
     };
 
-    // デュアルカテゴリ: [Outlook色カテゴリ, アプリカテゴリ名]
+    // デュアルカテゴリ [Outlook色カテゴリ, アプリカテゴリ名] ＋ アプリ印
+    const cats = [];
     if (eventData.category) {
-        const colorCat = _getOutlookColorCategory(eventData.category);
-        body.categories = [colorCat, eventData.category];
+        cats.push(_getOutlookColorCategory(eventData.category), eventData.category);
     }
+    cats.push(APP_MARKER_CATEGORY);
+    body.categories = cats;
 
     // メモ
     if (eventData.notes) {

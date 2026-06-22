@@ -1207,6 +1207,10 @@ async function loadPublicCalendar() {
         }
     }
 
+    // 公開データのうちカテゴリ未設定（Outlook側で直接作成された予定）を除外。
+    // アプリ製イベントは必ずカテゴリ名を持つため、公開JSONでは空カテゴリ＝アプリ外。
+    publicEvents = publicEvents.filter(e => (e.categories || []).length > 0);
+
     // イベントからカテゴリを自動検出して _rawConfig に書き込み
     _mergeEventCategories(publicEvents, _rawConfig, year);
     populateCategorySelect();
