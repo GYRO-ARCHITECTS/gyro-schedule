@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-22T02:13:27.927Z",
+  "lastUpdated": "2026-06-22T02:15:24.808Z",
   "years": {
     "2025": {
       "events": [],
@@ -2425,6 +2425,16 @@
           "bodyPreview": ""
         },
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoagAAAA==",
+          "title": "朝会",
+          "startDate": "2027-01-12",
+          "endDate": "2027-01-12",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE6t-bnwAAAA==",
           "title": "社内報_11号",
           "startDate": "2027-01-18",
@@ -2671,6 +2681,16 @@
           "endDate": "2027-03-10",
           "categories": [
             "メディア露出"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoawAAAA==",
+          "title": "朝会",
+          "startDate": "2027-03-23",
+          "endDate": "2027-03-23",
+          "categories": [
+            "朝会"
           ],
           "bodyPreview": ""
         },
@@ -3095,6 +3115,16 @@
           "bodyPreview": ""
         },
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfobAAAAA==",
+          "title": "朝会",
+          "startDate": "2027-07-20",
+          "endDate": "2027-07-20",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQAgAAAA==",
           "title": "一級建築士_学科",
           "startDate": "2027-07-26",
@@ -3305,6 +3335,16 @@
           "bodyPreview": ""
         },
         {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfobQAAAA==",
+          "title": "朝会",
+          "startDate": "2027-09-21",
+          "endDate": "2027-09-21",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQBwAAAA==",
           "title": "一級建築士_製図",
           "startDate": "2027-10-11",
@@ -3341,6 +3381,16 @@
           "endDate": "2027-10-11",
           "categories": [
             "資格"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfobgAAAA==",
+          "title": "朝会",
+          "startDate": "2027-10-12",
+          "endDate": "2027-10-12",
+          "categories": [
+            "朝会"
           ],
           "bodyPreview": ""
         },
@@ -3535,52 +3585,22 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoagAAAA==",
-          "title": "朝会",
-          "startDate": "2027-01-12",
-          "endDate": "2027-01-12",
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfogAAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2028-01-01",
+          "endDate": "2028-01-04",
           "categories": [
-            "朝会"
+            "GYRO休み"
           ],
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoawAAAA==",
-          "title": "朝会",
-          "startDate": "2027-03-23",
-          "endDate": "2027-03-23",
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfogQAAAA==",
+          "title": "夏休み取得期間",
+          "startDate": "2028-01-01",
+          "endDate": "2028-01-04",
           "categories": [
-            "朝会"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfobAAAAA==",
-          "title": "朝会",
-          "startDate": "2027-07-20",
-          "endDate": "2027-07-20",
-          "categories": [
-            "朝会"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfobQAAAA==",
-          "title": "朝会",
-          "startDate": "2027-09-21",
-          "endDate": "2027-09-21",
-          "categories": [
-            "朝会"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfobgAAAA==",
-          "title": "朝会",
-          "startDate": "2027-10-12",
-          "endDate": "2027-10-12",
-          "categories": [
-            "朝会"
+            "GYRO休み"
           ],
           "bodyPreview": ""
         }
