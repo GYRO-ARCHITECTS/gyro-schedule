@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-22T02:15:29.638Z",
+  "lastUpdated": "2026-06-22T02:15:31.743Z",
   "years": {
     "2025": {
       "events": [],
@@ -5181,6 +5181,342 @@
           "id": "auto_資格",
           "name": "資格",
           "color": "#06b6d4"
+        }
+      ]
+    },
+    "2029": {
+      "events": [
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfocQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-03",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfocgAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-03",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfocwAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-03",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo7AAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-03",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfodAAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfodQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfodgAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfodwAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoeAAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoeQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoegAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoewAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfofAAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfofQAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfofgAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfofwAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo7QAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo7gAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo7wAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo8AAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo8QAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo8gAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo8wAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo9AAAAA==",
+          "title": "（仮）年末年始休暇",
+          "startDate": "2028-12-29",
+          "endDate": "2029-01-04",
+          "categories": [
+            "GYRO休み"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo_gAAAA==",
+          "title": "朝会",
+          "startDate": "2029-01-02",
+          "endDate": "2029-01-02",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo_wAAAA==",
+          "title": "朝会",
+          "startDate": "2029-01-09",
+          "endDate": "2029-01-09",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo-AAAAA==",
+          "title": "朝会",
+          "startDate": "2029-02-13",
+          "endDate": "2029-02-13",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo-QAAAA==",
+          "title": "朝会",
+          "startDate": "2029-05-01",
+          "endDate": "2029-05-01",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo-gAAAA==",
+          "title": "朝会",
+          "startDate": "2029-07-17",
+          "endDate": "2029-07-17",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfo-wAAAA==",
+          "title": "朝会",
+          "startDate": "2029-09-18",
+          "endDate": "2029-09-18",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfpAAAB",
+          "title": "朝会",
+          "startDate": "2029-09-25",
+          "endDate": "2029-09-25",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfpAQAAAA==",
+          "title": "朝会",
+          "startDate": "2029-10-09",
+          "endDate": "2029-10-09",
+          "categories": [
+            "朝会"
+          ],
+          "bodyPreview": ""
+        }
+      ],
+      "categories": [
+        {
+          "id": "morning_meeting",
+          "name": "朝会",
+          "color": "#3b82f6"
+        },
+        {
+          "id": "gyro_holiday",
+          "name": "GYRO休み",
+          "color": "#374151"
         }
       ]
     }
