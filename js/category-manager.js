@@ -218,16 +218,30 @@ async function _executeDuplicate() {
             );
             console.log(`[複製] 対象イベント: ${sourceEvents.length}件`);
 
+            // 冪等化（再発防止）: 複製先年に既にある「カテゴリ＋タイトル」は作らない。
+            // これにより複製を複数回押しても重複しない。
+            const targetExisting = await fetchCalendarEvents(token, Number(targetYear));
+            const existKeys = new Set(
+                targetExisting
+                    .filter(e => e.categories && e.categories.length)
+                    .map(e => JSON.stringify([e.categories[0], e.title]))
+            );
+
             // 「カテゴリ＋タイトル」で重複排除し、名前だけ複製（日程は複製しない）。
             // 全イベントを複製先年の1/1に単日作成し、後で各日へ移動してもらう。
             const seen = new Set();
             const templates = [];
+            let skippedExisting = 0;
             for (const ev of sourceEvents) {
                 const category = ev.categories[0];
-                const key = category + "\u0000" + ev.title;
+                const key = JSON.stringify([category, ev.title]);
                 if (seen.has(key)) continue;
+                if (existKeys.has(key)) { skippedExisting++; continue; } // 複製先に既存
                 seen.add(key);
                 templates.push({ title: ev.title, category });
+            }
+            if (skippedExisting > 0) {
+                console.log(`[複製] 複製先に既存のためスキップ: ${skippedExisting}件`);
             }
             const placeholderDate = `${targetYear}-01-01`;
             console.log(`[複製] ユニーク化: ${sourceEvents.length}件 → ${templates.length}件`);

@@ -28,6 +28,9 @@ let _cachedHolidaySet = null;  // 祝日判定用Set
 // メンテナンス処理（カテゴリ移行・朝会重複削除）を実行済みの年（セッション内）
 const _maintenanceDoneYears = new Set();
 
+// 重複イベントの自動整理をこのセッションで実施済みか（確認ダイアログを繰り返さない）
+let _dedupeCleanupDone = false;
+
 // ---- アクセシビリティ: ステータス通知 ----
 function announceStatus(message) {
     const el = document.getElementById("a11y-status");
@@ -1280,6 +1283,167 @@ async function loadPublicCalendar() {
 // ========================================
 // 「月曜が祝日なら朝会は火曜」のシフト先に実イベントが無いと✕表示のままになるため、
 // 不足分を作成してマーカーを●にする。対象はシフト火曜のみ（通常月曜の✕は尊重）。
+// ========================================
+// 重複イベントの整理（同じ内容の予定が複数できてしまった場合の掃除）
+// JSONをブラウザでファイルとしてダウンロード（バックアップの保険）
+function _downloadJson(filename, obj) {
+    try {
+        const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        return true;
+    } catch (e) {
+        console.warn("[バックアップ] ダウンロード失敗:", e.message);
+        return false;
+    }
+}
+
+// ========================================
+// 重複判定に使う「内容キー」: タイトル・開始・終了・カテゴリ（順不同）が全て一致＝同一予定
+function _eventContentKey(e) {
+    const cats = (e.categories || []).slice().sort();
+    // メモ(bodyPreview)も含める: 同名・同日でもメモが違えば「別予定」として削除しない
+    return JSON.stringify([e.title, e.startDate, e.endDate, cats, e.bodyPreview || ""]);
+}
+
+// 与えられたイベント配列に内容重複があるか（単発予定のみ対象、繰り返しは除外）
+function _hasContentDuplicates(events) {
+    const seen = new Set();
+    for (const e of events) {
+        if (e.graphType && e.graphType !== "singleInstance") continue;
+        const k = _eventContentKey(e);
+        if (seen.has(k)) return true;
+        seen.add(k);
+    }
+    return false;
+}
+
+// 全年を走査し、内容が完全一致する重複を「各1件残して」削除する。
+// 確認ダイアログ必須。削除対象は事前に監査ログ出力。元データはGit履歴にも残る。
+async function _cleanupDuplicateEvents(token) {
+    // 走査対象の年（設定にある全年。無ければ現在年のみ）
+    let years = Object.keys((_rawConfig && _rawConfig.yearCategories) || {})
+        .map(Number).filter(n => !isNaN(n)).sort();
+    if (years.length === 0) years = [currentYear];
+
+    // 各年を取得（年跨ぎイベントは複数年に現れるため id で重複排除）
+    const yearLists = {};
+    const byId = new Map();
+    for (const y of years) {
+        let evs;
+        try {
+            evs = await fetchCalendarEvents(token, y);
+        } catch (err) {
+            console.warn(`[重複整理] ${y}年の取得に失敗:`, err.message);
+            continue;
+        }
+        delete evs._rawGraphEvents;
+        yearLists[y] = evs;
+        for (const e of evs) {
+            if (e.graphType && e.graphType !== "singleInstance") continue; // 繰り返し予定は触らない
+            if (!byId.has(e.id)) byId.set(e.id, e);
+        }
+    }
+
+    // 内容キーでグルーピングし、各グループ先頭を残して残りを削除対象に
+    const groups = new Map();
+    for (const e of byId.values()) {
+        const k = _eventContentKey(e);
+        if (!groups.has(k)) groups.set(k, []);
+        groups.get(k).push(e);
+    }
+    const deleteList = [];
+    for (const arr of groups.values()) {
+        if (arr.length > 1) deleteList.push(...arr.slice(1));
+    }
+    if (deleteList.length === 0) {
+        console.log("[重複整理] 重複なし");
+        return;
+    }
+
+    // 確認
+    const ok = window.confirm(
+        `同じ予定が重複しています。\n` +
+        `重複 ${deleteList.length} 件を削除して、各予定を1件だけにまとめますか？\n\n` +
+        `削除前に完全バックアップ（GitHub＋手元へダウンロード）を保存します。\n` +
+        `ユニークな予定は必ず残ります。\n` +
+        `削除には1分前後かかる場合があります。`
+    );
+    if (!ok) {
+        console.log("[重複整理] ユーザーがキャンセル");
+        return;
+    }
+
+    // === 削除前の完全バックアップ（取得できなければ削除を中止）===
+    const now = new Date();
+    const ts = now.toISOString().replace(/[:.]/g, "-");
+    const snapshot = {
+        createdAt: now.toISOString(),
+        reason: "predupe-cleanup",
+        years,
+        toDelete: deleteList.map(e => e.id),
+        events: Array.from(byId.values()),   // 走査した全イベント（完全フィールド）
+    };
+    // 1) 手元へダウンロード（保険）
+    _downloadJson(`predupe-${ts}.json`, snapshot);
+    // 2) GitHubへ恒久コミット（必須）。失敗したら一切削除しない。
+    announceStatus("バックアップを保存中...");
+    try {
+        await _publishFileToGitHub(`backup/predupe-${ts}.json`, snapshot);
+    } catch (err) {
+        console.error("[重複整理] バックアップ失敗:", err.message);
+        window.alert(`バックアップの保存に失敗したため、整理を中止しました（削除は行っていません）。\n\n${err.message}`);
+        announceStatus("バックアップ失敗のため整理を中止しました");
+        return;
+    }
+
+    // 監査ログ（削除前に記録）
+    const audit = deleteList.map(e => ({ id: e.id, title: e.title, start: e.startDate, end: e.endDate, categories: e.categories }));
+    console.log(`[重複整理] 削除対象 ${audit.length}件:\n` + JSON.stringify(audit, null, 2));
+
+    // 削除
+    const deletedOk = new Set();
+    let done = 0;
+    announceStatus(`重複を整理中... 0/${deleteList.length}`);
+    for (const e of deleteList) {
+        try {
+            await deleteCalendarEvent(token, e.id);
+            deletedOk.add(e.id);
+        } catch (err) {
+            console.warn(`[重複整理] 削除失敗 ${e.id} (${e.title}):`, err.message);
+        }
+        done++;
+        if (done % 10 === 0 || done === deleteList.length) {
+            announceStatus(`重複を整理中... ${done}/${deleteList.length}`);
+        }
+    }
+
+    // キャッシュ更新（現在年）＋ 全年の公開ミラーをクリーン化
+    _cachedGraphEvents = _cachedGraphEvents.filter(e => !deletedOk.has(e.id));
+    for (const y of years) {
+        if (!yearLists[y]) continue;
+        const cleaned = yearLists[y].filter(e => !deletedOk.has(e.id));
+        try {
+            await publishEventsToGitHub(cleaned, _buildCategoriesForYear(_rawConfig, y), y);
+        } catch (err) {
+            console.warn(`[重複整理] ${y}年の公開更新に失敗:`, err.message);
+        }
+    }
+
+    rerenderFromCache(true);
+    console.log(`[重複整理] 完了: ${deletedOk.size}/${deleteList.length}件削除`);
+    announceStatus(`重複を${deletedOk.size}件整理しました`);
+    if (deletedOk.size < deleteList.length) {
+        _showWarnToast(`重複整理: ${deleteList.length - deletedOk.size}件の削除に失敗しました（再読込で再試行できます）`);
+    }
+}
+
 async function _backfillShiftedMorningMeetings(token, year, graphEvents, holidaySet) {
     const catName = CATEGORIES.find(c => c.id === "morning_meeting")?.name || "朝会";
 
@@ -1492,6 +1656,15 @@ async function loadCalendar() {
         }
 
         announceStatus(`${year}年のスケジュールを読み込みました（${graphEvents.length}件）`);
+
+        // 重複イベントの自動検出 → 確認 → 整理（セッション内一度だけ）
+        if (!_dedupeCleanupDone) {
+            _dedupeCleanupDone = true;
+            if (_hasContentDuplicates(graphEvents)) {
+                // 現在年に重複あり → 全年を走査して確認の上で整理
+                await _cleanupDuplicateEvents(token);
+            }
+        }
     } catch (error) {
         console.error("Calendar load failed:", error);
         if (error.message?.includes("consent") || error.message?.includes("interaction")) {

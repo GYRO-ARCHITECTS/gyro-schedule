@@ -640,3 +640,46 @@ async function publishEventsToGitHub(events, categories, year) {
         return;
     }
 }
+
+// 任意のJSONをリポジトリの任意パスへ新規コミットする（バックアップ用）。
+// 成功時はコミット結果を返す。失敗時は例外を投げる（呼び出し側で削除を中止できるように）。
+async function _publishFileToGitHub(filePath, obj) {
+    const { owner, repo, branch, token } = githubConfig;
+    if (!token) {
+        throw new Error("GitHubトークンが未設定のためバックアップを保存できません");
+    }
+    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}`;
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(obj, null, 2))));
+    const body = {
+        message: `backup: ${filePath}`,
+        content,
+        branch,
+    };
+    // タイムスタンプ付きの新規ファイル想定（sha不要）。既存なら409→既存sha取得して上書き。
+    let res = await fetch(putUrl, {
+        method: "PUT",
+        headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+    });
+    if (res.status === 409 || res.status === 422) {
+        const getRes = await fetch(`${putUrl}?ref=${branch}&_t=${Date.now()}`, {
+            headers: { Authorization: `token ${token}` }, cache: "no-store",
+        });
+        if (getRes.ok) {
+            const existing = await getRes.json();
+            body.sha = existing.sha;
+            res = await fetch(putUrl, {
+                method: "PUT",
+                headers: { Authorization: `token ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify(body),
+            });
+        }
+    }
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(`バックアップのコミットに失敗 (HTTP ${res.status}): ${err.message || ""}`);
+    }
+    const result = await res.json();
+    console.log(`[バックアップ] GitHubに保存しました: ${filePath}`);
+    return result;
+}
