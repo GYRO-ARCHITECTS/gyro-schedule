@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-06-29T02:55:14.028Z",
+  "lastUpdated": "2026-06-29T02:56:28.798Z",
   "years": {
     "2025": {
       "events": [],
@@ -29,16 +29,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn9gAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-01-01",
-          "endDate": "2026-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9YzgAAAA==",
           "title": "朝会",
           "startDate": "2026-01-05",
@@ -50,46 +40,6 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPaAAAAA==",
-          "title": "年始挨拶レター",
-          "startDate": "2026-01-05",
-          "endDate": "2026-01-05",
-          "categories": [
-            "対外発信"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn9wAAAA==",
-          "title": "年始挨拶レター",
-          "startDate": "2026-01-05",
-          "endDate": "2026-01-05",
-          "categories": [
-            "対外発信"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn_AAAAA==",
-          "title": "年始挨拶レター",
-          "startDate": "2026-01-05",
-          "endDate": "2026-01-05",
-          "categories": [
-            "対外発信"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn_QAAAA==",
-          "title": "年始挨拶レター",
-          "startDate": "2026-01-05",
-          "endDate": "2026-01-05",
-          "categories": [
-            "対外発信"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn_gAAAA==",
           "title": "年始挨拶レター",
           "startDate": "2026-01-05",
           "endDate": "2026-01-05",
@@ -179,67 +129,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn-AAAAA==",
-          "title": "コネクトラボ勉強会",
-          "startDate": "2026-02-13",
-          "endDate": "2026-02-13",
-          "categories": [
-            "社内勉強会"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn-QAAAA==",
-          "title": "コネクトラボ勉強会",
-          "startDate": "2026-02-13",
-          "endDate": "2026-02-13",
-          "categories": [
-            "社内勉強会"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPYQAAAA==",
-          "title": "一得設計 休み",
-          "startDate": "2026-02-15",
-          "endDate": "2026-02-23",
-          "categories": [
-            "パートナー休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn-gAAAA==",
-          "title": "一得設計 休み",
-          "startDate": "2026-02-15",
-          "endDate": "2026-02-23",
-          "categories": [
-            "パートナー休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn-wAAAA==",
-          "title": "一得設計 休み",
-          "startDate": "2026-02-15",
-          "endDate": "2026-02-23",
-          "categories": [
-            "パートナー休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoAAAB",
-          "title": "一得設計 休み",
-          "startDate": "2026-02-15",
-          "endDate": "2026-02-23",
-          "categories": [
-            "パートナー休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoAQAAAA==",
           "title": "一得設計 休み",
           "startDate": "2026-02-15",
           "endDate": "2026-02-23",
@@ -279,46 +169,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoAgAAAA==",
-          "title": "京都diploma",
-          "startDate": "2026-02-20",
-          "endDate": "2026-02-23",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoAwAAAA==",
-          "title": "京都diploma",
-          "startDate": "2026-02-20",
-          "endDate": "2026-02-23",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoBAAAAA==",
-          "title": "京都diploma",
-          "startDate": "2026-02-20",
-          "endDate": "2026-02-23",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoBQAAAA==",
-          "title": "京都diploma",
-          "startDate": "2026-02-20",
-          "endDate": "2026-02-23",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFC8qDLQAAAA==",
           "title": "朝会",
           "startDate": "2026-02-24",
@@ -339,67 +189,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoBgAAAA==",
-          "title": "トウキョウ建築コレクション",
-          "startDate": "2026-03-03",
-          "endDate": "2026-03-08",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoBwAAAA==",
-          "title": "トウキョウ建築コレクション",
-          "startDate": "2026-03-03",
-          "endDate": "2026-03-08",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoCAAAAA==",
-          "title": "トウキョウ建築コレクション",
-          "startDate": "2026-03-03",
-          "endDate": "2026-03-08",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPZwAAAA==",
-          "title": "FELLOWS子どもミュージカル",
-          "startDate": "2026-03-07",
-          "endDate": "2026-03-08",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoCQAAAA==",
-          "title": "FELLOWS子どもミュージカル",
-          "startDate": "2026-03-07",
-          "endDate": "2026-03-08",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoCgAAAA==",
-          "title": "FELLOWS子どもミュージカル",
-          "startDate": "2026-03-07",
-          "endDate": "2026-03-08",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoCwAAAA==",
           "title": "FELLOWS子どもミュージカル",
           "startDate": "2026-03-07",
           "endDate": "2026-03-08",
@@ -429,36 +219,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoDQAAAA==",
-          "title": "せんだいデザインリーグ",
-          "startDate": "2026-03-08",
-          "endDate": "2026-03-15",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoDgAAAA==",
-          "title": "せんだいデザインリーグ",
-          "startDate": "2026-03-08",
-          "endDate": "2026-03-15",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoDwAAAA==",
-          "title": "せんだいデザインリーグ",
-          "startDate": "2026-03-08",
-          "endDate": "2026-03-15",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE2tOaegAAAA==",
           "title": "朝会",
           "startDate": "2026-03-09",
@@ -470,46 +230,6 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPYgAAAA==",
-          "title": "近代建築 3月号",
-          "startDate": "2026-03-10",
-          "endDate": "2026-03-10",
-          "categories": [
-            "メディア露出"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoEAAAAA==",
-          "title": "近代建築 3月号",
-          "startDate": "2026-03-10",
-          "endDate": "2026-03-10",
-          "categories": [
-            "メディア露出"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoEQAAAA==",
-          "title": "近代建築 3月号",
-          "startDate": "2026-03-10",
-          "endDate": "2026-03-10",
-          "categories": [
-            "メディア露出"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoEgAAAA==",
-          "title": "近代建築 3月号",
-          "startDate": "2026-03-10",
-          "endDate": "2026-03-10",
-          "categories": [
-            "メディア露出"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoEwAAAA==",
           "title": "近代建築 3月号",
           "startDate": "2026-03-10",
           "endDate": "2026-03-10",
@@ -549,77 +269,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoFAAAAA==",
-          "title": "3S circulation_DAY5",
-          "startDate": "2026-03-30",
-          "endDate": "2026-03-30",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoFQAAAA==",
-          "title": "3S circulation_DAY5",
-          "startDate": "2026-03-30",
-          "endDate": "2026-03-30",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoFgAAAA==",
-          "title": "3S circulation_DAY5",
-          "startDate": "2026-03-30",
-          "endDate": "2026-03-30",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoFwAAAA==",
-          "title": "3S circulation_DAY5",
-          "startDate": "2026-03-30",
-          "endDate": "2026-03-30",
-          "categories": [
-            "CSR"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPWwAAAA==",
-          "title": "日本空間デザイン賞_応募期間",
-          "startDate": "2026-03-30",
-          "endDate": "2026-05-14",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://kukan.design/detail-guidelines/"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoGAAAAA==",
-          "title": "日本空間デザイン賞_応募期間",
-          "startDate": "2026-03-30",
-          "endDate": "2026-05-14",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://kukan.design/detail-guidelines/"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoGQAAAA==",
-          "title": "日本空間デザイン賞_応募期間",
-          "startDate": "2026-03-30",
-          "endDate": "2026-05-14",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://kukan.design/detail-guidelines/"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoGgAAAA==",
           "title": "日本空間デザイン賞_応募期間",
           "startDate": "2026-03-30",
           "endDate": "2026-05-14",
@@ -647,36 +297,6 @@
             "アワード"
           ],
           "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoHAAAAA==",
-          "title": "グッドデザイン賞_応募期間",
-          "startDate": "2026-04-01",
-          "endDate": "2026-05-21",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoHQAAAA==",
-          "title": "グッドデザイン賞_応募期間",
-          "startDate": "2026-04-01",
-          "endDate": "2026-05-21",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoHgAAAA==",
-          "title": "グッドデザイン賞_応募期間",
-          "startDate": "2026-04-01",
-          "endDate": "2026-05-21",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://www.g-mark.org/apply/gda/schedule"
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y1gAAAA==",
@@ -739,57 +359,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoHwAAAA==",
-          "title": "社内報_6号",
-          "startDate": "2026-05-11",
-          "endDate": "2026-05-11",
-          "categories": [
-            "社内報"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPWQAAAA==",
-          "title": "BBQ",
-          "startDate": "2026-05-18",
-          "endDate": "2026-05-18",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": "■場所：キラナガーデン豊洲　CABINエリア\n〒135-0061 東京都江東区豊洲６丁目５−２７\nhttps://www.kiranahresort-toyosu.com/\n\n■時間：11～15時"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoIAAAAA==",
-          "title": "BBQ",
-          "startDate": "2026-05-18",
-          "endDate": "2026-05-18",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": "■場所：キラナガーデン豊洲　CABINエリア\n〒135-0061 東京都江東区豊洲６丁目５−２７\nhttps://www.kiranahresort-toyosu.com/\n\n■時間：11～15時"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoIQAAAA==",
-          "title": "BBQ",
-          "startDate": "2026-05-18",
-          "endDate": "2026-05-18",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": "■場所：キラナガーデン豊洲　CABINエリア\n〒135-0061 東京都江東区豊洲６丁目５−２７\nhttps://www.kiranahresort-toyosu.com/\n\n■時間：11～15時"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoIgAAAA==",
-          "title": "BBQ",
-          "startDate": "2026-05-18",
-          "endDate": "2026-05-18",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": "■場所：キラナガーデン豊洲　CABINエリア\n〒135-0061 東京都江東区豊洲６丁目５−２７\nhttps://www.kiranahresort-toyosu.com/\n\n■時間：11～15時"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoIwAAAA==",
           "title": "BBQ",
           "startDate": "2026-05-18",
           "endDate": "2026-05-18",
@@ -879,46 +449,6 @@
           "bodyPreview": "2026年は未発表\n\n※参考　2025年応募要項\nhttps://www.jia.or.jp/jia-official/cms/wp-content/uploads/2025/06/b6818375777350f7bf6124f640a61272.pdf"
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoJQAAAA==",
-          "title": "（仮）日本建築家協会 優秀建築選_応募期間",
-          "startDate": "2026-06-25",
-          "endDate": "2026-08-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考　2025年応募要項\nhttps://www.jia.or.jp/jia-official/cms/wp-content/uploads/2025/06/b6818375777350f7bf6124f640a61272.pdf"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoJgAAAA==",
-          "title": "（仮）日本建築家協会 優秀建築選_応募期間",
-          "startDate": "2026-06-25",
-          "endDate": "2026-08-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考　2025年応募要項\nhttps://www.jia.or.jp/jia-official/cms/wp-content/uploads/2025/06/b6818375777350f7bf6124f640a61272.pdf"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoJwAAAA==",
-          "title": "（仮）日本建築家協会 優秀建築選_応募期間",
-          "startDate": "2026-06-25",
-          "endDate": "2026-08-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考　2025年応募要項\nhttps://www.jia.or.jp/jia-official/cms/wp-content/uploads/2025/06/b6818375777350f7bf6124f640a61272.pdf"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoKAAAAA==",
-          "title": "（仮）日本建築家協会 優秀建築選_応募期間",
-          "startDate": "2026-06-25",
-          "endDate": "2026-08-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考　2025年応募要項\nhttps://www.jia.or.jp/jia-official/cms/wp-content/uploads/2025/06/b6818375777350f7bf6124f640a61272.pdf"
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y4AAAAA==",
           "title": "朝会_【WEEK4】サークルMTG（teams）",
           "startDate": "2026-06-29",
@@ -949,46 +479,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoKQAAAA==",
-          "title": "グッドデザイン賞_一次審査結果",
-          "startDate": "2026-06-30",
-          "endDate": "2026-06-30",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://www.g-mark.org/apply/gda/guide/outlines"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoKgAAAA==",
-          "title": "グッドデザイン賞_一次審査結果",
-          "startDate": "2026-06-30",
-          "endDate": "2026-06-30",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://www.g-mark.org/apply/gda/guide/outlines"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoKwAAAA==",
-          "title": "グッドデザイン賞_一次審査結果",
-          "startDate": "2026-06-30",
-          "endDate": "2026-06-30",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://www.g-mark.org/apply/gda/guide/outlines"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoLAAAAA==",
-          "title": "グッドデザイン賞_一次審査結果",
-          "startDate": "2026-06-30",
-          "endDate": "2026-06-30",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "https://www.g-mark.org/apply/gda/guide/outlines"
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPcAAAAA==",
           "title": "グッドデザイン賞_二次審査情報_登録期間",
           "startDate": "2026-06-30",
@@ -999,127 +489,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoLQAAAA==",
-          "title": "グッドデザイン賞_二次審査情報_登録期間",
-          "startDate": "2026-06-30",
-          "endDate": "2026-07-07",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoLgAAAA==",
-          "title": "グッドデザイン賞_二次審査情報_登録期間",
-          "startDate": "2026-06-30",
-          "endDate": "2026-07-07",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoLwAAAA==",
-          "title": "グッドデザイン賞_二次審査情報_登録期間",
-          "startDate": "2026-06-30",
-          "endDate": "2026-07-07",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoMAAAAA==",
-          "title": "グッドデザイン賞_二次審査情報_登録期間",
-          "startDate": "2026-06-30",
-          "endDate": "2026-07-07",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPVgAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoMQAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoMgAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoMwAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoNAAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoNQAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoNgAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoNwAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2026-07-01",
-          "endDate": "2026-09-30",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoOAAAAA==",
           "title": "夏休み取得期間",
           "startDate": "2026-07-01",
           "endDate": "2026-09-30",
@@ -1140,46 +510,6 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPYAAAAA==",
-          "title": "二級建築士_学科",
-          "startDate": "2026-07-05",
-          "endDate": "2026-07-05",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoOQAAAA==",
-          "title": "二級建築士_学科",
-          "startDate": "2026-07-05",
-          "endDate": "2026-07-05",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoOgAAAA==",
-          "title": "二級建築士_学科",
-          "startDate": "2026-07-05",
-          "endDate": "2026-07-05",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoOwAAAA==",
-          "title": "二級建築士_学科",
-          "startDate": "2026-07-05",
-          "endDate": "2026-07-05",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoPAAAAA==",
           "title": "二級建築士_学科",
           "startDate": "2026-07-05",
           "endDate": "2026-07-05",
@@ -1239,46 +569,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoPgAAAA==",
-          "title": "一級建築士_学科",
-          "startDate": "2026-07-26",
-          "endDate": "2026-07-26",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoPwAAAA==",
-          "title": "一級建築士_学科",
-          "startDate": "2026-07-26",
-          "endDate": "2026-07-26",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoQAAAAA==",
-          "title": "一級建築士_学科",
-          "startDate": "2026-07-26",
-          "endDate": "2026-07-26",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoQQAAAA==",
-          "title": "一級建築士_学科",
-          "startDate": "2026-07-26",
-          "endDate": "2026-07-26",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y4wAAAA==",
           "title": "朝会_【WEEK3】役員＋サークルマネージャー＋管理部＋MG室（ZOOM）",
           "startDate": "2026-07-27",
@@ -1290,46 +580,6 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPXAAAAA==",
-          "title": "（仮）ADFデザイン_応募期間",
-          "startDate": "2026-08-01",
-          "endDate": "2026-12-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考：2025年情報\nhttps://www.adf.or.jp/adfaward/?id=1756161125-291108"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoQgAAAA==",
-          "title": "（仮）ADFデザイン_応募期間",
-          "startDate": "2026-08-01",
-          "endDate": "2026-12-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考：2025年情報\nhttps://www.adf.or.jp/adfaward/?id=1756161125-291108"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoQwAAAA==",
-          "title": "（仮）ADFデザイン_応募期間",
-          "startDate": "2026-08-01",
-          "endDate": "2026-12-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考：2025年情報\nhttps://www.adf.or.jp/adfaward/?id=1756161125-291108"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoRAAAAA==",
-          "title": "（仮）ADFデザイン_応募期間",
-          "startDate": "2026-08-01",
-          "endDate": "2026-12-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": "2026年は未発表\n\n※参考：2025年情報\nhttps://www.adf.or.jp/adfaward/?id=1756161125-291108"
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoRQAAAA==",
           "title": "（仮）ADFデザイン_応募期間",
           "startDate": "2026-08-01",
           "endDate": "2026-12-01",
@@ -1399,87 +649,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoRgAAAA==",
-          "title": "グッドデザイン賞_二次審査結果",
-          "startDate": "2026-08-25",
-          "endDate": "2026-08-25",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoRwAAAA==",
-          "title": "グッドデザイン賞_二次審査結果",
-          "startDate": "2026-08-25",
-          "endDate": "2026-08-25",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoSAAAAA==",
-          "title": "グッドデザイン賞_二次審査結果",
-          "startDate": "2026-08-25",
-          "endDate": "2026-08-25",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoSQAAAA==",
-          "title": "グッドデザイン賞_二次審査結果",
-          "startDate": "2026-08-25",
-          "endDate": "2026-08-25",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPcgAAAA==",
-          "title": "グッドデザイン賞_公開情報・受賞展展示情報の登録期間",
-          "startDate": "2026-08-25",
-          "endDate": "2026-09-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoSgAAAA==",
-          "title": "グッドデザイン賞_公開情報・受賞展展示情報の登録期間",
-          "startDate": "2026-08-25",
-          "endDate": "2026-09-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoSwAAAA==",
-          "title": "グッドデザイン賞_公開情報・受賞展展示情報の登録期間",
-          "startDate": "2026-08-25",
-          "endDate": "2026-09-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoTAAAAA==",
-          "title": "グッドデザイン賞_公開情報・受賞展展示情報の登録期間",
-          "startDate": "2026-08-25",
-          "endDate": "2026-09-01",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoTQAAAA==",
           "title": "グッドデザイン賞_公開情報・受賞展展示情報の登録期間",
           "startDate": "2026-08-25",
           "endDate": "2026-09-01",
@@ -1529,46 +699,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoTgAAAA==",
-          "title": "二級建築士_製図",
-          "startDate": "2026-09-13",
-          "endDate": "2026-09-13",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoTwAAAA==",
-          "title": "二級建築士_製図",
-          "startDate": "2026-09-13",
-          "endDate": "2026-09-13",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoUAAAAA==",
-          "title": "二級建築士_製図",
-          "startDate": "2026-09-13",
-          "endDate": "2026-09-13",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoUQAAAA==",
-          "title": "二級建築士_製図",
-          "startDate": "2026-09-13",
-          "endDate": "2026-09-13",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y6gAAAA==",
           "title": "朝会_【WEEK2】サークルミーティング（teams）",
           "startDate": "2026-09-14",
@@ -1580,16 +710,6 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE6t-bnAAAAA==",
-          "title": "社内報_9号",
-          "startDate": "2026-09-14",
-          "endDate": "2026-09-14",
-          "categories": [
-            "社内報"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoUgAAAA==",
           "title": "社内報_9号",
           "startDate": "2026-09-14",
           "endDate": "2026-09-14",
@@ -1639,46 +759,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoUwAAAA==",
-          "title": "一級建築士_製図",
-          "startDate": "2026-10-11",
-          "endDate": "2026-10-11",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoVAAAAA==",
-          "title": "一級建築士_製図",
-          "startDate": "2026-10-11",
-          "endDate": "2026-10-11",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoVQAAAA==",
-          "title": "一級建築士_製図",
-          "startDate": "2026-10-11",
-          "endDate": "2026-10-11",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoVgAAAA==",
-          "title": "一級建築士_製図",
-          "startDate": "2026-10-11",
-          "endDate": "2026-10-11",
-          "categories": [
-            "資格"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfocAAAAA==",
           "title": "朝会",
           "startDate": "2026-10-13",
@@ -1690,46 +770,6 @@
         },
         {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPcwAAAA==",
-          "title": "グッドデザイン賞_受賞発表",
-          "startDate": "2026-10-15",
-          "endDate": "2026-10-15",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoVwAAAA==",
-          "title": "グッドデザイン賞_受賞発表",
-          "startDate": "2026-10-15",
-          "endDate": "2026-10-15",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoWAAAAA==",
-          "title": "グッドデザイン賞_受賞発表",
-          "startDate": "2026-10-15",
-          "endDate": "2026-10-15",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoWQAAAA==",
-          "title": "グッドデザイン賞_受賞発表",
-          "startDate": "2026-10-15",
-          "endDate": "2026-10-15",
-          "categories": [
-            "アワード"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoWgAAAA==",
           "title": "グッドデザイン賞_受賞発表",
           "startDate": "2026-10-15",
           "endDate": "2026-10-15",
@@ -1869,36 +909,6 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoXQAAAA==",
-          "title": "GYRO AWARD 2026",
-          "startDate": "2026-12-11",
-          "endDate": "2026-12-11",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoXgAAAA==",
-          "title": "GYRO AWARD 2026",
-          "startDate": "2026-12-11",
-          "endDate": "2026-12-11",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoXwAAAA==",
-          "title": "GYRO AWARD 2026",
-          "startDate": "2026-12-11",
-          "endDate": "2026-12-11",
-          "categories": [
-            "社内イベント"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y9QAAAA==",
           "title": "朝会_【WEEK2】サークルMTG（teams）",
           "startDate": "2026-12-14",
@@ -1939,37 +949,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoYAAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2026-12-31",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQQgAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-03",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn8gAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-03",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoYQAAAA==",
           "title": "（仮）年末年始休暇",
           "startDate": "2026-12-29",
           "endDate": "2027-01-03",
@@ -1989,127 +969,7 @@
           "bodyPreview": ""
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPawAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn8wAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfn9AAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoYgAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoYwAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoZAAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoZQAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoZgAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoZwAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoaAAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAFEmfoaQAAAA==",
-          "title": "（仮）年末年始休暇",
-          "startDate": "2026-12-29",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEQRAAAAA==",
-          "title": "夏休み取得期間",
-          "startDate": "2027-01-01",
-          "endDate": "2027-01-04",
-          "categories": [
-            "GYRO休み"
-          ],
-          "bodyPreview": ""
-        },
-        {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE6t-bxQAAAA==",
           "title": "夏休み取得期間",
           "startDate": "2027-01-01",
           "endDate": "2027-01-04",
