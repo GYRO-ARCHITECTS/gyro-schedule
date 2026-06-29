@@ -581,13 +581,13 @@ async function publishEventsToGitHub(events, categories, year) {
 
         // 現在年度のデータを更新
         existingData.years[String(year)] = {
+            // 公開ミラーにはメモ(bodyPreview)・場所を含めない（公開リポジトリへの情報漏れ防止）
             events: events.map(e => ({
                 id: e.id,
                 title: e.title,
                 startDate: e.startDate,
                 endDate: e.endDate,
                 categories: e.categories || [],
-                bodyPreview: e.bodyPreview || "",
             })),
             categories: categories.map(c => ({
                 id: c.id,

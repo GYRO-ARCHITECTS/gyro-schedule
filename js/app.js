@@ -1327,10 +1327,13 @@ function _hasContentDuplicates(events) {
 // 全年を走査し、内容が完全一致する重複を「各1件残して」削除する。
 // 確認ダイアログ必須。削除対象は事前に監査ログ出力。元データはGit履歴にも残る。
 async function _cleanupDuplicateEvents(token) {
-    // 走査対象の年（設定にある全年。無ければ現在年のみ）
-    let years = Object.keys((_rawConfig && _rawConfig.yearCategories) || {})
-        .map(Number).filter(n => !isNaN(n)).sort();
-    if (years.length === 0) years = [currentYear];
+    // 走査対象の年: 設定にある年 ∪ 現在年の前後数年（設定外の年=年跨ぎ予定の取りこぼし防止）
+    const cfgYears = Object.keys((_rawConfig && _rawConfig.yearCategories) || {})
+        .map(Number).filter(n => !isNaN(n));
+    const rangeYears = [];
+    for (let y = currentYear - 1; y <= currentYear + 4; y++) rangeYears.push(y);
+    const years = Array.from(new Set([...cfgYears, ...rangeYears]))
+        .filter(n => !isNaN(n)).sort((a, b) => a - b);
 
     // 各年を取得（年跨ぎイベントは複数年に現れるため id で重複排除）
     const yearLists = {};
@@ -1545,15 +1548,19 @@ async function loadCalendar() {
                 };
             }
 
-            // GitHubトークン: Config Event or localStorage から取得
-            const localGhToken = localStorage.getItem("ghToken");
-            const ghToken = _rawConfig.ghToken || localGhToken || "";
-            if (localGhToken && !_rawConfig.ghToken) {
-                // Config Eventにも保存（他ユーザー用）。localStorageは削除しない
-                _rawConfig.ghToken = localGhToken;
+            // GitHubトークンは共有Config Eventには保存しない（管理者端末のlocalStorageのみで保持）。
+            // 共有イベントに置くとグループ全員が読めてしまうため。
+            let ghToken = localStorage.getItem("ghToken") || "";
+            // 旧データ移行: Config Event内に残っているトークンは端末へ退避してから共有設定から削除
+            if (_rawConfig.ghToken) {
+                if (!ghToken) {
+                    ghToken = _rawConfig.ghToken;
+                    localStorage.setItem("ghToken", ghToken);
+                }
+                delete _rawConfig.ghToken;
                 saveCategoryConfig(token, _rawConfig, _configEventId).then(() => {
-                    console.log("[GitHub公開] トークンをConfig Eventにも保存しました");
-                }).catch(e => console.warn("[GitHub公開] トークン保存失敗:", e.message));
+                    console.log("[セキュリティ] 共有設定からGitHubトークンを削除しました（端末のみ保持）");
+                }).catch(e => console.warn("[セキュリティ] トークン移行の保存に失敗:", e.message));
             }
             window._ghTokenFromConfig = ghToken;
         }
