@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-10-07T06:51:50.748Z",
+  "lastUpdated": "2026-10-09T05:06:26.818Z",
   "years": {
     "2025": {
       "events": [],
@@ -514,15 +514,6 @@
           ]
         },
         {
-          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPXAAAAA==",
-          "title": "ADFデザイン_応募期間",
-          "startDate": "2026-08-17",
-          "endDate": "2026-12-18",
-          "categories": [
-            "アワード"
-          ]
-        },
-        {
           "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE1o9Y5AAAAA==",
           "title": "朝会＋全社研修_サークルMTG（teams）",
           "startDate": "2026-08-03",
@@ -556,6 +547,15 @@
           "endDate": "2026-08-17",
           "categories": [
             "社内報"
+          ]
+        },
+        {
+          "id": "AQMkAGYxMDMxYzE5LWQwNTYtNDFkMC1hY2I0LTJkMzE4MzZmYzZiMgBGAAADe3XHpKovcEqjZAJVVJl8FQcAOLdD3RpSp0ia9G3iSC8mxgAAAgENAAAAOLdD3RpSp0ia9G3iSC8mxgAE3QEPXAAAAA==",
+          "title": "ADFデザイン_応募期間",
+          "startDate": "2026-08-17",
+          "endDate": "2026-12-18",
+          "categories": [
+            "アワード"
           ]
         },
         {
